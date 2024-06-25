@@ -17,9 +17,11 @@ import TermsConditions from "./pages/Terms&Conditions.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import Products from "./pages/Products.jsx";
 
-import SignUp from "./pages/SignUp.jsx";
+
 import { Provider } from "react-redux";
-import SignIn from "./pages/SignIn.jsx";
+import SignIn from "./SignIn.jsx";
+import SignUp from "./SignUp.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -36,10 +38,11 @@ const router = createBrowserRouter([
       { path: "/t&c", element: <TermsConditions /> },
       { path: "/faq", element: <FAQ /> },
       { path: "/products", element: <Products /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/signup", element: <SignUp /> },
+    
     ],
   },
+  { path: "/signup", element: <SignUp /> },
+  { path: "/signin", element: <SignIn /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -33,6 +33,7 @@ const Banner = () => {
                 type="text"
                 className="form-control"
                 name="BannerText"
+                
                 id="exampleFormControlInput1"
                 placeholder="name@example.com"
               />

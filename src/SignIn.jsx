@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Validate from "../Validation/SignUp_Validation";
+
 import { useDispatch } from "react-redux";
-import { signInSuccessAdmin } from "../store/adminSlice";
+import { signInSuccessAdmin } from "./store/adminSlice";
+import Validate from "./Validation/SignUp_Validation";
 
 const SignIn = () => {
   const INITIAL_VALUE = {
@@ -37,9 +38,9 @@ const SignIn = () => {
 
       const response = await res.json();
       console.log("admin data", response);
-      if (res.ok) {
+      if (response.access_token) {
         dispatch(signInSuccessAdmin(response.user));
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -53,83 +54,86 @@ const SignIn = () => {
   }, [formErrors]);
 
   return (
-    <main class="authentication-content mt-5">
-      <div class="container-fluid">
-        <div class="row ">
-          <div class="col-12 col-lg-8 mx-auto mt-5">
-            <div class="card shadow rounded-5 overflow-hidden">
-              <div class="card-body p-4 p-sm-5">
-                <h5 class="card-title">Sign In</h5>
+    <main className="authentication-content bg-login">
+      <div className="container-fluid">
+        <div className="row justify-content-center ">
+          <div className="col-12 col-lg-5 mx-auto mt-5 pt-5">
+            <div className="card shadow rounded-5 overflow-hidden mt-5">
+              <div className="card-body p-4 p-sm-5 mt-2">
+                <h5 className="card-title">Sign In</h5>
 
-                <form class="form-body" onSubmit={handleSubmit}>
-                  <div class="row g-3">
-                    <div class="col-12">
-                      <label for="inputEmailAddress" class="form-label">
+                <form className="form-body mt-4" onSubmit={handleSubmit}>
+                  <div className="row g-3">
+                    <div className="col-12">
+                      <label for="inputEmailAddress" className="form-label">
                         Email Address
                       </label>
-                      <div class="ms-auto position-relative">
-                        <div class="position-absolute top-50 translate-middle-y search-icon px-3">
-                          <i class="bi bi-envelope-fill"></i>
+                      <div className="ms-auto position-relative">
+                        <div className="position-absolute top-50 translate-middle-y search-icon px-3">
+                          <i className="bi bi-envelope-fill"></i>
                         </div>
                         <input
                           type="email"
                           name="email"
                           onChange={handleChange}
-                          class="form-control radius-30 ps-5"
+                          className="form-control radius-30 ps-5"
                           id="inputEmailAddress"
                           placeholder="Email Address"
                         />
                       </div>
                     </div>
-                    <div class="col-12">
-                      <label for="inputChoosePassword" class="form-label">
+                    <div className="col-12">
+                      <label for="inputChoosePassword" className="form-label">
                         Enter Password
                       </label>
-                      <div class="ms-auto position-relative">
-                        <div class="position-absolute top-50 translate-middle-y search-icon px-3">
-                          <i class="bi bi-lock-fill"></i>
+                      <div className="ms-auto position-relative">
+                        <div className="position-absolute top-50 translate-middle-y search-icon px-3">
+                          <i className="bi bi-lock-fill"></i>
                         </div>
                         <input
                           type="password"
                           name="password"
                           onChange={handleChange}
-                          class="form-control radius-30 ps-5"
+                          className="form-control radius-30 ps-5"
                           id="inputChoosePassword"
                           placeholder="Enter Password"
                         />
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div class="form-check form-switch">
+                    <div className="col-6">
+                      <div className="form-check form-switch">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="flexSwitchCheckChecked"
                           checked=""
                         />
                         <label
-                          class="form-check-label"
+                          className="form-check-label"
                           for="flexSwitchCheckChecked"
                         >
                           Remember Me
                         </label>
                       </div>
                     </div>
-                    <div class="col-6 text-end">
+                    <div className="col-6 text-end">
                       {" "}
                       <a href="authentication-forgot-password.html">
                         Forgot Password ?
                       </a>
                     </div>
-                    <div class="col-12">
-                      <div class="d-grid">
-                        <button type="submit" class="btn btn-primary radius-30">
+                    <div className="col-12">
+                      <div className="d-grid">
+                        <button
+                          type="submit"
+                          className="btn btn-primary radius-30"
+                        >
                           Sign In
                         </button>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <p class="mb-0">
+                    <div className="col-12">
+                      <p className="mb-0">
                         Don't have an account yet?{" "}
                         <Link to={"/signup"}>Sign up here</Link>
                       </p>

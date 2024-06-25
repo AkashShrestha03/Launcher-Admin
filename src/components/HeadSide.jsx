@@ -1,8 +1,15 @@
+import { useDispatch } from "react-redux";
+import { signOut } from "../store/adminSlice";
+
 const Header = (props) => {
+  const dispatch = useDispatch()
   return (
     <header className="top-header">
       <nav className="navbar navbar-expand gap-3">
-        <div className="mobile-toggle-icon fs-3" onClick={() => props.onToggle(true)}>
+        <div
+          className="mobile-toggle-icon fs-3"
+          onClick={() => props.onToggle(true)}
+        >
           <i className="bi bi-list"></i>
         </div>
         <div className="top-navbar-right ms-auto">
@@ -118,7 +125,7 @@ const Header = (props) => {
                 <li>
                   <a
                     className="dropdown-item"
-                    href="authentication-signup-with-header-footer.html"
+                    onClick={() => dispatch(signOut())}
                   >
                     <div className="d-flex align-items-center">
                       <div className="">

@@ -43,6 +43,7 @@ const FAQ = () => {
     getProduct();
   }, []);
 
+  
   // Add New FAQ
 
   const handleChange = (event) => {

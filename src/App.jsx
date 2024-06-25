@@ -16,19 +16,21 @@ import "./assets/plugins/apexcharts-bundle/js/apex-custom";
 import "./assets/js/app.js";
 import "./assets/plugins/apexcharts-bundle/js/apexcharts.min.js";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import SignIn from "./SignIn.jsx";
 
 const App = () => {
   const [toggled, setToggled] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
-
+  const {admin } = useSelector(state=> state.admin)
+console.log(admin)
   return (
     <div
       className={`wrapper ${toggled ? "toggled" : ""} ${
         isSidebarHovered ? "sidebar-hovered" : ""
       } ${isToggled ? "toggled" : ""}`}
-    >
-      <Header
+    >{admin ? <> <Header
         onToggle={(isToggled) => setIsToggled(isToggled)}
         toggle={isToggled}
       />
@@ -44,7 +46,8 @@ const App = () => {
       />
       <main className="page-content">
         <Outlet />
-      </main>
+      </main></> : <SignIn/>}
+     
     </div>
   );
 };

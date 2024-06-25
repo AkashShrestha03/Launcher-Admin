@@ -72,6 +72,8 @@ const TermsConditions = () => {
               </button>
             </div>
           </form>
+
+          {/* Success Message */}
           <div
             className="modal fade"
             id="deleteModal"

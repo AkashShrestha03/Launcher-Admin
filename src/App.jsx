@@ -24,7 +24,6 @@ const App = () => {
 
   return (
     <div
-      // onClick={()=>setIsToggled(false)}
       className={`wrapper ${toggled ? "toggled" : ""} ${
         isSidebarHovered ? "sidebar-hovered" : ""
       } ${isToggled ? "toggled" : ""}`}
@@ -34,10 +33,9 @@ const App = () => {
         toggle={isToggled}
       />
       <Sidebar
-        
         onToggle={(toggled) => setToggled(toggled)}
         Toggled={toggled}
-        mobileToggle ={isToggled}
+        mobileToggle={isToggled}
         mobile={(isToggled) => setIsToggled(isToggled)}
         onMoveEnter={(isSidebarHovered) =>
           setIsSidebarHovered(isSidebarHovered)

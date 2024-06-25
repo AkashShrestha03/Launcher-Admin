@@ -64,24 +64,6 @@ const SignUp = () => {
                   See your growth and get consulting support!
                 </p>
                 <form class="form-body" onSubmit={handleSubmit}>
-                  <div class="d-grid">
-                    <a class="btn btn-white radius-30" href="javascript:;">
-                      <span class="d-flex justify-content-center align-items-center">
-                        <img
-                          class="me-2"
-                          src="assets/images/icons/search.svg"
-                          width="16"
-                          alt=""
-                        />
-                        <span>Sign up with Google</span>
-                      </span>
-                    </a>
-                  </div>
-                  <div class="login-separater text-center mb-4">
-                    {" "}
-                    <span>OR SIGN UP WITH EMAIL</span>
-                    <hr />
-                  </div>
                   <div class="row g-3">
                     <div class="col-12 ">
                       <label for="inputName" class="form-label">
@@ -97,7 +79,7 @@ const SignUp = () => {
                           onChange={handleOnChange}
                           class="form-control radius-30 ps-5"
                           id="inputName"
-                          placeholder="Enter Username"
+                          placeholder="Enter your name"
                         />
                       </div>
                     </div>

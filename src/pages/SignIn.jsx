@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Validate from "../Validation/SignUp_Validation";
 import { useDispatch } from "react-redux";
+import { signInSuccessAdmin } from "../store/adminSlice";
 
 const SignIn = () => {
   const INITIAL_VALUE = {
@@ -13,7 +14,7 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -26,8 +27,6 @@ const SignIn = () => {
     setIsSubmit(true);
 
     try {
-    
-
       const res = await fetch(`http://launcherr.co/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,8 +37,11 @@ const SignIn = () => {
 
       const response = await res.json();
       console.log("admin data", response);
+      if (res.ok) {
+        dispatch(signInSuccessAdmin(response.user));
+        navigate("/dashboard");
+      }
     } catch (error) {
-     
       console.log(error);
     }
   };
@@ -53,33 +55,13 @@ const SignIn = () => {
   return (
     <main class="authentication-content mt-5">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-lg-4 mx-auto">
+        <div class="row ">
+          <div class="col-12 col-lg-8 mx-auto mt-5">
             <div class="card shadow rounded-5 overflow-hidden">
               <div class="card-body p-4 p-sm-5">
                 <h5 class="card-title">Sign In</h5>
-                <p class="card-text mb-5">
-                  See your growth and get consulting support!
-                </p>
+
                 <form class="form-body" onSubmit={handleSubmit}>
-                  <div class="d-grid">
-                    <a class="btn btn-white radius-30" href="javascript:;">
-                      <span class="d-flex justify-content-center align-items-center">
-                        <img
-                          class="me-2"
-                          src="assets/images/icons/search.svg"
-                          width="16"
-                          alt=""
-                        />
-                        <span>Sign in with Google</span>
-                      </span>
-                    </a>
-                  </div>
-                  <div class="login-separater text-center mb-4">
-                    {" "}
-                    <span>OR SIGN IN WITH EMAIL</span>
-                    <hr />
-                  </div>
                   <div class="row g-3">
                     <div class="col-12">
                       <label for="inputEmailAddress" class="form-label">
@@ -148,7 +130,8 @@ const SignIn = () => {
                     </div>
                     <div class="col-12">
                       <p class="mb-0">
-                        Don't have an account yet? <Link to={"/signup"}>Sign up here</Link>
+                        Don't have an account yet?{" "}
+                        <Link to={"/signup"}>Sign up here</Link>
                       </p>
                     </div>
                   </div>

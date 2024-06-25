@@ -27,7 +27,7 @@ const SignIn = () => {
     setIsSubmit(true);
 
     try {
-      const res = await fetch(`http://launcherr.co/api/auth/login`, {
+      const res = await fetch(`https://launcherr.co/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         authentication:

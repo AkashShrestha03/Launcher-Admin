@@ -27,6 +27,7 @@ const FAQ = () => {
 
 
     const [formValues, setFormValues] = useState({});
+    const [Faq, setFaq] = useState(false)
     const [isSubmit, setIsSubmit] = useState(false);
   
 
@@ -40,7 +41,7 @@ const FAQ = () => {
       setIsSubmit(true);
 
       try {
-        const res = await fetch(`http://launcherr.co/api/Add-Section`, {
+        const res = await fetch(`https://launcherr.co/api/Add-QueAndAns`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           authentication:
@@ -49,6 +50,9 @@ const FAQ = () => {
         });
 
         const response = await res.json();
+        if(res.ok){
+          setFaq(true)
+        }
         console.log("response", response);
       } catch (error) {
         console.log(error);
@@ -71,7 +75,7 @@ const FAQ = () => {
             />
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               data-bs-toggle="modal"
               data-bs-target="#FAQ_add"
             >
@@ -79,15 +83,15 @@ const FAQ = () => {
             </button>
           </div>
           <div className="d-flex align-items-center">
-            <form className="ms-auto position-relative d-flex gap-3">
+            <div className="ms-auto position-relative d-flex gap-3">
               <div
                 className="modal fade"
                 id="FAQ_add"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-hidden="true"
               >
                 <div className="modal-dialog modal-dialog-centered">
-                  <div className="modal-content" onSubmit={handleSubmit}>
+                  <div className="modal-content">
                     <div className="modal-header">
                       <h5 className="modal-title">New Question</h5>
                       <button
@@ -98,7 +102,7 @@ const FAQ = () => {
                       ></button>
                     </div>
                     <div className="modal-body">
-                      <div className="d-flex flex-column justify-content-center gap-3">
+                      <form className="d-flex flex-column justify-content-center gap-3">
                         <input
                           type="text"
                           className="form-control"
@@ -113,7 +117,7 @@ const FAQ = () => {
                           name="Answer"
                           onChange={handleChange}
                         />
-                      </div>
+                      </form>
                     </div>
                     <div className="modal-footer">
                       <button
@@ -123,14 +127,19 @@ const FAQ = () => {
                       >
                         Cancel
                       </button>
-                      <button type="submit" className="btn btn-primary">
+                      <button
+                        type="submit"
+                        className="btn btn-primary"
+                        data-bs-dismiss={Faq ? "modal" : ""}
+                        onClick={handleSubmit}
+                      >
                         Add
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
           <div className="table-responsive mt-3">
             <table
@@ -141,188 +150,186 @@ const FAQ = () => {
               <thead>
                 <tr>
                   {headers.map((header, index) => (
-                    <th>{header}</th>
+                    <th key={index + header}>{header}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {faq.map((ques, index) => (
-                  <>
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td className="text-wrap">{ques.question}</td>
-                      <td>{ques.answer}</td>
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td className="text-wrap">{ques.question}</td>
+                    <td>{ques.answer}</td>
 
-                      <td>
-                        <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                          <a
-                            className="text-primary cursor-pointer"
-                            data-bs-toggle="modal"
-                            data-bs-placement="bottom"
-                            title="Views"
-                            data-bs-target="#viewModal"
-                          >
-                            <i className="bi bi-eye-fill"></i>
-                          </a>
-                          {/* View Modal */}
-                          <div
-                            className="modal fade"
-                            id="viewModal"
-                            tabindex="-1"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h5 className="modal-title">Details</h5>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                  <div className="d-flex flex-column justify-content-center gap-3">
-                                    <input
-                                      readOnly
-                                      type="text"
-                                      className="form-control"
-                                      placeholder="Enter Question"
-                                      value={"question"}
-                                    />
-                                    <input
-                                      readOnly
-                                      type="text"
-                                      className="form-control"
-                                      placeholder="Enter Answer"
-                                      value={"answer"}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="modal-footer">
-                                  <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                  >
-                                    Cancel
-                                  </button>
+                    <td>
+                      <div className="table-actions d-flex align-items-center gap-3 fs-6">
+                        <a
+                          className="text-primary cursor-pointer"
+                          data-bs-toggle="modal"
+                          data-bs-placement="bottom"
+                          title="Views"
+                          data-bs-target="#viewModal"
+                        >
+                          <i className="bi bi-eye-fill"></i>
+                        </a>
+                        {/* View Modal */}
+                        <div
+                          className="modal fade"
+                          id="viewModal"
+                          tabIndex="-1"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5 className="modal-title">Details</h5>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div className="modal-body">
+                                <div className="d-flex flex-column justify-content-center gap-3">
+                                  <input
+                                    readOnly
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Question"
+                                    value={"question"}
+                                  />
+                                  <input
+                                    readOnly
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Answer"
+                                    value={"answer"}
+                                  />
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                          <a
-                            className="text-warning cursor-pointer"
-                            data-bs-toggle="modal"
-                            data-bs-placement="bottom"
-                            data-bs-target="#editModal"
-                            title="Edit"
-                          >
-                            <i className="bi bi-pencil-fill"></i>
-                          </a>
-                          {/* Edit Modal */}
-                          <div
-                            className="modal fade"
-                            id="editModal"
-                            tabindex="-1"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h5 className="modal-title">Edit</h5>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                  <div className="d-flex flex-column justify-content-center gap-3">
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      placeholder="Enter Question"
-                                    />
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      placeholder="Enter Answer"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="modal-footer">
-                                  <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                  >
-                                    Update
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <a
-                            className="text-danger cursor-pointer"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal"
-                            data-bs-placement="bottom"
-                            title="Delete"
-                          >
-                            <i className="bi bi-trash-fill"></i>
-                          </a>
-                          {/* Delete Modal */}
-                          <div
-                            className="modal fade"
-                            id="deleteModal"
-                            tabindex="-1"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h5 className="modal-title">Delete</h5>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                  Are you sure want to delete this field?
-                                </div>
-                                <div className="modal-footer">
-                                  <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </td>
-                    </tr>
-                  </>
+                        <a
+                          className="text-warning cursor-pointer"
+                          data-bs-toggle="modal"
+                          data-bs-placement="bottom"
+                          data-bs-target="#editModal"
+                          title="Edit"
+                        >
+                          <i className="bi bi-pencil-fill"></i>
+                        </a>
+                        {/* Edit Modal */}
+                        <div
+                          className="modal fade"
+                          id="editModal"
+                          tabIndex="-1"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5 className="modal-title">Edit</h5>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div className="modal-body">
+                                <div className="d-flex flex-column justify-content-center gap-3">
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Question"
+                                  />
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Answer"
+                                  />
+                                </div>
+                              </div>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                >
+                                  Update
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <a
+                          className="text-danger cursor-pointer"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteModal"
+                          data-bs-placement="bottom"
+                          title="Delete"
+                        >
+                          <i className="bi bi-trash-fill"></i>
+                        </a>
+                        {/* Delete Modal */}
+                        <div
+                          className="modal fade"
+                          id="deleteModal"
+                          tabIndex="-1"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5 className="modal-title">Delete</h5>
+                                <button
+                                  type="button"
+                                  className="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div className="modal-body">
+                                Are you sure want to delete this field?
+                              </div>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-danger"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>

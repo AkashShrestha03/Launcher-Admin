@@ -17,7 +17,7 @@ const TermsConditions = () => {
      setIsSubmit(true);
 
      try {
-       const res = await fetch(`http://launcherr.co/api/term-conditions`, {
+       const res = await fetch(`https://launcherr.co/api/term-conditions`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          authentication:

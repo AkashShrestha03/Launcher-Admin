@@ -26,7 +26,7 @@ const SignUp = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`http://launcherr.co/api/auth/register`, {
+      const response = await fetch(`https://launcherr.co/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const FAQ = () => {
   const headers = ["#", "Question", "Answer", "Actions"];
@@ -25,39 +25,54 @@ const FAQ = () => {
     },
   ];
 
+  const [formValues, setFormValues] = useState({});
+  const [Faq, setFaq] = useState(false);
+  const [table, setTable] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
-    const [formValues, setFormValues] = useState({});
-    const [Faq, setFaq] = useState(false)
-    const [isSubmit, setIsSubmit] = useState(false);
-  
+  // Get FAQ
 
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-      setFormValues({ ...formValues, [name]: value.trim() });
-      console.log(formValues);
-    };
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setIsSubmit(true);
+  const getProduct = async () => {
+    const res = await fetch(`https://launcherr.co/api/Show-QueAndAns`);
+    const data = await res.json();
+    setTable(data);
+    console.log(data);
+  };
 
-      try {
-        const res = await fetch(`https://launcherr.co/api/Add-QueAndAns`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          authentication:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
-          body: JSON.stringify(formValues),
-        });
+  useEffect(() => {
+    getProduct();
+  }, []);
 
-        const response = await res.json();
-        if(res.ok){
-          setFaq(true)
-        }
-        console.log("response", response);
-      } catch (error) {
-        console.log(error);
+  // Add New FAQ
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value.trim() });
+    console.log(formValues);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmit(true);
+
+    try {
+      const res = await fetch(`https://launcherr.co/api/Add-QueAndAns`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        authentication:
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
+        body: JSON.stringify(formValues),
+      });
+
+      const response = await res.json();
+
+      console.log("response", response);
+      if (res.ok) {
+        setFaq(true);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -155,11 +170,11 @@ const FAQ = () => {
                 </tr>
               </thead>
               <tbody>
-                {faq.map((ques, index) => (
+                {table.map((ques, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td className="text-wrap">{ques.question}</td>
-                    <td>{ques.answer}</td>
+                    <td className="text-wrap">{ques.Question}</td>
+                    <td>{ques.Answer}</td>
 
                     <td>
                       <div className="table-actions d-flex align-items-center gap-3 fs-6">

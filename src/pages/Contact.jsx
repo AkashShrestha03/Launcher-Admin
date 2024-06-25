@@ -8,12 +8,32 @@ const Contact = () => {
           <form className="w-100 rounded-1 p-4 border bg-white" action="submit">
             <h2>Contact Details</h2>
             <div className="mb-3">
-             
               <label for="email" className="form-label">
-                Email Address
+                Company Name
               </label>
               <input
                 type="email"
+                className="form-control"
+                id="email"
+                placeholder="name@example.com"
+                name="company_name"
+              />
+              <label for="email" className="form-label">
+                Company Address
+              </label>
+              <input
+                type="email"
+                name="company_address"
+                className="form-control"
+                id="email"
+                placeholder="name@example.com"
+              />
+              <label for="email" className="form-label">
+                Company Email
+              </label>
+              <input
+                type="email"
+                name="company_email"
                 className="form-control"
                 id="email"
                 placeholder="name@example.com"
@@ -25,16 +45,16 @@ const Contact = () => {
                 type="number"
                 className="form-control"
                 id="phone"
-               
+                name="company_contact"
               />
               <label for="address" className="form-label">
-                Address
+                Company Timing
               </label>
               <input
                 type="text"
                 className="form-control"
                 id="address"
-               
+                name="company_timing"
               />
             </div>
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Swal from "sweetalert2";
 
 const Contact = () => {
    const [formValues, setFormValues] = useState({});
@@ -103,45 +104,12 @@ const Contact = () => {
               <button
                 type="submit"
                 className="btn btn-primary px-3 rounded-3"
-                data-bs-toggle="modal"
-                data-bs-target={isSubmit === true ? "#contactModal" : ""}
               >
                 Update
               </button>
             </div>
           </form>
-          <div
-            className="modal fade"
-            id="contactModal"
-            tabindex="-1"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title text-success">Update Success</h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  Contacts has been succesfully updated.
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>

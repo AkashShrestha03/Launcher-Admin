@@ -6,6 +6,7 @@ const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
   const [modal, setModal] = useState(false);
  const [table, setTable] = useState([]);
+ const [select, setSelect] = useState(true)
   const [success, setSuccess] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
@@ -69,17 +70,34 @@ const headers = ["#", "Heading", "Content"]
           >
             <h2>Section Details</h2>
             <div className="mb-3">
-              <select
-                className="form-select mb-3"
-                aria-label="Default select example"
-                onChange={handleChange}
-                name="section"
-              >
-                <option selected>Section</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+              {select ? (
+                <select
+                  className="form-select mb-3"
+                  aria-label="Default select example"
+                  onChange={handleChange}
+                  name="section"
+                >
+                  <option selected>Section</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option>Add another section</option>
+                </select>
+              ) : (
+                <>
+                  <label for="exampleFormControlInput1" className="form-label">
+                    New Section
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleFormControlInput1"
+                    onChange={handleChange}
+                    name="section"
+                  />
+                </>
+              )}
+
               <label for="exampleFormControlInput1" className="form-label">
                 Heading
               </label>
@@ -103,13 +121,15 @@ const headers = ["#", "Heading", "Content"]
             </div>
 
             <div className="mb-3">
-              <button
-                type="submit"
-                className="btn btn-primary px-3 rounded-3"
-                data-bs-toggle="modal"
-                data-bs-target={success ? "#deleteModal" : ""}
-              >
+              <button type="submit" className="btn btn-primary px-3 rounded-3">
                 Update
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary px-3 mx-4 rounded-3"
+                onClick={() => setSelect(false)}
+              >
+                Add New
               </button>
             </div>
           </form>

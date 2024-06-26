@@ -87,12 +87,7 @@ const HomePageContent = () => {
               >
                 Update
               </button>
-              <button
-                type="submit"
-                className="btn btn-danger px-3 mx-3 rounded-3"
-              >
-                Delete
-              </button>
+           
               <div
                 className="modal fade"
                 id="deleteModal"

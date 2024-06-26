@@ -20,7 +20,7 @@ const About = () => {
       setIsSubmit(true);
 
       try {
-        const res = await fetch(`http://launcherr.co/api/Add-About`, {
+        const res = await fetch(`https://launcherr.co/api/Add-About`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           authentication:
@@ -42,7 +42,7 @@ const About = () => {
   return (
     <div className="container-fluid">
       <div className="row mx-0 justify-content-center">
-        <div className="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
+        <div className="col-md-7 col-lg-5 px-lg-2 col-xl-6 px-xl-0 px-xxl-3">
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"
@@ -87,12 +87,7 @@ const About = () => {
               <button type="submit" className="btn btn-primary px-3 rounded-3">
                 Update
               </button>
-              <button
-                type="submit"
-                className="btn btn-danger px-3 mx-3 rounded-3"
-              >
-                Delete
-              </button>
+             
             </div>
           </form>
         </div>

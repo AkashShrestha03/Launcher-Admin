@@ -41,7 +41,7 @@ const FAQ = () => {
 
   useEffect(() => {
     getFAQ();
-  }, []);
+  }, [handleSubmit]);
 
   
   // Add New FAQ

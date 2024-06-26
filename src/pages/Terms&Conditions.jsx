@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const TermsConditions = () => {
   
-   const [formValues, setFormValues] = useState({});
+   const [formValues, setFormValues] = useState([]);
    const [isSubmit, setIsSubmit] = useState(false);
     const [success, setSuccess] = useState(false);
    
@@ -64,12 +64,7 @@ const TermsConditions = () => {
               >
                 Update
               </button>
-              <button
-                type="submit"
-                className="btn btn-danger px-3 mx-3 rounded-3"
-              >
-                Delete
-              </button>
+             
             </div>
           </form>
 

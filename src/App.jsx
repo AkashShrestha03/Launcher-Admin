@@ -24,7 +24,6 @@ const App = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const {admin } = useSelector(state=> state.admin)
-console.log(admin)
   return (
     <div
       className={`wrapper ${toggled ? "toggled" : ""} ${

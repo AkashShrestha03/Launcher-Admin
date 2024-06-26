@@ -7,7 +7,7 @@ const Banner = () => {
   return (
     <div className="container-fluid">
       <div className="row mx-0 justify-content-center">
-        <div className="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
+        <div className="col-md-7 col-lg-5 px-lg-2 col-xl-6 px-xl-0 px-xxl-3">
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"
@@ -51,12 +51,6 @@ const Banner = () => {
             <div className="mb-3">
               <button type="submit" className="btn btn-primary px-3 rounded-3">
                 Update
-              </button>
-              <button
-                type="submit"
-                className="btn btn-danger px-3 mx-3 rounded-3"
-              >
-                Delete
               </button>
             </div>
           </form>

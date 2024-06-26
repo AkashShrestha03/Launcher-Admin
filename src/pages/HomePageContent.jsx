@@ -3,9 +3,14 @@ import { useDispatch } from "react-redux";
 
 const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
+  const [modal, setModal] = useState(false);
+
   const [success, setSuccess] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
+  console.log(success);
+
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -15,7 +20,7 @@ const HomePageContent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-
+     setSuccess(true)
     try {
       const res = await fetch(`https://launcherr.co/api/Add-Section`, {
         method: "POST",
@@ -24,12 +29,14 @@ const HomePageContent = () => {
           "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
         body: JSON.stringify(formValues),
       });
-
-      if (res.ok) {
-        setSuccess(true);
-      }
+       
       const response = await res.json();
-      console.log("response", res);
+      
+      if (res.ok) {
+        console.log("response", res);
+      }else{
+        console.log(response);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +90,7 @@ const HomePageContent = () => {
                 type="submit"
                 className="btn btn-primary px-3 rounded-3"
                 data-bs-toggle="modal"
-                data-bs-target={success === true ? "#deleteModal" : ""}
+                data-bs-target={success? "#deleteModal" : ""}
               >
                 Update
               </button>
@@ -91,8 +98,8 @@ const HomePageContent = () => {
               <div
                 className="modal fade"
                 id="deleteModal"
-                tabindex="-1"
-                aria-hidden="true"
+                tabindex="1"
+              
               >
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">

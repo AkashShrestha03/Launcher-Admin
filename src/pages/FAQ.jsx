@@ -27,12 +27,12 @@ const FAQ = () => {
 
   const [formValues, setFormValues] = useState({});
   const [Faq, setFaq] = useState(false);
-  const [table, setTable] = useState({});
+  const [table, setTable] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
 
   // Get FAQ
 
-  const getProduct = async () => {
+  const getFAQ = async () => {
     const res = await fetch(`https://launcherr.co/api/Show-QueAndAns`);
     const data = await res.json();
     setTable(data);
@@ -40,7 +40,7 @@ const FAQ = () => {
   };
 
   useEffect(() => {
-    getProduct();
+    getFAQ();
   }, []);
 
   

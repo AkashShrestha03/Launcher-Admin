@@ -104,7 +104,7 @@ const Sidebar = (props) => {
             <li>
               {" "}
               <Link to={"/t&c"}>
-                <i className="bi bi-circle"></i>Terms & Condition
+                <i className="bi bi-circle"></i>Terms & Conditions
               </Link>
             </li>
             <li>

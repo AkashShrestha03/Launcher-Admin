@@ -5,7 +5,7 @@ const Banner = () => {
  const [banner, setBanner] = useState({
   });
 const [bannerImage, setBannerImage] = useState([]);
-const headers =["#", "Content", "Banner", "Actions"]
+const headers =["#", "Content", "Banner"]
 
   const getBanner = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Banner`);
@@ -155,60 +155,7 @@ const handleChange = (e) => {
                               />
                             </td>
 
-                            <td>
-                              <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                                {/* Edit Modal */}
-
-                                <a
-                                  className="text-danger cursor-pointer"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#deleteModal"
-                                  data-bs-placement="bottom"
-                                  title="Delete"
-                                >
-                                  <i className="bi bi-trash-fill"></i>
-                                </a>
-                                {/* Delete Modal */}
-                                <div
-                                  className="modal fade"
-                                  id="deleteModal"
-                                  tabIndex="-1"
-                                  aria-hidden="true"
-                                >
-                                  <div className="modal-dialog modal-dialog-centered">
-                                    <div className="modal-content">
-                                      <div className="modal-header">
-                                        <h5 className="modal-title">Delete</h5>
-                                        <button
-                                          type="button"
-                                          className="btn-close"
-                                          data-bs-dismiss="modal"
-                                          aria-label="Close"
-                                        ></button>
-                                      </div>
-                                      <div className="modal-body">
-                                        Are you sure want to delete this field?
-                                      </div>
-                                      <div className="modal-footer">
-                                        <button
-                                          type="button"
-                                          className="btn btn-secondary"
-                                          data-bs-dismiss="modal"
-                                        >
-                                          Cancel
-                                        </button>
-                                        <button
-                                          type="button"
-                                          className="btn btn-danger"
-                                        >
-                                          Delete
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
+                            
                           </tr>
                         ))}
                       </tbody>

@@ -223,7 +223,7 @@ const headers = ["#", "URL", "Logo", "Actions" ]
 
                             <td>
                               <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                                <a
+                                {/* <a
                                   className="text-warning cursor-pointer"
                                   data-bs-toggle="modal"
                                   data-bs-placement="bottom"
@@ -231,7 +231,7 @@ const headers = ["#", "URL", "Logo", "Actions" ]
                                   title="Edit"
                                 >
                                   <i className="bi bi-pencil-fill"></i>
-                                </a>
+                                </a> */}
                                 {/* Edit Modal */}
                                 <div
                                   className="modal fade"

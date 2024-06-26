@@ -5,7 +5,9 @@ const FAQ = () => {
   const headers = ["#", "Question", "Answer", "Actions"];
   const [formValues, setFormValues] = useState({});
   const [Faq, setFaq] = useState(false);
-  const [table, setTable] = useState([]);
+  const [table, setTable] = useState([
+  
+  ]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [selected, setSelected] = useState({})
   const [search, setSearch] = useState("")
@@ -66,12 +68,13 @@ const FAQ = () => {
     setFormValues({ ...formValues, [name]: value.trim() });
     console.log(formValues);
   };
-  const handleEditSubmit = async ( id) => {
+  const handleEditSubmit = async () => {
  
     setIsSubmit(true);
+   
 
     try {
-      const res = await fetch(`https://api.launcherr.co/api/Update/QueAndAns/${id}`, {
+      const res = await fetch(`https://api.launcherr.co/api/Update/QueAndAns/${selected}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         authentication:
@@ -249,7 +252,9 @@ const FAQ = () => {
                                   data-bs-placement="bottom"
                                   data-bs-target="#editModal"
                                   title="Edit"
-                                  onClick={() => setSelected(ques)}
+                                  onClick={() => {setSelected(ques.id);
+                                     console.log(ques.id);
+                                  }}
                                 >
                                   <i className="bi bi-pencil-fill"></i>
                                 </a>
@@ -302,7 +307,7 @@ const FAQ = () => {
                                           className="btn btn-primary"
                                           data-bs-dismiss="modal"
                                           onClick={() =>
-                                            handleEditSubmit(ques.id)
+                                            handleEditSubmit()
                                           }
                                         >
                                           Update

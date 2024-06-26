@@ -12,7 +12,7 @@ const Contact = () => {
       e.preventDefault();
 
       try {
-        const res = await fetch(`https://launcherr.co/api/Add-Details`, {
+        const res = await fetch(`https://api.launcherr.co/api/Add-Details`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           authentication:
@@ -23,6 +23,11 @@ const Contact = () => {
         if(res.ok){
           setIsSubmit(true);
         }
+         Swal.fire({
+           title: "Update Success",
+           text: `You data has been updated successfully`,
+           icon: "success",
+         });
         const response = await res.json();
         console.log("response", res);
       } catch (error) {

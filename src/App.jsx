@@ -29,7 +29,9 @@ const App = () => {
       className={`wrapper ${toggled ? "toggled" : ""} ${
         isSidebarHovered ? "sidebar-hovered" : ""
       } ${isToggled ? "toggled" : ""}`}
-    >{admin ? <> <Header
+    >
+      {admin ? <> 
+    <Header
         onToggle={(isToggled) => setIsToggled(isToggled)}
         toggle={isToggled}
       />
@@ -45,7 +47,8 @@ const App = () => {
       />
       <main className="page-content">
         <Outlet />
-      </main></> : <SignIn/>}
+      </main>
+      </> : <SignIn/>}
      
     </div>
   );

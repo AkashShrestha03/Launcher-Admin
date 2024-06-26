@@ -1,10 +1,10 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   admin: null,
   error: null,
   loading: false,
+
 };
 
 const adminSlice = createSlice({
@@ -33,10 +33,6 @@ const adminSlice = createSlice({
   },
 });
 
-export const {
-  signInFailure,
-  signInSuccessAdmin,
-  signInStart,
-  signOut,
-} = adminSlice.actions;
+export const { signInFailure, signInSuccessAdmin, signInStart, signOut } =
+  adminSlice.actions;
 export { adminSlice };

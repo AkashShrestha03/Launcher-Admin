@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Swal from "sweetalert2";
 
 const TermsConditions = () => {
   
@@ -17,7 +18,7 @@ const TermsConditions = () => {
      setIsSubmit(true);
 
      try {
-       const res = await fetch(`https://launcherr.co/api/term-conditions`, {
+       const res = await fetch(`https://api.launcherr.co/api/term-conditions`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          authentication:
@@ -27,9 +28,12 @@ const TermsConditions = () => {
 
        const response = await res.json();
        console.log("response", response);
-       if(res.ok){
-        setSuccess(true)
-       }
+      
+        Swal.fire({
+          title: "Update Success",
+          text: `You data has been updated successfully`,
+          icon: "success",
+        });
      } catch (error) {
        console.log(error);
      }

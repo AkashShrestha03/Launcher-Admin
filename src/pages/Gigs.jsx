@@ -1,5 +1,5 @@
 
-
+import Swal from "sweetalert2";
 const Gigs = () => {
   
   return (

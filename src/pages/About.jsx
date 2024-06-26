@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
+import Swal from "sweetalert2";
 
 const About = () => {
 
@@ -20,7 +21,7 @@ const About = () => {
       setIsSubmit(true);
 
       try {
-        const res = await fetch(`https://launcherr.co/api/Add-About`, {
+        const res = await fetch(`https://api.launcherr.co/api/Add-About`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           authentication:
@@ -29,10 +30,16 @@ const About = () => {
         });
 
         const response = await res.json();
+       
         console.log("admin data", response);
         if(response.ok){
           setResp(response.message)
         }
+        Swal.fire({
+          title: "Update Success",
+          text: `You data has been updated successfully`,
+          icon: "success",
+        });
         console.log("hello", resp);
         
       } catch (error) {

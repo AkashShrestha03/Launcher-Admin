@@ -17,11 +17,11 @@ import TermsConditions from "./pages/Terms&Conditions.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import Products from "./pages/Products.jsx";
 
-
 import { Provider } from "react-redux";
 import SignIn from "./SignIn.jsx";
 import SignUp from "./SignUp.jsx";
-
+import Client from "./pages/Client.jsx";
+import Coupons from "./pages/Coupons.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +38,8 @@ const router = createBrowserRouter([
       { path: "/t&c", element: <TermsConditions /> },
       { path: "/faq", element: <FAQ /> },
       { path: "/products", element: <Products /> },
-    
+      { path: "/client", element: <Client /> },
+      { path: "/coupons", element: <Coupons /> },
     ],
   },
   { path: "/signup", element: <SignUp /> },

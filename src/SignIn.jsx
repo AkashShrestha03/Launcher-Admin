@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signInSuccessAdmin } from "./store/adminSlice";
 import Validate from "./Validation/SignUp_Validation";
 
@@ -28,7 +28,7 @@ const SignIn = () => {
     setIsSubmit(true);
 
     try {
-      const res = await fetch(`https://launcherr.co/api/auth/login`, {
+      const res = await fetch(`https://api.launcherr.co/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         authentication:
@@ -39,7 +39,7 @@ const SignIn = () => {
       const response = await res.json();
       console.log("admin data", response);
       if (response.access_token) {
-        dispatch(signInSuccessAdmin(response.user));
+        dispatch(signInSuccessAdmin(response));
         navigate("/");
       }
     } catch (error) {

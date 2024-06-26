@@ -45,7 +45,7 @@ const Sidebar = (props) => {
           </Link>
         </li>
         <li>
-          <Link to={"/destination"}>
+          <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-grid-fill"></i>
             </div>
@@ -54,7 +54,7 @@ const Sidebar = (props) => {
         </li>
 
         <li>
-          <Link to={"/gigs"}>
+          <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-droplet-fill"></i>
             </div>
@@ -62,7 +62,7 @@ const Sidebar = (props) => {
           </Link>
         </li>
         <li>
-          <Link to={"/products"}>
+          <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-basket2-fill"></i>
             </div>
@@ -70,9 +70,18 @@ const Sidebar = (props) => {
           </Link>
         </li>
         <li>
+          {" "}
+          <Link to={"/"}>
+            <div className="parent-icon">
+              <i class="bi bi-ticket-detailed"></i>
+            </div>
+            <div className="ms-2 menu-title">Coupons</div>
+          </Link>
+        </li>
+        <li>
           <a className="has-arrow cursor-pointer">
             <div className="parent-icon">
-              <i className="bi bi-basket2-fill"></i>
+              <i class="bi bi-file-earmark-richtext"></i>
             </div>
             <div className="menu-title ms-2">Content</div>
           </a>
@@ -89,6 +98,13 @@ const Sidebar = (props) => {
                 <i className="bi bi-circle"></i>Banner
               </Link>
             </li>
+            <li>
+              {" "}
+              <Link to={"/client"}>
+                <i className="bi bi-circle"></i>Client
+              </Link>
+            </li>
+
             <li>
               {" "}
               <Link to={"/about"}>

@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import Swal from 'sweetalert2'
 
 const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
   const [modal, setModal] = useState(false);
-
+ const [table, setTable] = useState([]);
   const [success, setSuccess] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
-  console.log(success);
+const headers = ["#", "Heading", "Content", "Actions"]
 
+    const getContent = async () => {
+      const res = await fetch(`https://api.launcherr.co/api/Show-Section`);
+      const data = await res.json();
+      setTable(data);
+      console.log(data);
+    };
 
+    useEffect(() => {
+      getContent();
+    }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -21,8 +31,9 @@ const HomePageContent = () => {
     e.preventDefault();
     setIsSubmit(true);
      setSuccess(true)
+         
     try {
-      const res = await fetch(`https://launcherr.co/api/Add-Section`, {
+      const res = await fetch(`https://api.launcherr.co/api/Add-Section`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         authentication:
@@ -31,12 +42,17 @@ const HomePageContent = () => {
       });
        
       const response = await res.json();
-      
+                
       if (res.ok) {
         console.log("response", res);
       }else{
         console.log(response);
       }
+      Swal.fire({
+        title: "Update Success",
+        text: `You data has been updated successfully`,
+        icon: "success",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -90,48 +106,113 @@ const HomePageContent = () => {
                 type="submit"
                 className="btn btn-primary px-3 rounded-3"
                 data-bs-toggle="modal"
-                data-bs-target={success? "#deleteModal" : ""}
+                data-bs-target={success ? "#deleteModal" : ""}
               >
                 Update
               </button>
-           
-              <div
-                className="modal fade"
-                id="deleteModal"
-                tabindex="1"
-              
-              >
-                <div className="modal-dialog modal-dialog-centered">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title text-success">
-                        Update Success
-                      </h5>
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div className="modal-body">
-                      Section {formValues.section} is succesfully updated
-                    </div>
-                    <div className="modal-footer">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </form>
         </div>
+        <>
+          <h5 className="mb-0">Sections</h5>
+          <hr />
+          {table ? (
+            <>
+              <div className="card mt-4">
+                <div className="card-body">
+                  <div className="table-responsive mt-3">
+                    <table
+                      id="example"
+                      className="table table-striped table-bordered"
+                      style={{ width: "100%" }}
+                    >
+                      <thead>
+                        <tr>
+                          {headers.map((header, index) => (
+                            <th key={index + header}>{header}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {table.map((section, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-wrap">{section.heading}</td>
+                            {/* <td className="text-wrap">
+                              {section.sub-heading}
+                            </td> */}
+
+                            <td>
+                              <div className="table-actions d-flex align-items-center gap-3 fs-6">
+                                <a
+                                  className="text-danger cursor-pointer"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#deleteModal"
+                                  data-bs-placement="bottom"
+                                  title="Delete"
+                                >
+                                  <i className="bi bi-trash-fill"></i>
+                                </a>
+                                {/* Delete Modal */}
+                                <div
+                                  className="modal fade"
+                                  id="deleteModal"
+                                  tabIndex="-1"
+                                  aria-hidden="true"
+                                >
+                                  <div className="modal-dialog modal-dialog-centered">
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h5 className="modal-title">Delete</h5>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                        ></button>
+                                      </div>
+                                      <div className="modal-body">
+                                        Are you sure want to delete this field?
+                                      </div>
+                                      <div className="modal-footer">
+                                        <button
+                                          type="button"
+                                          className="btn btn-secondary"
+                                          data-bs-dismiss="modal"
+                                        >
+                                          Cancel
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-danger"
+                                        >
+                                          Delete
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div class="card">
+              <div class="card-body">
+                <div class="spinner-border" role="status">
+                  {" "}
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       </div>
     </div>
   );

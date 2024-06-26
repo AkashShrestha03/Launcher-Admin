@@ -4,12 +4,11 @@ import Swal from 'sweetalert2'
 
 const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
-  const [modal, setModal] = useState(false);
  const [table, setTable] = useState([]);
  const [select, setSelect] = useState(true)
-  const [success, setSuccess] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
-  const dispatch = useDispatch();
+
+
+
 const headers = ["#", "Heading", "Content"]
 
     const getContent = async () => {
@@ -23,6 +22,7 @@ const headers = ["#", "Heading", "Content"]
       getContent();
     }, []);
 
+    // Add/Update section
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
@@ -30,8 +30,8 @@ const headers = ["#", "Heading", "Content"]
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmit(true);
-     setSuccess(true)
+
+   
          
     try {
       const res = await fetch(`https://api.launcherr.co/api/Add-Section`, {
@@ -47,6 +47,7 @@ const headers = ["#", "Heading", "Content"]
       if (res.ok) {
         console.log("response", res);
            getContent();
+           setSelect(true)
       }else{
         console.log(response);
       }
@@ -78,10 +79,10 @@ const headers = ["#", "Heading", "Content"]
                   name="section"
                 >
                   <option selected>Section</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option>Add another section</option>
+                  {table.map((section) => (
+                    <option value={section.section}>{section.section}</option>
+                  ))}
+
                 </select>
               ) : (
                 <>

@@ -45,6 +45,7 @@ const headers = ["#", "Heading", "Content"]
                 
       if (res.ok) {
         console.log("response", res);
+           getContent();
       }else{
         console.log(response);
       }

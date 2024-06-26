@@ -20,15 +20,13 @@ const Contact = () => {
           body: JSON.stringify(formValues),
         });
 
-        if(res.ok){
-          setIsSubmit(true);
-        }
-         Swal.fire({
-           title: "Update Success",
-           text: `You data has been updated successfully`,
-           icon: "success",
-         });
+        
         const response = await res.json();
+        Swal.fire({
+          title: "Update Success",
+          text: `You data has been updated successfully`,
+          icon: "success",
+        });
         console.log("response", res);
       } catch (error) {
         console.log(error);

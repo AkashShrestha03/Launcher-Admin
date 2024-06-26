@@ -37,7 +37,7 @@ const About = () => {
         }
         Swal.fire({
           title: "Update Success",
-          text: `You data has been updated successfully`,
+          text: `Your data has been updated successfully`,
           icon: "success",
         });
         console.log("hello", resp);

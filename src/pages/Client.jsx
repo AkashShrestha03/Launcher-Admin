@@ -113,7 +113,7 @@ const headers = ["#", "URL", "Logo", "Actions" ]
        }
          Swal.fire({
            title: "Update Success",
-           text: `You data has been updated successfully`,
+           text: `Your data has been updated successfully`,
            icon: "success",
          });
      } catch (error) {
@@ -140,7 +140,7 @@ const headers = ["#", "URL", "Logo", "Actions" ]
          }
          Swal.fire({
            title: "Delete Success",
-           text: `You data has been removed successfully`,
+           text: `Your data has been removed successfully`,
            icon: "success",
          });
        } catch (error) {

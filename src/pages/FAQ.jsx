@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const FAQ = () => {
   const headers = ["#", "Question", "Answer", "Actions"];
   const [formValues, setFormValues] = useState({});
   const [Faq, setFaq] = useState(false);
+  const {admin} = useSelector(state=>state.admin)
   const [table, setTable] = useState([
-  
   ]);
   const [isSubmit, setIsSubmit] = useState(false);
   const [selected, setSelected] = useState({})
@@ -40,8 +41,7 @@ const FAQ = () => {
       const res = await fetch(`https://api.launcherr.co/api/Add-QueAndAns`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        authentication:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
+        authentication: ` Bearer ${admin.access_token}`,
         body: JSON.stringify(formValues),
       });
 
@@ -58,6 +58,11 @@ const FAQ = () => {
         icon: "success",
       });
     } catch (error) {
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
+       });
       console.log(error);
     }
   };
@@ -74,13 +79,15 @@ const FAQ = () => {
    
 
     try {
-      const res = await fetch(`https://api.launcherr.co/api/Update/QueAndAns/${selected}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        authentication:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
-        body: JSON.stringify(formValues),
-      });
+      const res = await fetch(
+        `https://api.launcherr.co/api/Update/QueAndAns/${selected}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          authentication: ` Bearer ${admin.access_token}`,
+          body: JSON.stringify(formValues),
+        }
+      );
 
       const response = await res.json();
 
@@ -95,6 +102,11 @@ const FAQ = () => {
         icon: "success",
       });
     } catch (error) {
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
+       });
       console.log(error);
     }
   };
@@ -106,10 +118,9 @@ const FAQ = () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s`,
+            Authorization: ` Bearer ${admin.access_token}`,
             "Content-Type": "application/json",
           },
-         
         }
       );
       const deleted = await res.json();
@@ -124,6 +135,11 @@ const FAQ = () => {
           icon: "success",
         });
     } catch (error) {
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
+       });
       console.error(error);
     }
   };

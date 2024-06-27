@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Select from "react-select";
 import Swal from "sweetalert2";
 const options = [
@@ -12,6 +13,7 @@ const options = [
 const Coupons = () => {
   const [table, setTable] = useState();
   const [selected, setSelected] = useState({});
+  const {admin} = useSelector(state=>state.admin)
   const [coupon, setCoupon] = useState({
     coupon_places: [],
     coupon_code: "",
@@ -63,8 +65,7 @@ const Coupons = () => {
       const res = await fetch(`https://api.launcherr.co/api/Add-Coupon`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        authentication:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
+        authentication: ` Bearer ${admin.access_token}`,
         body: JSON.stringify(coupon),
       });
 
@@ -101,8 +102,7 @@ const Coupons = () => {
          {
            method: "PUT",
            headers: { "Content-Type": "application/json" },
-           authentication:
-             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
+           authentication: ` Bearer ${admin.access_token}`,
            body: JSON.stringify(coupon),
          }
        );
@@ -137,7 +137,7 @@ const Coupons = () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s`,
+            Authorization: ` Bearer ${admin.access_token}`,
             "Content-Type": "application/json",
           },
         }
@@ -373,7 +373,7 @@ const Coupons = () => {
             <div class="card">
               <div class="card-body">
                 <div class="spinner-border" role="status">
-                  {" "}
+                
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>

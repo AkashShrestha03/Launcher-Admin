@@ -66,62 +66,13 @@ const Header = (props) => {
                         <i className="bi bi-person-fill"></i>
                       </div>
                       <div className="ms-3">
-                        <span>Profile</span>
+                        <span>Account</span>
                       </div>
                     </div>
                   </a>
                 </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    <div className="d-flex align-items-center">
-                      <div className="">
-                        <i className="bi bi-gear-fill"></i>
-                      </div>
-                      <div className="ms-3">
-                        <span>Setting</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="index2.html">
-                    <div className="d-flex align-items-center">
-                      <div className="">
-                        <i className="bi bi-speedometer"></i>
-                      </div>
-                      <div className="ms-3">
-                        <span>Dashboard</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    <div className="d-flex align-items-center">
-                      <div className="">
-                        <i className="bi bi-piggy-bank-fill"></i>
-                      </div>
-                      <div className="ms-3">
-                        <span>Earnings</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    <div className="d-flex align-items-center">
-                      <div className="">
-                        <i className="bi bi-cloud-arrow-down-fill"></i>
-                      </div>
-                      <div className="ms-3">
-                        <span>Downloads</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
+
+              
                 <li>
                   <a
                     className="dropdown-item"

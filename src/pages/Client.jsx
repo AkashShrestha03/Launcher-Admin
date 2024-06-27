@@ -1,152 +1,157 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import Swal from "sweetalert2";
 
-
 const Client = () => {
-   const [client, setClient] = useState({});
-   const [clientImage, setClientImage] = useState([]);
-    const [table, setTable] = useState([]);
-      const [selected, setSelected] = useState({});
-  
-const headers = ["#", "URL", "Logo", "Actions" ]
-     const getClient = async () => {
-       const res = await fetch(`https://api.launcherr.co/api/Show-Client`);
-       const data = await res.json();
-       setTable(data);
-       console.log(data);
-     };
+  const [client, setClient] = useState({});
+  const [clientImage, setClientImage] = useState([]);
+  const [table, setTable] = useState([]);
+  const [selected, setSelected] = useState({});
+  const {admin} = useSelector(state=> state.admin)
 
-     useEffect(() => {
-       getClient();
-     }, []);
+  const headers = ["#", "URL", "Logo", "Actions"];
+  const getClient = async () => {
+    const res = await fetch(`https://api.launcherr.co/api/Show-Client`);
+    const data = await res.json();
+    setTable(data);
+    console.log(data);
+  };
 
-   const handleChange = (e) => {
-     if (e.target.name === "image") {
-       setClientImage(e.target.files[0]);
-     } else {
-       setClient({ ...client, [e.target.name]: e.target.value.trim() });
-     }
-     console.log("add", client);
-   };
+  useEffect(() => {
+    getClient();
+  }, []);
 
-   
+  const handleChange = (e) => {
+    if (e.target.name === "image") {
+      setClientImage(e.target.files[0]);
+    } else {
+      setClient({ ...client, [e.target.name]: e.target.value.trim() });
+    }
+    console.log("add", client);
+  };
 
-   const handleSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       const formData = new FormData();
-       for (const key in client) {
-         formData.append(key, client[key]);
-       }
-       if (clientImage) {
-         formData.append("image", clientImage);
-       }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      for (const key in client) {
+        formData.append(key, client[key]);
+      }
+      if (clientImage) {
+        formData.append("image", clientImage);
+      }
 
-       const res = await fetch(`https://api.launcherr.co/api/Add-Client`, {
-         method: "POST",
-         headers: {
-           Authorization:
-             " Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
-         },
-         body: formData,
+      const res = await fetch(`https://api.launcherr.co/api/Add-Client`, {
+        method: "POST",
+        headers: {
+          Authorization:
+            ` Bearer ${admin.access_token}`,
+        },
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+        getClient();
+      } else {
+        const data = await res.text();
+
+        console.log({ data });
+      }
+
+      Swal.fire({
+        title: "Successfully added",
+        text: `You data has been added successfully`,
+        icon: "success",
+      });
+    } catch (error) {
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
        });
-      
-       if (res.ok) {
-         const data = await res.json();
-         console.log(data);
-           getClient();
-        
-       } else {
-         const data = await res.text();
+      console.error(error);
+    }
+  };
+  const handleEditChange = (e) => {
+    if (e.target.name === "image") {
+      setClientImage(e.target.files[0]);
+    } else {
+      setClient({ ...client, [e.target.name]: e.target.value.trim() });
+    }
+    console.log("add", client);
+  };
 
-         console.log({ data });
-       }
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      for (const key in client) {
+        formData.append(key, client[key]);
+      }
+      if (clientImage) {
+        formData.append("image", clientImage);
+      }
 
-         Swal.fire({
-           title: "Successfully added",
-           text: `You data has been added successfully`,
-           icon: "success",
-         });
-     } catch (error) {
-       console.error(error);
-     }
-   };
-   const handleEditChange = (e) => {
-     if (e.target.name === "image") {
-       setClientImage(e.target.files[0]);
-     } else {
-       setClient({ ...client, [e.target.name]: e.target.value.trim() });
-     }
-     console.log("add", client);
-   };
- 
+      const res = await fetch(`https://api.launcherr.co/api/Add-Client`, {
+        method: "POST",
+        headers: {
+          Authorization: ` Bearer ${admin.access_token}`,
+        },
+        body: formData,
+      });
+      console.log(res);
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+      } else {
+        const data = await res.text();
 
-   const handleEditSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       const formData = new FormData();
-       for (const key in client) {
-         formData.append(key, client[key]);
-       }
-       if (clientImage) {
-         formData.append("image", clientImage);
-       }
-
-       const res = await fetch(`https://api.launcherr.co/api/Add-Client`, {
-         method: "POST",
-         headers: {
-           Authorization:
-             " Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
-         },
-         body: formData,
+        console.log({ data });
+      }
+      Swal.fire({
+        title: "Update Success",
+        text: `Your data has been updated successfully`,
+        icon: "success",
+      });
+    } catch (error) {
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
        });
-       console.log(res);
-       if (res.ok) {
-         const data = await res.json();
-         console.log(data);
-        
-       } else {
-         const data = await res.text();
+      console.error(error);
+    }
+  };
 
-         console.log({ data });
-       }
-         Swal.fire({
-           title: "Update Success",
-           text: `Your data has been updated successfully`,
-           icon: "success",
-         });
-     } catch (error) {
-       console.error(error);
-     }
-   };
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(
+        `https://api.launcherr.co/api/Delete/Client/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: ` Bearer ${admin.access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const deleted = await res.json();
 
-     const handleDelete = async (id) => {
-       try {
-         const res = await fetch(
-           `https://api.launcherr.co/api/Delete/Client/${id}`,
-           {
-             method: "DELETE",
-             headers: {
-               Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s`,
-               "Content-Type": "application/json",
-             },
-           }
-         );
-         const deleted = await res.json();
-
-         if (res.ok) {
-           getClient();
-         }
-         Swal.fire({
-           title: "Delete Success",
-           text: `Your data has been removed successfully`,
-           icon: "success",
-         });
-       } catch (error) {
-         console.error(error);
-       }
-     };
+      if (res.ok) {
+        getClient();
+      }
+      Swal.fire({
+        title: "Delete Success",
+        text: `Your data has been removed successfully`,
+        icon: "success",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="container-fluid">
       <div className="row mx-0 justify-content-center">
@@ -364,6 +369,6 @@ const headers = ["#", "URL", "Logo", "Actions" ]
       </div>
     </div>
   );
-}
+};
 
-export default Client
+export default Client;

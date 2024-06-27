@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import Swal from "sweetalert2";
 const Banner = () => {
  const [table, setTable] = useState([]);
+  const { admin } = useSelector((state) => state.admin);
  const [banner, setBanner] = useState({
   });
 const [bannerImage, setBannerImage] = useState([]);
@@ -42,8 +44,7 @@ const handleChange = (e) => {
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
-          Authorization:
-            " Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
+          Authorization: ` Bearer ${admin.access_token}`,
         },
         body: formData,
       });
@@ -62,6 +63,11 @@ const handleChange = (e) => {
         console.log({ data });
       }
     } catch (error) {
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
+       });
       console.error(error);
     }
   };

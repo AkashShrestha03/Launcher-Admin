@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import Swal from 'sweetalert2'
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
- const [table, setTable] = useState([]);
- const [select, setSelect] = useState(true)
+  const [table, setTable] = useState([]);
+  const [select, setSelect] = useState(true);
+  const { admin } = useSelector((state) => state.admin);
 
+  const headers = ["#", "Heading", "Content"]; //Table headers
 
+  //Get content
 
-const headers = ["#", "Heading", "Content"]
+  const getContent = async () => {
+    const res = await fetch(`https://api.launcherr.co/api/Show-Section`);
+    const data = await res.json();
+    setTable(data);
+  };
 
-    const getContent = async () => {
-      const res = await fetch(`https://api.launcherr.co/api/Show-Section`);
-      const data = await res.json();
-      setTable(data);
-      console.log(data);
-    };
+  useEffect(() => {
+    getContent();
+  }, []);
 
-    useEffect(() => {
-      getContent();
-    }, []);
-
-    // Add/Update section
+  // Add/Update section
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
@@ -31,24 +31,21 @@ const headers = ["#", "Heading", "Content"]
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
-         
     try {
       const res = await fetch(`https://api.launcherr.co/api/Add-Section`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        authentication:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MTkyMjYwODgsImV4cCI6MTcxOTIyOTY4OCwibmJmIjoxNzE5MjI2MDg4LCJqdGkiOiIwQld4MTM3cEdJT2JjaE90Iiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hRH-eHNJ889_91jDbMXkEo4V7oJtoDWeOYQu-rz3x1s",
+        authentication: ` Bearer ${admin.access_token}`, //from RT
         body: JSON.stringify(formValues),
       });
-       
+
       const response = await res.json();
-                
+
       if (res.ok) {
         console.log("response", res);
-           getContent();
-           setSelect(true)
-      }else{
+        getContent();
+        setSelect(true);
+      } else {
         console.log(response);
       }
       Swal.fire({
@@ -57,6 +54,11 @@ const headers = ["#", "Heading", "Content"]
         icon: "success",
       });
     } catch (error) {
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
       console.log(error);
     }
   };
@@ -82,7 +84,6 @@ const headers = ["#", "Heading", "Content"]
                   {table.map((section) => (
                     <option value={section.section}>{section.section}</option>
                   ))}
-
                 </select>
               ) : (
                 <>
@@ -175,7 +176,7 @@ const headers = ["#", "Heading", "Content"]
             <div class="card">
               <div class="card-body">
                 <div class="spinner-border" role="status">
-                  {" "}
+                  
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>

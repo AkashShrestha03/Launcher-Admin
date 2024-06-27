@@ -253,7 +253,7 @@ const FAQ = () => {
                                   data-bs-target="#editModal"
                                   title="Edit"
                                   onClick={() => {setSelected(ques.id);
-                                     console.log(ques.id);
+                                    
                                   }}
                                 >
                                   <i className="bi bi-pencil-fill"></i>

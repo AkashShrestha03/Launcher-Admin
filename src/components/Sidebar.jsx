@@ -71,7 +71,7 @@ const Sidebar = (props) => {
         </li>
         <li>
           {" "}
-          <Link to={"/"}>
+          <Link to={"/coupons"}>
             <div className="parent-icon">
               <i class="bi bi-ticket-detailed"></i>
             </div>

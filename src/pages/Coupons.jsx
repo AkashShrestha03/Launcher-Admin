@@ -208,7 +208,7 @@ const Coupons = () => {
           </form>
         </div>
         <>
-          <h5 className="mb-0">Sections</h5>
+          <h5 className="mb-0">Coupons</h5>
           <hr />
           {table ? (
             <>

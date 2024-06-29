@@ -6,16 +6,29 @@ import {
   EditGigsModal,
   // EmployerModal,
 } from "../components/Modals";
-import { Chip } from "@mui/material";
+import { Avatar, Box, Chip, Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { employerProfile } from "../store/adminSlice";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 1,
+  pt: 2,
+  px: 4,
+  pb: 3,
+};
+
 const Gigs = () => {
   const [table, setTable] = useState([]);
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [employer, setEmployer] = useState();
+  const [employer, setEmployer] = useState({});
   // const [openEdit, setOpenEdit] = useState(false)
   // const [openDelete, setOpenDelete] = useState(false)
   const [openEmployer, setOpenEmployer] = useState(false);
@@ -138,7 +151,8 @@ const Gigs = () => {
       );
 
       const data = await res.json();
-      dispatch(employerProfile(data.profile));
+      setEmployer(data.profile)
+      // dispatch(employerProfile(data.profile));
 
       console.log("profile", data.profile);
     } catch (error) {
@@ -203,7 +217,9 @@ const Gigs = () => {
                         </Link>
                       )}
                     </td>
+
                     {/* <EmployerModal
+                      profile={employer}
                       open={openEmployer}
                       onClose={(openEmployer) =>
                         handleCloseProfile(openEmployer)
@@ -261,6 +277,40 @@ const Gigs = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={openEmployer}
+        onClose={handleCloseProfile}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          {employer && employer.company_name && (
+            <div>
+              <div className="text-center d-flex justify-content-center">
+                <Avatar>{employer.company_name[0]}</Avatar>
+              </div>
+              <div className="text-center mt-4">
+                <h4 className="mb-1">{employer.company_name}</h4>
+                <Link to={employer.company_website} className="mb-0">
+                  Website: {employer.company_name}
+                </Link>
+                <div className="mt-4"></div>
+                <h6 className="mb-1">{employer.address}</h6>
+                <div className="d-flex justify-content-center gap-2">
+                  <p className="mb-0 text-secondary">{employer.city}</p>
+                  <p className="mb-0 text-secondary">{employer.state}</p>
+                  <p className="mb-0 text-secondary">{employer.country}</p>
+                </div>
+              </div>
+              <hr />
+              <div className="text-start">
+                <h5 className="">About</h5>
+                <p className="mb-0">{employer.about}</p>
+              </div>
+            </div>
+          )}
+        </Box>
+      </Modal>
     </>
   );
 };

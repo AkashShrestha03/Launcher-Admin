@@ -418,7 +418,7 @@ export const DeleteGigModal = (props) => {
 // export const EmployerModal = (props) => {
 //   const { employer } = useSelector((state) => state.admin);
   
- 
+// //  console.log("",props.profile);
 //   return (
 //     <Modal
 //       open={props.open}

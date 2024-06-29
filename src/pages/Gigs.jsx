@@ -4,7 +4,7 @@ import {
   AddGigsModal,
   DeleteGigModal,
   EditGigsModal,
-  EmployerModal,
+  // EmployerModal,
 } from "../components/Modals";
 import { Chip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -203,12 +203,12 @@ const Gigs = () => {
                         </Link>
                       )}
                     </td>
-                    <EmployerModal
+                    {/* <EmployerModal
                       open={openEmployer}
                       onClose={(openEmployer) =>
                         handleCloseProfile(openEmployer)
                       }
-                    />
+                    /> */}
                     <td>{gigs.duration}</td>
                     <td
                       onClick={() => {

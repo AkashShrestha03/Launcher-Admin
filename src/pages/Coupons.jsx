@@ -7,13 +7,12 @@ const options = [
   { value: "products", label: "Products" },
   { value: "subscription", label: "Subscription" },
   { value: "all", label: "Select All" },
-  
 ];
 
 const Coupons = () => {
   const [table, setTable] = useState();
   const [selected, setSelected] = useState({});
-  const {admin} = useSelector(state=>state.admin)
+  const { admin } = useSelector((state) => state.admin);
   const [coupon, setCoupon] = useState({
     coupon_places: [],
     coupon_code: "",
@@ -21,7 +20,7 @@ const Coupons = () => {
   });
   const headers = ["#", "Coupon Code", "Coupon Place", "Discount", "Actions"];
 
-//  Get Coupons
+  //  Get Coupons
 
   const getCoupons = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
@@ -64,8 +63,10 @@ const Coupons = () => {
     try {
       const res = await fetch(`https://api.launcherr.co/api/Add-Coupon`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        authentication: ` Bearer ${admin.access_token}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.access_token}`,
+        },
         body: JSON.stringify(coupon),
       });
 
@@ -81,52 +82,52 @@ const Coupons = () => {
         icon: "success",
       });
     } catch (error) {
-       Swal.fire({
-         title: "Failed",
-         text: `OOPS.... Something went wrong`,
-         icon: "error",
-       });
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
       console.log(error);
     }
   };
 
   // Edit Coupon
 
- 
-   const handleEditSubmit = async () => {
-   
+  const handleEditSubmit = async () => {
+    try {
+      const res = await fetch(
+        `https://api.launcherr.co/api/Update-Coupon/${selected}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${admin.access_token}`,
+          },
 
-     try {
-       const res = await fetch(
-         `https://api.launcherr.co/api/Update-Coupon/${selected}`,
-         {
-           method: "PUT",
-           headers: { "Content-Type": "application/json" },
-           authentication: ` Bearer ${admin.access_token}`,
-           body: JSON.stringify(coupon),
-         }
-       );
+          body: JSON.stringify(coupon),
+        }
+      );
 
-       const response = await res.json();
+      const response = await res.json();
 
-       console.log("response", response);
-       if (res.ok) {
-         getCoupons();
-         Swal.fire({
-           title: "Update Success",
-           text: `Your data has been updated successfully`,
-           icon: "success",
-         });
-       }
-     } catch (error) {
+      console.log("response", response);
+      if (res.ok) {
+        getCoupons();
+        Swal.fire({
+          title: "Update Success",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
+      }
+    } catch (error) {
       Swal.fire({
         title: "Update Failed",
         text: `OOPS.... Something went wrong`,
         icon: "error",
       });
-       console.log(error);
-     }
-   };
+      console.log(error);
+    }
+  };
 
   //  Delete Coupon
 
@@ -156,8 +157,6 @@ const Coupons = () => {
       console.error(error);
     }
   };
-
-
 
   return (
     <div className="container-fluid">
@@ -189,7 +188,7 @@ const Coupons = () => {
                 name="coupon_code"
               />
               <label for="headingContent" className="form-label">
-                Discount
+                Discount(%)
               </label>
               <input
                 type="number"
@@ -373,7 +372,6 @@ const Coupons = () => {
             <div class="card">
               <div class="card-body">
                 <div class="spinner-border" role="status">
-                
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>

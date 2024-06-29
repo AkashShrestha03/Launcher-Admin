@@ -1,8 +1,21 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/adminSlice";
+import { Avatar, Modal } from "@mui/material";
+import { deepOrange } from "@mui/material/colors";
+import { Link } from "react-router-dom";
+import AccountModal from "./Modals";
+import { useState } from "react";
 
 const Header = (props) => {
   const dispatch = useDispatch()
+   const [open, setOpen] = useState(false);
+   const handleOpen = () => {
+     setOpen(true);
+   };
+   const handleClose = () => {
+     setOpen(false);
+   };
+  const {admin} = useSelector(state=> state.admin)
   return (
     <header className="top-header">
       <nav className="navbar navbar-expand gap-3">
@@ -29,29 +42,18 @@ const Header = (props) => {
                 data-bs-toggle="dropdown"
               >
                 <div className="user-setting d-flex align-items-center">
-                  <img
-                    src="./images/avatars/avatar-1.png"
-                    className="user-img"
-                    alt=""
-                  />
+                  <Avatar>{admin.user.name[0]}</Avatar>
                 </div>
               </a>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li>
                   <a className="dropdown-item" href="#">
                     <div className="d-flex align-items-center">
-                      <img
-                        src="./images/avatars/avatar-1.png"
-                        alt=""
-                        className="rounded-circle"
-                        width="54"
-                        height="54"
-                      />
+                      <Avatar>{admin.user.name[0]}</Avatar>
                       <div className="ms-3">
-                        <h6 className="mb-0 dropdown-user-name">Jhon Deo</h6>
-                        <small className="mb-0 dropdown-user-designation text-secondary">
-                          HR Manager
-                        </small>
+                        <h6 className="mb-0 dropdown-user-name">
+                          {admin.user.name}
+                        </h6>
                       </div>
                     </div>
                   </a>
@@ -60,7 +62,7 @@ const Header = (props) => {
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <a className="dropdown-item" href="pages-user-profile.html">
+                  <Link className="dropdown-item" to={"/"} onClick={handleOpen}>
                     <div className="d-flex align-items-center">
                       <div className="">
                         <i className="bi bi-person-fill"></i>
@@ -69,10 +71,10 @@ const Header = (props) => {
                         <span>Account</span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
+                  <AccountModal open={open} close={(open)=>handleClose(open)}/>
                 </li>
 
-              
                 <li>
                   <a
                     className="dropdown-item"
@@ -93,6 +95,7 @@ const Header = (props) => {
           </ul>
         </div>
       </nav>
+     
     </header>
   );
 };

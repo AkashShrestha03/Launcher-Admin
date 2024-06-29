@@ -34,8 +34,10 @@ const HomePageContent = () => {
     try {
       const res = await fetch(`https://api.launcherr.co/api/Add-Section`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        authentication: ` Bearer ${admin.access_token}`, //from RT
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.access_token}`,
+        }, 
         body: JSON.stringify(formValues),
       });
 
@@ -45,20 +47,22 @@ const HomePageContent = () => {
         console.log("response", res);
         getContent();
         setSelect(true);
+        Swal.fire({
+          title: "Update Success",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
       } else {
         console.log(response);
+            Swal.fire({
+              title: "Failed",
+              text: `OOPS.... Something went wrong`,
+              icon: "error",
+            });
       }
-      Swal.fire({
-        title: "Update Success",
-        text: `Your data has been updated successfully`,
-        icon: "success",
-      });
+      
     } catch (error) {
-      Swal.fire({
-        title: "Failed",
-        text: `OOPS.... Something went wrong`,
-        icon: "error",
-      });
+  
       console.log(error);
     }
   };

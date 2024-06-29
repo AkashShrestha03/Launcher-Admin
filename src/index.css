@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop{
+  background-color: transparent !important;
+}
+
 .logo img {
   border-radius: 50%;
   cursor: pointer;

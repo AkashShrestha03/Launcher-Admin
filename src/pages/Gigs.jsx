@@ -1,13 +1,157 @@
-
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import {
+  AddGigsModal,
+  DeleteGigModal,
+  EditGigsModal,
+  EmployerModal,
+} from "../components/Modals";
+import { Chip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { employerProfile } from "../store/adminSlice";
 const Gigs = () => {
-  
+  const [table, setTable] = useState([]);
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [employer, setEmployer] = useState();
+  // const [openEdit, setOpenEdit] = useState(false)
+  // const [openDelete, setOpenDelete] = useState(false)
+  const [openEmployer, setOpenEmployer] = useState(false);
+ 
+
+  const { admin } = useSelector((state) => state.admin);
+
+  const handleClose = () => {
+    setOpen(false);
+    getGigs()
+  };
+  const handleCloseProfile = () => {
+    setOpenEmployer(false);
+  };
+
+  const headers = [
+    "#",
+    "Title",
+    "Description",
+    "Employer",
+    "Duration",
+    "Status",
+    "Verified",
+  ];
+
+  // Get Jobs
+
+  const getGigs = async () => {
+    try {
+      const res = await fetch(`https://api.launcherr.co/api/job`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${admin.access_token}`,
+        },
+      });
+      const data = await res.json();
+      setTable(data.job);
+      console.log(table);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getGigs();
+  }, []);
+
+  //Update Status
+
+  const handleStatus = async (selectedId) => {
+    try {
+      const res = await fetch(
+        `https://api.launcherr.co/api/updateJobActive/${selectedId}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${admin.access_token}`,
+          },
+        }
+      );
+      const response = await res.json();
+      console.log("response update", response);
+      if (res.ok) {
+        getGigs();
+      } else {
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong!`,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Update Verification
+  const handleVerified = async (selectedId) => {
+    try {
+      const res = await fetch(
+        `https://api.launcherr.co/api/updateJobVerified/${selectedId}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${admin.access_token}`,
+          },
+        }
+      );
+      const response = await res.json();
+      console.log(selectedId);
+      console.log("response update verified", response);
+      if (res.ok) {
+        getGigs();
+      } else {
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong!`,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Get Employer Profile
+
+  const getEmployer = async (selectedId) => {
+    try {
+      const res = await fetch(
+        `https://api.launcherr.co/api/emp/${selectedId}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${admin.access_token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+      dispatch(employerProfile(data));
+
+      console.log("profile", data.profile);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
-      <h6 class="mb-0 text-uppercase">Gigs</h6>
+      <h6 className="mb-0 text-uppercase">Gigs</h6>
       <hr />
-      <div class="card">
-        <div class="card-body">
+      <div className="card">
+        <div className="card-body">
           <div className=" input-group d-flex gap-3 mb-3">
             {" "}
             <input
@@ -15,713 +159,103 @@ const Gigs = () => {
               className="form-control"
               placeholder="Search"
               aria-label="Search"
+              onChange={(e) => setSearch(e.target.value)}
             />
             <button
               type="button"
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#FAQ_add"
+              className="btn btn-primary"
+              onClick={() => setOpen(true)}
             >
               Add New
             </button>
+            <AddGigsModal open={open} onClose={(open) => handleClose(open)} />
           </div>
-          <div class="table-responsive">
+          <div className="table-responsive">
             <table
               id="example"
-              class="table table-striped table-bordered"
+              className="table table-striped table-bordered"
               style={{ width: "100%" }}
             >
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Employer</th>
-                  <th>Validity</th>
-                  <th>Actions</th>
+                  {headers.map((header, index) => (
+                    <th key={index + header}>{header}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>01</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>02</td>
-                  <td>Goa Beach</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>03</td>
-                  <td>Taj Mahal</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>04</td>
-                  <td>Qutub Minar</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>05</td>
-                  <td>Bhangardh</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>06</td>
-                  <td>Cannaught Place</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>07</td>
-                  <td>Sarojini Nagar</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>08</td>
-                  <td>Kathmandu</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>09</td>
-                  <td>Vaishno Devi</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>10</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>11</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>12</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>13</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>14</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>15</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>16</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>17</td>
-                  <td>Shimla</td>
-                  <td class="text-wrap">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </td>
-                  <td>XYz Company</td>
-                  <td>2 Months</td>
-                  <td>
-                    <div class="table-actions d-flex align-items-center gap-3 fs-6">
-                      <a
-                        href="javascript:;"
-                        class="text-primary"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Views"
-                      >
-                        <i class="bi bi-eye-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-warning"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Edit"
-                      >
-                        <i class="bi bi-pencil-fill"></i>
-                      </a>
-                      <a
-                        href="javascript:;"
-                        class="text-danger"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete"
-                      >
-                        <i class="bi bi-trash-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
+                {table.map((gigs, index) => (
+                  <tr key={index + gigs.id}>
+                    <td>{index + 1}</td>
+                    <td>{gigs.title}</td>
+                    <td className="text-wrap">{gigs.description}</td>
+                    <td>
+                      {gigs.user.id === 3 ? (
+                        "Admin"
+                      ) : (
+                        <Link
+                          onClick={() => {
+                            getEmployer(gigs.user.id);
+                            setOpenEmployer(true);
+                          }}
+                        >
+                          {gigs.user.name}
+                        </Link>
+                      )}
+                    </td>
+                    <EmployerModal
+                      open={openEmployer}
+                      onClose={(openEmployer) =>
+                        handleCloseProfile(openEmployer)
+                      }
+                    />
+                    <td>{gigs.duration}</td>
+                    <td
+                      onClick={() => {
+                        handleStatus(gigs.id);
+                      }}
+                    >
+                      {gigs.active === 1 ? (
+                        <button className="btn btn-success">Active</button>
+                      ) : (
+                        <button className="btn btn-danger">Inactive</button>
+                      )}
+                    </td>
+                    <td
+                      onClick={() => {
+                        handleVerified(gigs.id);
+                      }}
+                    >
+                      {gigs.verified ? (
+                        <button className="btn btn-success">Verified</button>
+                      ) : (
+                        <button className="btn btn-danger">Unverified</button>
+                      )}
+                    </td>
+                    {/* <td>
+                      <div className="table-actions d-flex align-items-center gap-3 fs-6">
+                        <a
+                          href="javascript:;"
+                          className="text-danger"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Delete"
+                          onClick={() => {
+                            setOpenDelete(true);
+                            setSelected(gigs.id);
+                          }}
+                        >
+                          <i className="bi bi-trash-fill"></i>
+                        </a>
+                        <DeleteGigModal
+                          selected={selected}
+                          open={openDelete}
+                          onClose={(openDelete) => handleClose(openDelete)}
+                        />
+                      </div>
+                    </td> */}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -729,6 +263,6 @@ const Gigs = () => {
       </div>
     </>
   );
-}
+};
 
 export default Gigs;

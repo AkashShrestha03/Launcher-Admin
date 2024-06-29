@@ -20,8 +20,10 @@ const About = () => {
     try {
       const res = await fetch(`https://api.launcherr.co/api/Add-About`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        authentication: ` Bearer ${admin.access_token}`,
+        headers: { "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.access_token}`
+        },
+       
         body: JSON.stringify(formValues),
       });
 

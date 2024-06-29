@@ -35,7 +35,7 @@ const Sidebar = (props) => {
         </div>
       </div>
 
-      <MetisMenu id="menu" class="metismenu">
+      <MetisMenu id="menu" className="metismenu">
         <li>
           <Link to={"/"}>
             <div className="parent-icon">
@@ -54,7 +54,7 @@ const Sidebar = (props) => {
         </li>
 
         <li>
-          <Link to={"/"}>
+          <Link to={"/gigs"}>
             <div className="parent-icon">
               <i className="bi bi-droplet-fill"></i>
             </div>
@@ -62,7 +62,7 @@ const Sidebar = (props) => {
           </Link>
         </li>
         <li>
-          <Link to={"/"}>
+          <Link to={"https://ecom.launcherr.co/admin"}>
             <div className="parent-icon">
               <i className="bi bi-basket2-fill"></i>
             </div>
@@ -73,7 +73,7 @@ const Sidebar = (props) => {
           {" "}
           <Link to={"/coupons"}>
             <div className="parent-icon">
-              <i class="bi bi-ticket-detailed"></i>
+              <i className="bi bi-ticket-detailed"></i>
             </div>
             <div className="ms-2 menu-title">Coupons</div>
           </Link>
@@ -81,7 +81,7 @@ const Sidebar = (props) => {
         <li>
           <a className="has-arrow cursor-pointer">
             <div className="parent-icon">
-              <i class="bi bi-file-earmark-richtext"></i>
+              <i className="bi bi-file-earmark-richtext"></i>
             </div>
             <div className="menu-title ms-2">Content</div>
           </a>

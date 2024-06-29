@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  employer: null,
   admin: null,
   error: null,
   loading: false,
-
 };
 
 const adminSlice = createSlice({
@@ -30,9 +30,18 @@ const adminSlice = createSlice({
       state.admin = null;
       localStorage.removeItem("admin");
     },
+    employerProfile: (state, action) => {
+      state.employer = action.payload;
+      
+    },
   },
 });
 
-export const { signInFailure, signInSuccessAdmin, signInStart, signOut } =
-  adminSlice.actions;
+export const {
+  signInFailure,
+  signInSuccessAdmin,
+  signInStart,
+  signOut,
+  employerProfile,
+} = adminSlice.actions;
 export { adminSlice };

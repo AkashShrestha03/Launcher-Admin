@@ -16,26 +16,31 @@ const TermsConditions = () => {
     try {
       const res = await fetch(`https://api.launcherr.co/api/term-conditions`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        authentication: ` Bearer ${admin.access_token}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.access_token}`,
+        },
         body: JSON.stringify(formValues),
       });
 
       const response = await res.json();
       console.log("response", response);
-
-      Swal.fire({
-        title: "Update Success",
-        text: `Your data has been updated successfully`,
-        icon: "success",
-      });
+      if(res.ok){
+        Swal.fire({
+          title: "Update Success",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
+      }else{
+          Swal.fire({
+            title: "Failed",
+            text: `OOPS.... Something went wrong`,
+            icon: "error",
+          });
+      }
     } catch (error) {
       console.log(error);
-      Swal.fire({
-        title: "Failed",
-        text: `OOPS.... Something went wrong`,
-        icon: "error",
-      });
+    
     }
   };
   return (

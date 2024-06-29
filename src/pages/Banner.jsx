@@ -44,30 +44,35 @@ const handleChange = (e) => {
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
-          Authorization: ` Bearer ${admin.access_token}`,
+         
+          Authorization: `Bearer ${admin.access_token}`,
         },
         body: formData,
       });
       console.log(res);
-      Swal.fire({
-        title: "Update Success",
-        text: `Your data has been updated successfully`,
-        icon: "success",
-      });
+   
       if (res.ok) {
         const data = await res.json();
         console.log(data);
           getBanner();
+            Swal.fire({
+              title: "Update Success",
+              text: `Your data has been updated successfully`,
+              icon: "success",
+            });
+            
       } else {
         const data = await res.text();
         console.log({ data });
+         Swal.fire({
+           title: "Failed",
+           text: `OOPS.... Something went wrong`,
+           icon: "error",
+         });
       }
+     
     } catch (error) {
-       Swal.fire({
-         title: "Failed",
-         text: `OOPS.... Something went wrong`,
-         icon: "error",
-       });
+      
       console.error(error);
     }
   };
@@ -111,7 +116,6 @@ const handleChange = (e) => {
             <label className="d-block mb-4">
               <span className="form-label d-block">Upload Banner</span>
               <input
-                required
                 name="Banner_image"
                 onChange={handleChange}
                 type="file"

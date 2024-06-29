@@ -15,7 +15,7 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  boxShadow: 24,
+  boxShadow: 1,
   pt: 2,
   px: 4,
   pb: 3,
@@ -417,7 +417,8 @@ export const DeleteGigModal = (props) => {
 
 export const EmployerModal = (props) => {
   const { employer } = useSelector((state) => state.admin);
-  // Get Employer's details
+  
+ 
   return (
     <Modal
       open={props.open}
@@ -428,28 +429,28 @@ export const EmployerModal = (props) => {
       <Box sx={style}>
         <div className="">
           <div className=" text-center d-flex justify-content-center">
-            <Avatar>{employer.profile.company_name[0]}</Avatar>
+            <Avatar>{employer.company_name[0]}</Avatar>
           </div>
 
           <div className="text-center mt-4">
-            <h4 className="mb-1">{employer.profile.company_name}</h4>
-            <Link to={employer.profile.company_website} className="mb-0 ">
+            <h4 className="mb-1">{employer.company_name}</h4>
+            <Link to={employer.company_website} className="mb-0 ">
               Website:
-              {employer.profile.company_name}
+              {employer.company_name}
             </Link>
             <div className="mt-4"></div>
 
-            <h6 className="mb-1">{employer.profile.address}</h6>
+            <h6 className="mb-1">{employer.address}</h6>
             <div className="d-flex justify-content-center gap-2">
-              <p className="mb-0 text-secondary">{employer.profile.city}</p>
-              <p className="mb-0 text-secondary">{employer.profile.state}</p>
-              <p className="mb-0 text-secondary">{employer.profile.country}</p>
+              <p className="mb-0 text-secondary">{employer.city}</p>
+              <p className="mb-0 text-secondary">{employer.state}</p>
+              <p className="mb-0 text-secondary">{employer.country}</p>
             </div>
           </div>
           <hr />
           <div className="text-start">
             <h5 className="">About</h5>
-            <p className="mb-0">{employer.profile.about}</p>
+            <p className="mb-0">{employer.about}</p>
           </div>
         </div>
       </Box>

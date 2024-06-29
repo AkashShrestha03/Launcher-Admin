@@ -138,7 +138,7 @@ const Gigs = () => {
       );
 
       const data = await res.json();
-      dispatch(employerProfile(data));
+      dispatch(employerProfile(data.profile));
 
       console.log("profile", data.profile);
     } catch (error) {

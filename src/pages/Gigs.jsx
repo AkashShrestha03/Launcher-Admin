@@ -32,13 +32,12 @@ const Gigs = () => {
   // const [openEdit, setOpenEdit] = useState(false)
   // const [openDelete, setOpenDelete] = useState(false)
   const [openEmployer, setOpenEmployer] = useState(false);
- 
 
   const { admin } = useSelector((state) => state.admin);
 
   const handleClose = () => {
     setOpen(false);
-    getGigs()
+    getGigs();
   };
   const handleCloseProfile = () => {
     setOpenEmployer(false);
@@ -151,7 +150,7 @@ const Gigs = () => {
       );
 
       const data = await res.json();
-      setEmployer(data.profile)
+      setEmployer(data.profile);
       // dispatch(employerProfile(data.profile));
 
       console.log("profile", data.profile);

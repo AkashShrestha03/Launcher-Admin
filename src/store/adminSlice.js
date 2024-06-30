@@ -34,6 +34,12 @@ const adminSlice = createSlice({
       state.employer = action.payload;
       
     },
+    statusLoadingStart: (state, action) => {
+       state.loading = true;
+    },
+    statusLoadingEnd: (state, action) => {
+       state.loading = false;
+    }
   },
 });
 
@@ -43,5 +49,7 @@ export const {
   signInStart,
   signOut,
   employerProfile,
+  statusLoadingStart,
+  statusLoadingEnd,
 } = adminSlice.actions;
 export { adminSlice };

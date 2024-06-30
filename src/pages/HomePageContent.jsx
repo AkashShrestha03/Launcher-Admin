@@ -6,6 +6,7 @@ const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
   const [table, setTable] = useState([]);
   const [select, setSelect] = useState(true);
+  const [loading, setLoading] = useState(false)
   const { admin } = useSelector((state) => state.admin);
 
   const headers = ["#", "Heading", "Content"]; //Table headers
@@ -13,9 +14,16 @@ const HomePageContent = () => {
   //Get content
 
   const getContent = async () => {
+    setLoading(true)
     const res = await fetch(`https://api.launcherr.co/api/Show-Section`);
     const data = await res.json();
-    setTable(data);
+     setTable(data);
+    if(res.ok){
+      setLoading(false)
+    }else{
+      setLoading(false)
+    }
+   
   };
 
   useEffect(() => {
@@ -143,7 +151,7 @@ const HomePageContent = () => {
         <>
           <h5 className="mb-0">Sections</h5>
           <hr />
-          {table.length > 0  && table ? (
+          {table.length > 0 && table ? (
             <>
               <div className="card mt-4">
                 <div className="card-body">
@@ -177,14 +185,17 @@ const HomePageContent = () => {
               </div>
             </>
           ) : (
-            <div class="card">
-              <div class="card-body">
-                <div class="spinner-border" role="status">
-                  
-                  <span class="visually-hidden">Loading...</span>
+
+            loading ? 
+            <div className="d-flex justify-content-center">
+              <div class="card">
+                <div class="card-body">
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> : <div>No data found</div>
           )}
         </>
       </div>

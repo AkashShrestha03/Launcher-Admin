@@ -8,12 +8,20 @@ const Client = () => {
   const [clientImage, setClientImage] = useState([]);
   const [table, setTable] = useState([]);
   const [selected, setSelected] = useState({});
-  const {admin} = useSelector(state=> state.admin)
+  const [loadClient, setLoadClient] = useState(false);
+  const { admin } = useSelector((state) => state.admin);
 
   const headers = ["#", "URL", "Logo", "Actions"];
   const getClient = async () => {
+    setLoadClient(true);
     const res = await fetch(`https://api.launcherr.co/api/Show-Client`);
     const data = await res.json();
+    if (res.ok) {
+      setLoadClient(false);
+    }
+    {
+      setLoadClient(false);
+    }
     setTable(data);
     console.log(data);
   };
@@ -45,8 +53,7 @@ const Client = () => {
       const res = await fetch(`https://api.launcherr.co/api/Add-Client`, {
         method: "POST",
         headers: {
-          Authorization:
-            ` Bearer ${admin.access_token}`,
+          Authorization: ` Bearer ${admin.access_token}`,
         },
         body: formData,
       });
@@ -67,11 +74,11 @@ const Client = () => {
         icon: "success",
       });
     } catch (error) {
-       Swal.fire({
-         title: "Failed",
-         text: `OOPS.... Something went wrong`,
-         icon: "error",
-       });
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
       console.error(error);
     }
   };
@@ -117,11 +124,11 @@ const Client = () => {
         icon: "success",
       });
     } catch (error) {
-       Swal.fire({
-         title: "Failed",
-         text: `OOPS.... Something went wrong`,
-         icon: "error",
-       });
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
       console.error(error);
     }
   };
@@ -355,14 +362,19 @@ const Client = () => {
                 </div>
               </div>
             </>
-          ) : (
-            <div class="card">
-              <div class="card-body">
-                <div class="spinner-border" role="status">
-                  {" "}
-                  <span class="visually-hidden">Loading...</span>
+          ) : loadClient ? (
+            <div className="d-flex justify-content-center">
+              <div class="card">
+                <div class="card-body">
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
                 </div>
               </div>
+            </div>
+          ) : (
+            <div>
+              No data found <i class="bi bi-database-x"></i>
             </div>
           )}
         </>

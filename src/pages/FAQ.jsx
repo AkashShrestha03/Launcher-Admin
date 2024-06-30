@@ -8,6 +8,7 @@ const FAQ = () => {
   const [Faq, setFaq] = useState(false);
   const { admin } = useSelector((state) => state.admin);
   const [table, setTable] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [selected, setSelected] = useState({});
   const [search, setSearch] = useState("");
@@ -15,10 +16,15 @@ const FAQ = () => {
   // Get FAQ
 
   const getFAQ = async () => {
+    setLoading(true);
     const res = await fetch(`https://api.launcherr.co/api/Show-QueAndAns`);
     const data = await res.json();
     setTable(data);
-    console.log(data);
+    if (res.ok) {
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -148,88 +154,88 @@ const FAQ = () => {
     <>
       <h5 className="mb-0">FAQ</h5>
       <hr />
-      {table.length > 0  && table ? (
-        <>
-          <div className="card mt-4">
-            <div className="card-body">
-              <div className=" input-group d-flex gap-3">
-                {" "}
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search"
-                  aria-label="Search"
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#FAQ_add"
+      <>
+        <div className="card mt-4">
+          <div className="card-body">
+            <div className=" input-group d-flex gap-3">
+              {" "}
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search"
+                aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#FAQ_add"
+              >
+                Add New
+              </button>
+            </div>
+            <div className="d-flex align-items-center">
+              <div className="ms-auto position-relative d-flex gap-3">
+                <div
+                  className="modal fade"
+                  id="FAQ_add"
+                  tabIndex="-1"
+                  aria-hidden="true"
                 >
-                  Add New
-                </button>
-              </div>
-              <div className="d-flex align-items-center">
-                <div className="ms-auto position-relative d-flex gap-3">
-                  <div
-                    className="modal fade"
-                    id="FAQ_add"
-                    tabIndex="-1"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog modal-dialog-centered">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title">New Question</h5>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body">
-                          <form className="d-flex flex-column justify-content-center gap-3">
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Question"
-                              name="Question"
-                              onChange={handleChange}
-                            />
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Enter Answer"
-                              name="Answer"
-                              onChange={handleChange}
-                            />
-                          </form>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                            data-bs-dismiss="modal"
-                            onClick={handleSubmit}
-                          >
-                            Add
-                          </button>
-                        </div>
+                  <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title">New Question</h5>
+                        <button
+                          type="button"
+                          className="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div className="modal-body">
+                        <form className="d-flex flex-column justify-content-center gap-3">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Question"
+                            name="Question"
+                            onChange={handleChange}
+                          />
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Answer"
+                            name="Answer"
+                            onChange={handleChange}
+                          />
+                        </form>
+                      </div>
+                      <div className="modal-footer">
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="btn btn-primary"
+                          data-bs-dismiss="modal"
+                          onClick={handleSubmit}
+                        >
+                          Add
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="table-responsive mt-3">
+            </div>
+            <div className="table-responsive mt-3">
+              {table.length > 0 ? (
                 <table
                   id="example"
                   className="table table-striped table-bordered"
@@ -242,6 +248,7 @@ const FAQ = () => {
                       ))}
                     </tr>
                   </thead>
+
                   <tbody>
                     {table.length > 0
                       ? table
@@ -394,20 +401,23 @@ const FAQ = () => {
                       : null}
                   </tbody>
                 </table>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div class="card">
-          <div class="card-body">
-            <div class="spinner-border" role="status">
-              {" "}
-              <span class="visually-hidden">Loading...</span>
+              ) : loading ? (
+                <div className="d-flex justify-content-center mt-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-3">No data found</div>
+              )}
             </div>
           </div>
         </div>
-      )}
+      </>
     </>
   );
 };

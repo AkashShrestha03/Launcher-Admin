@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import {
-  AddGigsModal,
-  DeleteGigModal,
-  EditGigsModal,
-  // EmployerModal,
-} from "../components/Modals";
-import { Avatar, Box, Chip, Modal } from "@mui/material";
+import { AddGigsModal } from "../components/Modals";
+import { Avatar, Box, CircularProgress, Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { employerProfile } from "../store/adminSlice";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -26,15 +21,15 @@ const style = {
 const Gigs = () => {
   const [table, setTable] = useState([]);
   const [search, setSearch] = useState("");
+  // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState(null);
+  const [loadingVerified, setLoadingVerified] = useState(null);
+  const [loadingEmployer, setLoadingEmployer] = useState(false);
   const [employer, setEmployer] = useState({});
-  // const [openEdit, setOpenEdit] = useState(false)
-  // const [openDelete, setOpenDelete] = useState(false)
   const [openEmployer, setOpenEmployer] = useState(false);
-
   const { admin } = useSelector((state) => state.admin);
-
   const handleClose = () => {
     setOpen(false);
     getGigs();
@@ -64,6 +59,8 @@ const Gigs = () => {
         },
       });
       const data = await res.json();
+      if (res.ok) {
+      }
       setTable(data.job);
       console.log(table);
     } catch (error) {
@@ -78,6 +75,7 @@ const Gigs = () => {
   //Update Status
 
   const handleStatus = async (selectedId) => {
+    setLoadingStatus(selectedId);
     try {
       const res = await fetch(
         `https://api.launcherr.co/api/updateJobActive/${selectedId}`,
@@ -93,7 +91,9 @@ const Gigs = () => {
       console.log("response update", response);
       if (res.ok) {
         getGigs();
+        setLoadingStatus(null);
       } else {
+        setLoadingStatus(null);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong!`,
@@ -102,11 +102,13 @@ const Gigs = () => {
       }
     } catch (error) {
       console.error(error);
+      setLoadingStatus(null);
     }
   };
 
   // Update Verification
   const handleVerified = async (selectedId) => {
+    setLoadingVerified(selectedId);
     try {
       const res = await fetch(
         `https://api.launcherr.co/api/updateJobVerified/${selectedId}`,
@@ -122,6 +124,7 @@ const Gigs = () => {
       console.log(selectedId);
       console.log("response update verified", response);
       if (res.ok) {
+        setLoadingVerified(null);
         getGigs();
       } else {
         Swal.fire({
@@ -129,15 +132,18 @@ const Gigs = () => {
           text: `OOPS.... Something went wrong!`,
           icon: "error",
         });
+        setLoadingVerified(null);
       }
     } catch (error) {
       console.error(error);
+      setLoadingVerified(null);
     }
   };
 
   // Get Employer Profile
 
   const getEmployer = async (selectedId) => {
+    setLoadingEmployer(true)
     try {
       const res = await fetch(
         `https://api.launcherr.co/api/emp/${selectedId}`,
@@ -150,7 +156,12 @@ const Gigs = () => {
       );
 
       const data = await res.json();
-      setEmployer(data.profile);
+      if (res.ok) {
+        setEmployer(data.profile);
+        setLoadingEmployer(false)
+      } else {
+        setLoadingEmployer(false);
+      }
       // dispatch(employerProfile(data.profile));
 
       console.log("profile", data.profile);
@@ -197,51 +208,67 @@ const Gigs = () => {
                 </tr>
               </thead>
               <tbody>
-                {table && table.map((gigs, index) => (
-                  <tr key={index + gigs.id}>
-                    <td>{index + 1}</td>
-                    <td>{gigs.title}</td>
-                    <td className="text-wrap">{gigs.description}</td>
-                    <td>
-                      {gigs.user.id === 3 ? (
-                        "Admin"
-                      ) : (
-                        <Link
-                          onClick={() => {
-                            getEmployer(gigs.user.id);
-                            setOpenEmployer(true);
-                          }}
-                        >
-                          {gigs.user.name}
-                        </Link>
-                      )}
-                    </td>
+                {table &&
+                  table.map((gigs, index) => (
+                    <tr key={index + gigs.id}>
+                      <td>{index + 1}</td>
+                      <td>{gigs.title}</td>
+                      <td className="text-wrap">{gigs.description}</td>
+                      <td>
+                        {gigs.user.id === 3 ? (
+                          "Admin"
+                        ) : (
+                          <Link
+                            onClick={() => {
+                              getEmployer(gigs.user.id);
+                              setOpenEmployer(true);
+                            }}
+                          >
+                            {gigs.user.name}
+                          </Link>
+                        )}
+                      </td>
 
-                 
-                    <td>{gigs.duration}</td>
-                    <td
-                      onClick={() => {
-                        handleStatus(gigs.id);
-                      }}
-                    >
-                      {gigs.active === 1 ? (
-                        <button className="btn btn-success">Active</button>
-                      ) : (
-                        <button className="btn btn-danger">Inactive</button>
-                      )}
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleVerified(gigs.id);
-                      }}
-                    >
-                      {gigs.verified ? (
-                        <button className="btn btn-success">Verified</button>
-                      ) : (
-                        <button className="btn btn-danger">Unverified</button>
-                      )}
-                    </td>
-                    {/* <td>
+                      <td>{gigs.duration}</td>
+                      <td
+                        onClick={() => {
+                          handleStatus(gigs.id);
+                        }}
+                      >
+                        {gigs.active === 1 ? (
+                          <button className="btn btn-success">
+                            {loadingStatus === gigs.id ? "Loading.." : "Active"}
+                          </button>
+                        ) : (
+                          <button className="btn btn-danger">
+                            {loadingStatus === gigs.id
+                              ? "Loading.."
+                              : "Inactive"}
+                          </button>
+                        )}
+                      </td>
+                      <td
+                        onClick={() => {
+                          handleVerified(gigs.id);
+                        }}
+                      >
+                        {gigs.verified ? (
+                          <button className="btn btn-success">
+                            {" "}
+                            {loadingVerified === gigs.id
+                              ? "Loading.."
+                              : "Verified"}
+                          </button>
+                        ) : (
+                          <button className="btn btn-danger">
+                            {" "}
+                            {loadingVerified === gigs.id
+                              ? "Loading.."
+                              : "Unverified"}
+                          </button>
+                        )}
+                      </td>
+                      {/* <td>
                       <div className="table-actions d-flex align-items-center gap-3 fs-6">
                         <a
                           href="javascript:;"
@@ -263,8 +290,8 @@ const Gigs = () => {
                         />
                       </div>
                     </td> */}
-                  </tr>
-                ))}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -276,33 +303,41 @@ const Gigs = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          {employer && employer.company_name && (
+          <Box sx={style}>
+        {!loadingEmployer ? (
             <div>
-              <div className="text-center d-flex justify-content-center">
-                <Avatar>{employer.company_name[0]}</Avatar>
-              </div>
-              <div className="text-center mt-4">
-                <h4 className="mb-1">{employer.company_name}</h4>
-                <Link to={employer.company_website} className="mb-0">
-                  Website: {employer.company_name}
-                </Link>
-                <div className="mt-4"></div>
-                <h6 className="mb-1">{employer.address}</h6>
-                <div className="d-flex justify-content-center gap-2">
-                  <p className="mb-0 text-secondary">{employer.city}</p>
-                  <p className="mb-0 text-secondary">{employer.state}</p>
-                  <p className="mb-0 text-secondary">{employer.country}</p>
+              {employer && employer.company_name && (
+                <div>
+                  <div className="text-center d-flex justify-content-center">
+                    <Avatar>{employer.company_name[0]}</Avatar>
+                  </div>
+                  <div className="text-center mt-4">
+                    <h4 className="mb-1">{employer.company_name}</h4>
+                    <Link to={employer.company_website} className="mb-0">
+                      Website: {employer.company_name}
+                    </Link>
+                    <div className="mt-4"></div>
+                    <h6 className="mb-1">{employer.address}</h6>
+                    <div className="d-flex justify-content-center gap-2">
+                      <p className="mb-0 text-secondary">{employer.city}</p>
+                      <p className="mb-0 text-secondary">{employer.state}</p>
+                      <p className="mb-0 text-secondary">{employer.country}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="text-start">
+                    <h5 className="">About</h5>
+                    <p className="mb-0">{employer.about}</p>
+                  </div>
                 </div>
-              </div>
-              <hr />
-              <div className="text-start">
-                <h5 className="">About</h5>
-                <p className="mb-0">{employer.about}</p>
-              </div>
+              )}
             </div>
+          ) : (
+            <Box className="d-flex justify-content-center">
+              <CircularProgress />
+            </Box>
           )}
-        </Box>
+          </Box>
       </Modal>
     </>
   );

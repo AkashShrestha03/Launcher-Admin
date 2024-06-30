@@ -164,8 +164,6 @@ const handleChange = (e) => {
                                 alt=""
                               />
                             </td>
-
-                            
                           </tr>
                         ))}
                       </tbody>
@@ -175,11 +173,12 @@ const handleChange = (e) => {
               </div>
             </>
           ) : (
-            <div class="card">
-              <div class="card-body">
-                <div class="spinner-border" role="status">
-                  {" "}
-                  <span class="visually-hidden">Loading...</span>
+            <div className="d-flex justify-content-center">
+              <div class="card">
+                <div class="card-body">
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
                 </div>
               </div>
             </div>

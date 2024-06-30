@@ -209,7 +209,7 @@ const Coupons = () => {
         <>
           <h5 className="mb-0">Coupons</h5>
           <hr />
-          {table.length > 0  && table ? (
+          {table  && table ? (
             <>
               <div className="card mt-4">
                 <div className="card-body">

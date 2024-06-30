@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AddGigsModal } from "../components/Modals";
-import { Avatar, Box, CircularProgress, Modal } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  Modal,
+  Pagination,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -24,11 +30,14 @@ const Gigs = () => {
   // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(null);
   const [loadingVerified, setLoadingVerified] = useState(null);
   const [loadingEmployer, setLoadingEmployer] = useState(false);
   const [employer, setEmployer] = useState({});
   const [openEmployer, setOpenEmployer] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const { admin } = useSelector((state) => state.admin);
   const handleClose = () => {
     setOpen(false);
@@ -51,6 +60,7 @@ const Gigs = () => {
   // Get Jobs
 
   const getGigs = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`https://api.launcherr.co/api/job`, {
         headers: {
@@ -59,9 +69,12 @@ const Gigs = () => {
         },
       });
       const data = await res.json();
-      if (res.ok) {
-      }
       setTable(data.job);
+      if (res.ok) {
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
       console.log(table);
     } catch (error) {
       console.error(error);
@@ -143,7 +156,7 @@ const Gigs = () => {
   // Get Employer Profile
 
   const getEmployer = async (selectedId) => {
-    setLoadingEmployer(true)
+    setLoadingEmployer(true);
     try {
       const res = await fetch(
         `https://api.launcherr.co/api/emp/${selectedId}`,
@@ -158,11 +171,10 @@ const Gigs = () => {
       const data = await res.json();
       if (res.ok) {
         setEmployer(data.profile);
-        setLoadingEmployer(false)
+        setLoadingEmployer(false);
       } else {
         setLoadingEmployer(false);
       }
-      // dispatch(employerProfile(data.profile));
 
       console.log("profile", data.profile);
     } catch (error) {
@@ -170,6 +182,15 @@ const Gigs = () => {
     }
   };
 
+  // Pagination
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = table.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleChangePage = (newPage) => {
+    setCurrentPage(newPage);
+  };
   return (
     <>
       <h6 className="mb-0 text-uppercase">Gigs</h6>
@@ -195,105 +216,120 @@ const Gigs = () => {
             <AddGigsModal open={open} onClose={(open) => handleClose(open)} />
           </div>
           <div className="table-responsive">
-            <table
-              id="example"
-              className="table table-striped table-bordered"
-              style={{ width: "100%" }}
-            >
-              <thead>
-                <tr>
-                  {headers.map((header, index) => (
-                    <th key={index + header}>{header}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {table &&
-                  table.map((gigs, index) => (
-                    <tr key={index + gigs.id}>
-                      <td>{index + 1}</td>
-                      <td>{gigs.title}</td>
-                      <td className="text-wrap">{gigs.description}</td>
-                      <td>
-                        {gigs.user.id === 3 ? (
-                          "Admin"
-                        ) : (
-                          <Link
+            {table.length > 0 ? (
+              <table
+                id="example"
+                className="table table-striped table-bordered"
+                style={{ width: "100%" }}
+              >
+                <thead>
+                  <tr>
+                    {headers.map((header, index) => (
+                      <th key={index + header}>{header}</th>
+                    ))}
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {currentItems &&
+                    currentItems
+                      .filter((gigs) => {
+                        return search === ""
+                          ? gigs
+                          : gigs.title
+                              .toLowerCase()
+                              .includes(search.toLowerCase()) ||
+                              gigs.user.name
+                                .toLowerCase()
+                                .includes(search.toLowerCase());
+                      })
+                      .map((gigs, index) => (
+                        <tr key={index + gigs.id}>
+                          <td>{index + 1}</td>
+                          <td>{gigs.title}</td>
+                          <td className="text-wrap">{gigs.description}</td>
+                          <td>
+                            {gigs.user.id === 3 ? (
+                              "Admin"
+                            ) : (
+                              <Link
+                                onClick={() => {
+                                  getEmployer(gigs.user.id);
+                                  setOpenEmployer(true);
+                                }}
+                              >
+                                {gigs.user.name}
+                              </Link>
+                            )}
+                          </td>
+
+                          <td>{gigs.duration}</td>
+                          <td
                             onClick={() => {
-                              getEmployer(gigs.user.id);
-                              setOpenEmployer(true);
+                              handleStatus(gigs.id);
                             }}
                           >
-                            {gigs.user.name}
-                          </Link>
-                        )}
-                      </td>
-
-                      <td>{gigs.duration}</td>
-                      <td
-                        onClick={() => {
-                          handleStatus(gigs.id);
-                        }}
-                      >
-                        {gigs.active === 1 ? (
-                          <button className="btn btn-success">
-                            {loadingStatus === gigs.id ? "Loading.." : "Active"}
-                          </button>
-                        ) : (
-                          <button className="btn btn-danger">
-                            {loadingStatus === gigs.id
-                              ? "Loading.."
-                              : "Inactive"}
-                          </button>
-                        )}
-                      </td>
-                      <td
-                        onClick={() => {
-                          handleVerified(gigs.id);
-                        }}
-                      >
-                        {gigs.verified ? (
-                          <button className="btn btn-success">
-                            {" "}
-                            {loadingVerified === gigs.id
-                              ? "Loading.."
-                              : "Verified"}
-                          </button>
-                        ) : (
-                          <button className="btn btn-danger">
-                            {" "}
-                            {loadingVerified === gigs.id
-                              ? "Loading.."
-                              : "Unverified"}
-                          </button>
-                        )}
-                      </td>
-                      {/* <td>
-                      <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                        <a
-                          href="javascript:;"
-                          className="text-danger"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="Delete"
-                          onClick={() => {
-                            setOpenDelete(true);
-                            setSelected(gigs.id);
-                          }}
-                        >
-                          <i className="bi bi-trash-fill"></i>
-                        </a>
-                        <DeleteGigModal
-                          selected={selected}
-                          open={openDelete}
-                          onClose={(openDelete) => handleClose(openDelete)}
-                        />
-                      </div>
-                    </td> */}
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                            {gigs.active === 1 ? (
+                              <button className="btn btn-success">
+                                {loadingStatus === gigs.id
+                                  ? "Loading.."
+                                  : "Active"}
+                              </button>
+                            ) : (
+                              <button className="btn btn-danger">
+                                {loadingStatus === gigs.id
+                                  ? "Loading.."
+                                  : "Inactive"}
+                              </button>
+                            )}
+                          </td>
+                          <td
+                            onClick={() => {
+                              handleVerified(gigs.id);
+                            }}
+                          >
+                            {gigs.verified ? (
+                              <button className="btn btn-success">
+                                {" "}
+                                {loadingVerified === gigs.id
+                                  ? "Loading.."
+                                  : "Verified"}
+                              </button>
+                            ) : (
+                              <button className="btn btn-danger">
+                                {" "}
+                                {loadingVerified === gigs.id
+                                  ? "Loading.."
+                                  : "Unverified"}
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                </tbody>
+              </table>
+            ) : loading ? (
+              <div className="d-flex justify-content-center">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>No data found</div>
+            )}
+          </div>
+          <div className="d-flex justify-content-center">
+            <Pagination
+              count={Math.ceil(table.length / itemsPerPage)}
+              page={currentPage}
+              onChange={handleChangePage}
+              color="primary"
+              className="mt-3"
+            />
           </div>
         </div>
       </div>
@@ -303,8 +339,8 @@ const Gigs = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-          <Box sx={style}>
-        {!loadingEmployer ? (
+        <Box sx={style}>
+          {!loadingEmployer ? (
             <div>
               {employer && employer.company_name && (
                 <div>
@@ -337,7 +373,7 @@ const Gigs = () => {
               <CircularProgress />
             </Box>
           )}
-          </Box>
+        </Box>
       </Modal>
     </>
   );

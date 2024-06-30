@@ -11,6 +11,7 @@ const options = [
 
 const Coupons = () => {
   const [table, setTable] = useState();
+  const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState({});
   const { admin } = useSelector((state) => state.admin);
   const [coupon, setCoupon] = useState({
@@ -23,13 +24,18 @@ const Coupons = () => {
   //  Get Coupons
 
   const getCoupons = async () => {
+    setLoading(true)
     const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
     const data = await res.json();
     setTable(data.Coupon);
-    console.log("Hello", data);
+    if(res.ok){
+      setLoading(false)
+    }else{
+      setLoading(false)
+    }
   };
 
-  console.log("table", table);
+  
 
   useEffect(() => {
     getCoupons();
@@ -209,7 +215,7 @@ const Coupons = () => {
         <>
           <h5 className="mb-0">Coupons</h5>
           <hr />
-          {table  && table ? (
+          {table && table ? (
             <>
               <div className="card mt-4">
                 <div className="card-body">
@@ -368,14 +374,18 @@ const Coupons = () => {
                 </div>
               </div>
             </>
-          ) : (
-            <div class="card">
-              <div class="card-body">
-                <div class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
+          ) : loading ? (
+            <div className="d-flex justify-content-center">
+              <div class="card">
+                <div class="card-body">
+                  <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
                 </div>
               </div>
             </div>
+          ) : (
+            <div>No data found</div>
           )}
         </>
       </div>

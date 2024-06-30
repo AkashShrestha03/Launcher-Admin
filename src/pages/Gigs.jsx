@@ -197,7 +197,7 @@ const Gigs = () => {
                 </tr>
               </thead>
               <tbody>
-                {table.map((gigs, index) => (
+                {table && table.map((gigs, index) => (
                   <tr key={index + gigs.id}>
                     <td>{index + 1}</td>
                     <td>{gigs.title}</td>
@@ -217,13 +217,7 @@ const Gigs = () => {
                       )}
                     </td>
 
-                    {/* <EmployerModal
-                      profile={employer}
-                      open={openEmployer}
-                      onClose={(openEmployer) =>
-                        handleCloseProfile(openEmployer)
-                      }
-                    /> */}
+                 
                     <td>{gigs.duration}</td>
                     <td
                       onClick={() => {

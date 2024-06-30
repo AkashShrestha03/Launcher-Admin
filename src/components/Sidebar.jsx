@@ -54,7 +54,7 @@ const Sidebar = (props) => {
         </li>
 
         <li>
-          <Link to={"/gigs"}>
+          <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-droplet-fill"></i>
             </div>

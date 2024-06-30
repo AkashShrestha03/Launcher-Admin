@@ -6,7 +6,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./store/index.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Dashboard from "./pages/Dashboard.jsx";
 import Destination from "./pages/Destination.jsx";
 import Gigs from "./pages/Gigs.jsx";
 import HomePageContent from "./pages/HomePageContent.jsx";

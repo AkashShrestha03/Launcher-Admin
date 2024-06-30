@@ -133,7 +133,7 @@ const handleChange = (e) => {
         <>
           <h5 className="mb-0">Banners</h5>
           <hr />
-          {table ? (
+          {table.length > 0 && table ? (
             <>
               <div className="card mt-4">
                 <div className="card-body">

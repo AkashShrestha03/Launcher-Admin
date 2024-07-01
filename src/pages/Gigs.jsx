@@ -71,7 +71,7 @@ const Gigs = () => {
         },
       });
       const data = await res.json();
-      setTable(data.job.reverse());
+      setTable(data.job);
       if (res.ok) {
         setLoading(false);
       } else {

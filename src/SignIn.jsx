@@ -12,8 +12,9 @@ const SignIn = () => {
   };
 
   const [formValues, setFormValues] = useState(INITIAL_VALUE);
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormErrors(Validate(formValues));
-    setIsSubmit(true);
+   
 
     try {
       const res = await fetch(`https://api.launcherr.co/api/auth/login`, {
@@ -45,16 +46,12 @@ const SignIn = () => {
     }
   };
 
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
-    }
-  }, [formErrors]);
 
   return (
     <main className="authentication-content bg-login">
       <div className="container-fluid">
         <div className="row justify-content-center ">
+          
           <div className="col-12 col-lg-5 mx-auto mt-5 pt-5">
             <div className="card shadow rounded-5 overflow-hidden mt-5">
               <div className="card-body p-4 p-sm-5 mt-2">

@@ -234,7 +234,7 @@ const Gigs = () => {
 
                 <tbody>
                   {currentItems &&
-                    currentItems
+                    currentItems.reverse()
                       .filter((gigs) => {
                         return search === ""
                           ? gigs

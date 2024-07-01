@@ -135,6 +135,7 @@ export default function AccountModal(props) {
 
 export const AddGigsModal = (props) => {
   const [newGig, setNewGig] = useState();
+  const [loading, setLoading] = useState(false)
   const { admin } = useSelector((state) => state.admin);
 
   const handleChange = (e) => {
@@ -145,6 +146,7 @@ export const AddGigsModal = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     console.log("before post", newGig);
     try {
       const res = await fetch(`https://api.launcherr.co/api/addJob`, {
@@ -157,12 +159,15 @@ export const AddGigsModal = (props) => {
       });
       const response = await res.json();
       if (res.ok) {
+        setLoading(false)
+        props.onClose(false);
         Swal.fire({
           title: "Added Successfully",
           text: `Your data has been added successfully`,
           icon: "success",
         });
       } else {
+        setLoading(false);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong!`,
@@ -173,6 +178,7 @@ export const AddGigsModal = (props) => {
       console.log(res);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -226,8 +232,8 @@ export const AddGigsModal = (props) => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg mt-1">
-            Submit
+          <button type="submit" className="btn btn-primary btn-lg mt-1" disabled={loading ? true : null}>
+            {loading ? "Loading..." : "Submit"}
           </button>
         </form>
       </Box>
@@ -417,7 +423,7 @@ export const DeleteGigModal = (props) => {
 
 // export const EmployerModal = (props) => {
 //   const { employer } = useSelector((state) => state.admin);
-  
+
 // //  console.log("",props.profile);
 //   return (
 //     <Modal

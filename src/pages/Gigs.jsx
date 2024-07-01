@@ -71,7 +71,7 @@ const Gigs = () => {
         },
       });
       const data = await res.json();
-      setTable(data.job);
+      setTable(data.job.reverse());
       if (res.ok) {
         setLoading(false);
       } else {
@@ -234,7 +234,7 @@ const Gigs = () => {
 
                 <tbody>
                   {currentItems &&
-                    currentItems.reverse()
+                    currentItems
                       .filter((gigs) => {
                         return search === ""
                           ? gigs

@@ -202,7 +202,7 @@ const Gigs = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = table.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleChangePage = (event ,newPage) => {
+  const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
   return (
@@ -263,7 +263,7 @@ const Gigs = () => {
                           <td>{gigs.title}</td>
                           <td className="text-wrap">{gigs.description}</td>
                           <td>
-                            {gigs.user.id === 3 ? (
+                            {gigs.user.id === 15 ? (
                               "Admin"
                             ) : (
                               <Link
@@ -327,9 +327,7 @@ const Gigs = () => {
                   autoHideDuration={6000}
                   onClose={handleCloseSnack}
                   message="Hello"
-                >
-                 
-                </Snackbar>
+                ></Snackbar>
               </table>
             ) : loading ? (
               <div className="d-flex justify-content-center">

@@ -36,7 +36,7 @@ const Sidebar = (props) => {
       </div>
 
       <MetisMenu id="menu" className="metismenu">
-        <li>
+        <li onClick={() => props.mobile(false)}>
           <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-house-fill"></i>
@@ -44,7 +44,7 @@ const Sidebar = (props) => {
             <div className="ms-2 menu-title">Dashboard</div>
           </Link>
         </li>
-        <li>
+        <li onClick={() => props.mobile(false)}>
           <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-grid-fill"></i>
@@ -53,7 +53,7 @@ const Sidebar = (props) => {
           </Link>
         </li>
 
-        <li>
+        <li onClick={() => props.mobile(false)}>
           <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-droplet-fill"></i>
@@ -61,7 +61,7 @@ const Sidebar = (props) => {
             <div className="ms-2 menu-title">Employer Gigs</div>
           </Link>
         </li>
-        <li>
+        <li onClick={() => props.mobile(false)}>
           <Link to={"https://ecom.launcherr.co/admin"}>
             <div className="parent-icon">
               <i className="bi bi-basket2-fill"></i>
@@ -69,7 +69,7 @@ const Sidebar = (props) => {
             <div className="ms-2 menu-title">Products</div>
           </Link>
         </li>
-        <li>
+        <li onClick={() => props.mobile(false)}>
           {" "}
           <Link to={"/coupons"}>
             <div className="parent-icon">
@@ -86,44 +86,44 @@ const Sidebar = (props) => {
             <div className="menu-title ms-2">Content</div>
           </a>
           <ul>
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/homeContent"}>
                 <i className="bi bi-circle"></i>Home Page Content
               </Link>
             </li>
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/banner"}>
                 <i className="bi bi-circle"></i>Banner
               </Link>
             </li>
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/client"}>
                 <i className="bi bi-circle"></i>Client
               </Link>
             </li>
 
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/about"}>
                 <i className="bi bi-circle"></i>About
               </Link>
             </li>
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/contact"}>
                 <i className="bi bi-circle"></i>Contact
               </Link>
             </li>
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/t&c"}>
                 <i className="bi bi-circle"></i>Terms & Conditions
               </Link>
             </li>
-            <li>
+            <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/faq"}>
                 <i className="bi bi-circle"></i>FAQ

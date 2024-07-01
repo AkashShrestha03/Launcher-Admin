@@ -1,55 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  employer: null,
+  
   admin: null,
-  error: null,
-  loading: false,
+  registerSuccess: false,
 };
 
 const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    signInStart: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
     signInSuccessAdmin: (state, action) => {
       state.admin = action.payload;
-      state.loading = false;
-      state.error = null;
     },
-
-    signInFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-
-    signOut: (state, action) => {
+    signOut: (state) => {
       state.admin = null;
       localStorage.removeItem("admin");
     },
-    employerProfile: (state, action) => {
-      state.employer = action.payload;
-      
+    registerSuccessful: (state)=>{
+      state.registerSuccess = true;
     },
-    statusLoadingStart: (state, action) => {
-       state.loading = true;
+    registerComplete: (state)=>{
+      state.registerSuccess = false;
     },
-    statusLoadingEnd: (state, action) => {
-       state.loading = false;
-    }
+   
   },
 });
 
 export const {
-  signInFailure,
+ registerComplete,
   signInSuccessAdmin,
-  signInStart,
   signOut,
-  employerProfile,
-  statusLoadingStart,
-  statusLoadingEnd,
+  registerSuccessful
 } = adminSlice.actions;
 export { adminSlice };

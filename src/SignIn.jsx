@@ -1,33 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { signInSuccessAdmin } from "./store/adminSlice";
-import Validate from "./Validation/SignUp_Validation";
+import { registerComplete, signInSuccessAdmin } from "./store/adminSlice";
+import { Alert } from "@mui/material";
 
 const SignIn = () => {
   const INITIAL_VALUE = {
     email: "",
     password: "",
   };
-
+  const { registerSuccess } = useSelector((state) => state.admin);
   const [formValues, setFormValues] = useState(INITIAL_VALUE);
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [formErrors, setFormErrors] = useState({});
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
+    dispatch(registerComplete())
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormErrors(Validate(formValues));
-   
-
+    setLoading(true);
     try {
       const res = await fetch(`https://api.launcherr.co/api/auth/login`, {
         method: "POST",
@@ -40,18 +38,22 @@ const SignIn = () => {
       if (response.access_token) {
         dispatch(signInSuccessAdmin(response));
         navigate("/");
+        setLoading(false);
+      } else {
+        setErrorMsg(response.error);
+        setLoading(false);
       }
     } catch (error) {
-      console.log(error);
+      console.log("eorr", error);
+      setErrorMsg(error);
+      setLoading(false);
     }
   };
-
 
   return (
     <main className="authentication-content bg-login">
       <div className="container-fluid">
         <div className="row justify-content-center ">
-          
           <div className="col-12 col-lg-5 mx-auto mt-5 pt-5">
             <div className="card shadow rounded-5 overflow-hidden mt-5">
               <div className="card-body p-4 p-sm-5 mt-2">
@@ -70,6 +72,7 @@ const SignIn = () => {
                         <input
                           type="email"
                           name="email"
+                          required
                           onChange={handleChange}
                           className="form-control radius-30 ps-5"
                           id="inputEmailAddress"
@@ -88,6 +91,7 @@ const SignIn = () => {
                         <input
                           type="password"
                           name="password"
+                          required
                           onChange={handleChange}
                           className="form-control radius-30 ps-5"
                           id="inputChoosePassword"
@@ -113,9 +117,7 @@ const SignIn = () => {
                     </div>
                     <div className="col-6 text-end">
                       {" "}
-                      <a href="authentication-forgot-password.html">
-                        Forgot Password ?
-                      </a>
+                      <Link>Forgot Password ?</Link>
                     </div>
                     <div className="col-12">
                       <div className="d-grid">
@@ -123,7 +125,7 @@ const SignIn = () => {
                           type="submit"
                           className="btn btn-primary radius-30"
                         >
-                          Sign In
+                          {loading ? "Loading..." : "Sign In"}
                         </button>
                       </div>
                     </div>
@@ -135,6 +137,11 @@ const SignIn = () => {
                     </div>
                   </div>
                 </form>
+
+                {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+                {registerSuccess && (
+                  <Alert severity="success">SignUp Successful! Please Signin.</Alert>
+                )}
               </div>
             </div>
           </div>

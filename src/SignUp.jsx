@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Validate from "./Validation/SignUp_Validation";
+import { Alert } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { registerSuccessful } from "./store/adminSlice";
 
 const SignUp = () => {
   const INITIAL_VALUE = {
@@ -8,12 +10,11 @@ const SignUp = () => {
     email: "",
     password: "",
   };
-
   const [formValues, setFormValues] = useState(INITIAL_VALUE);
   const [loading, setLoading] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState();
+  const [errorMsg, setErrorMsg] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleOnChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
@@ -21,9 +22,6 @@ const SignUp = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setFormErrors(Validate(formValues));
-    setIsSubmit(true);
-
     try {
       setLoading(true);
       const response = await fetch(
@@ -37,22 +35,20 @@ const SignUp = () => {
         }
       );
       const res_data = await response.json();
-      console.log(response);
       if (response.ok) {
         navigate("/");
+        setLoading(false);
+        dispatch(registerSuccessful())
+      } else {
+        setLoading(false);
+        setErrorMsg(res_data.email || res_data.password);
       }
-      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
-    }
-  }, [formErrors]);
   return (
     <div class="wrapper bg-register">
       <main class="authentication-content">
@@ -76,6 +72,7 @@ const SignUp = () => {
                             type="text"
                             class="form-control radius-30 ps-5"
                             id="inputName"
+                            required
                             name="name"
                             onChange={handleOnChange}
                             placeholder="Enter Name"
@@ -92,6 +89,7 @@ const SignUp = () => {
                           </div>
                           <input
                             type="email"
+                            required
                             onChange={handleOnChange}
                             class="form-control radius-30 ps-5"
                             id="inputEmailAddress"
@@ -111,6 +109,7 @@ const SignUp = () => {
                           <input
                             type="password"
                             name="password"
+                            required
                             onChange={handleOnChange}
                             class="form-control radius-30 ps-5"
                             id="inputChoosePassword"
@@ -118,28 +117,14 @@ const SignUp = () => {
                           />
                         </div>
                       </div>
-                      <div class="col-12">
-                        <div class="form-check form-switch">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            id="flexSwitchCheckChecked"
-                          />
-                          <label
-                            class="form-check-label"
-                            for="flexSwitchCheckChecked"
-                          >
-                            I Agree to the Trems & Conditions
-                          </label>
-                        </div>
-                      </div>
+
                       <div class="col-12">
                         <div class="d-grid">
                           <button
                             type="submit"
                             class="btn btn-warning radius-30"
                           >
-                            Sign Up
+                            {loading ? "Loading..." : "Sign Up"}
                           </button>
                         </div>
                       </div>
@@ -151,6 +136,7 @@ const SignUp = () => {
                       </div>
                     </div>
                   </form>
+                  {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
                 </div>
               </div>
             </div>

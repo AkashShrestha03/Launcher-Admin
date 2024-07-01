@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AddGigsModal } from "../components/Modals";
 import {
-  Alert,
   Avatar,
   Box,
   CircularProgress,
   Modal,
   Pagination,
-  Snackbar,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -41,18 +39,8 @@ const Gigs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const { admin } = useSelector((state) => state.admin);
-  const [openSnack, setOpenSnack] = useState(false);
+  
 
-  const handleClickSnack = () => {
-    setOpenSnack(true);
-  };
-
-  const handleCloseSnack = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnack(false);
-  };
   const handleClose = () => {
     setOpen(false);
     getGigs();
@@ -281,7 +269,6 @@ const Gigs = () => {
                           <td
                             onClick={() => {
                               handleStatus(gigs.id);
-                              handleClickSnack();
                             }}
                           >
                             {gigs.active === 1 ? (
@@ -322,12 +309,6 @@ const Gigs = () => {
                         </tr>
                       ))}
                 </tbody>
-                <Snackbar
-                  open={openSnack}
-                  autoHideDuration={6000}
-                  onClose={handleCloseSnack}
-                  message="Hello"
-                ></Snackbar>
               </table>
             ) : loading ? (
               <div className="d-flex justify-content-center">

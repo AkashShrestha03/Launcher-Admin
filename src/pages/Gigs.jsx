@@ -39,7 +39,6 @@ const Gigs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const { admin } = useSelector((state) => state.admin);
-  
 
   const handleClose = () => {
     setOpen(false);
@@ -188,8 +187,13 @@ const Gigs = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = table.slice(indexOfFirstItem, indexOfLastItem);
-
+  const currentItems = table
+    .filter((gigs) => {
+      return search === ""
+        ? gigs
+        : gigs.title.toLowerCase().includes(search.toLowerCase());
+    })
+    .slice(indexOfFirstItem, indexOfLastItem);
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
@@ -234,80 +238,69 @@ const Gigs = () => {
 
                 <tbody>
                   {currentItems &&
-                    currentItems
-                      .filter((gigs) => {
-                        return search === ""
-                          ? gigs
-                          : gigs.title
-                              .toLowerCase()
-                              .includes(search.toLowerCase()) ||
-                              gigs.user.name
-                                .toLowerCase()
-                                .includes(search.toLowerCase());
-                      })
-                      .map((gigs, index) => (
-                        <tr key={index + gigs.id}>
-                          <td>{index + 1}</td>
-                          <td>{gigs.title}</td>
-                          <td className="text-wrap">{gigs.description}</td>
-                          <td>
-                            {gigs.user.id === 15 ? (
-                              "Admin"
-                            ) : (
-                              <Link
-                                onClick={() => {
-                                  getEmployer(gigs.user.id);
-                                  setOpenEmployer(true);
-                                }}
-                              >
-                                {gigs.user.name}
-                              </Link>
-                            )}
-                          </td>
+                    currentItems.map((gigs, index) => (
+                      <tr key={index + gigs.id}>
+                        <td>{index + 1}</td>
+                        <td>{gigs.title}</td>
+                        <td className="text-wrap">{gigs.description}</td>
+                        <td>
+                          {gigs.user.id === 15 ? (
+                            "Admin"
+                          ) : (
+                            <Link
+                              onClick={() => {
+                                getEmployer(gigs.user.id);
+                                setOpenEmployer(true);
+                              }}
+                            >
+                              {gigs.user.name}
+                            </Link>
+                          )}
+                        </td>
 
-                          <td>{gigs.duration}</td>
-                          <td
-                            onClick={() => {
-                              handleStatus(gigs.id);
-                            }}
-                          >
-                            {gigs.active === 1 ? (
-                              <button className="btn btn-success">
-                                {loadingStatus === gigs.id
-                                  ? "Loading.."
-                                  : "Active"}
-                              </button>
-                            ) : (
-                              <button className="btn btn-danger">
-                                {loadingStatus === gigs.id
-                                  ? "Loading.."
-                                  : "Inactive"}
-                              </button>
-                            )}
-                          </td>
-                          <td
-                            onClick={() => {
-                              handleVerified(gigs.id);
-                            }}
-                          >
-                            {gigs.verified ? (
-                              <button className="btn btn-success">
-                                {" "}
-                                {loadingVerified === gigs.id
-                                  ? "Loading.."
-                                  : "Verified"}
-                              </button>
-                            ) : (
-                              <button className="btn btn-danger">
-                                {" "}
-                                {loadingVerified === gigs.id
-                                  ? "Loading.."
-                                  : "Unverified"}
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
+                        <td>{gigs.duration}</td>
+                        <td
+                          onClick={() => {
+                            handleStatus(gigs.id);
+                          }}
+                        >
+                          {gigs.active === 1 ? (
+                            <button className="btn btn-success">
+                              {loadingStatus === gigs.id
+                                ? "Loading.."
+                                : "Active"}
+                            </button>
+                          ) : (
+                            <button className="btn btn-danger">
+                              {loadingStatus === gigs.id
+                                ? "Loading.."
+                                : "Inactive"}
+                            </button>
+                          )}
+                        </td>
+                        <td
+                          onClick={() => {
+                            handleVerified(gigs.id);
+                          }}
+                        >
+                          {gigs.verified ? (
+                            <button className="btn btn-success">
+                              {" "}
+                              {loadingVerified === gigs.id
+                                ? "Loading.."
+                                : "Verified"}
+                            </button>
+                          ) : (
+                            <button className="btn btn-danger">
+                              {" "}
+                              {loadingVerified === gigs.id
+                                ? "Loading.."
+                                : "Unverified"}
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             ) : loading ? (

@@ -63,7 +63,7 @@ const Gigs = () => {
   const getGigs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`https://api.launcherr.co/api//showJobs/Admin`, {
+      const res = await fetch(`https://api.launcherr.co/api/showJobs/Admin`, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${admin.access_token}`,

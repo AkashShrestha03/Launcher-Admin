@@ -63,7 +63,7 @@ const Gigs = () => {
   const getGigs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`https://api.launcherr.co/api/job`, {
+      const res = await fetch(`https://api.launcherr.co/api//showJobs/Admin`, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${admin.access_token}`,
@@ -188,6 +188,7 @@ const Gigs = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = table
+
     .filter((gigs) => {
       return search === ""
         ? gigs

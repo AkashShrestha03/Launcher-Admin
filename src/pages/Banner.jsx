@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 const Banner = () => {
- const [table, setTable] = useState([]);
+  const [table, setTable] = useState([]);
   const { admin } = useSelector((state) => state.admin);
- const [banner, setBanner] = useState({
-  });
-const [bannerImage, setBannerImage] = useState([]);
-const headers =["#", "Content", "Banner"]
+  const [banner, setBanner] = useState({});
+  const headers = ["#", "Heading", "Sub-heading", "Button", "Banner Image"];
 
   const getBanner = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Banner`);
@@ -20,63 +18,46 @@ const headers =["#", "Content", "Banner"]
     getBanner();
   }, []);
 
-
-const handleChange = (e) => {
-    if (e.target.name === "Banner_image") {
-      setBannerImage(e.target.files[0]);
-    } else {
-      setBanner({ ...banner, [e.target.name]: e.target.value.trim() });
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBanner({ ...banner, [name]: value.trim() });
     console.log("add", banner);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-     const formData = new FormData();
-     for (const key in banner) {
-       formData.append(key, banner[key]);
-     }
-     if (bannerImage) {
-       formData.append("Banner_image", bannerImage);
-     }
-
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
-         
+          "Content-Type": "application/json",
           Authorization: `Bearer ${admin.access_token}`,
         },
-        body: formData,
+        body: JSON.stringify(banner),
       });
       console.log(res);
-   
+
+      const data = await res.json();
+      console.log(data);
+
       if (res.ok) {
-        const data = await res.json();
-        console.log(data);
-          getBanner();
-            Swal.fire({
-              title: "Update Success",
-              text: `Your data has been updated successfully`,
-              icon: "success",
-            });
-            
+        getBanner();
+        Swal.fire({
+          title: "Update Success",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
       } else {
-        const data = await res.text();
-        console.log({ data });
-         Swal.fire({
-           title: "Failed",
-           text: `OOPS.... Something went wrong`,
-           icon: "error",
-         });
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong`,
+          icon: "error",
+        });
       }
-     
     } catch (error) {
-      
       console.error(error.message);
     }
   };
-
 
   return (
     <div className="container-fluid">
@@ -102,7 +83,7 @@ const handleChange = (e) => {
                 <option value="3">3</option>
               </select>
               <label for="exampleFormControlInput1" className="form-label">
-                Banner Content{" "}
+                Heading{" "}
               </label>
               <input
                 type="text"
@@ -110,18 +91,30 @@ const handleChange = (e) => {
                 name="Banner_heading"
                 onChange={handleChange}
                 id="exampleFormControlInput1"
-                placeholder="name@example.com"
               />
             </div>
-            <label className="d-block mb-4">
-              <span className="form-label d-block">Upload Banner</span>
+            <div className="d-block mb-4">
+              <label for="subHeading" className="form-label d-block">
+                Sub-Heading
+              </label>
               <input
-                name="Banner_image"
+                id="subHeading"
+                name="Banner_sub_heading"
                 onChange={handleChange}
-                type="file"
+                type="text"
                 className="form-control"
               />
-            </label>
+              <label for="button_text" className="form-label d-block">
+                Button Text
+              </label>
+              <input
+                id="button_text"
+                name="Banner_button_text"
+                onChange={handleChange}
+                type="text"
+                className="form-control"
+              />
+            </div>
 
             <div className="mb-3">
               <button type="submit" className="btn btn-primary px-3 rounded-3">
@@ -157,10 +150,16 @@ const handleChange = (e) => {
                             <td className="text-wrap">
                               {banner.Banner_heading}
                             </td>
-                            <td>
+                            <td className="text-wrap">
+                              {banner.Banner_sub_heading}
+                            </td>
+                            <td className="text-wrap">
+                              {banner.Banner_button_text}
+                            </td>
+                            <td className="text-wrap">
                               <img
                                 src={banner.Banner_image}
-                                style={{ height: "100px", width: "150px" }}
+                                style={{ width: "100px" }}
                                 alt=""
                               />
                             </td>
@@ -187,6 +186,6 @@ const handleChange = (e) => {
       </div>
     </div>
   );
-}
+};
 
-export default Banner
+export default Banner;

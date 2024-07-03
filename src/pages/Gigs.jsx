@@ -139,7 +139,6 @@ const Gigs = () => {
       console.log("response update verified", response);
       if (res.ok) {
         setLoadingVerified(null);
-        getGigs();
       } else {
         Swal.fire({
           title: "Failed",

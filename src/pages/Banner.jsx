@@ -6,7 +6,7 @@ const Banner = () => {
   const { admin } = useSelector((state) => state.admin);
   const [banner, setBanner] = useState({});
   const [bannerImage, setBannerImage] = useState({});
-  const headers = ["#", "Heading", "Sub-heading", "Button", "Banner Image"];
+  const headers = ["#", "Heading", "Sub-heading", "Banner Image"];
 
   const getBanner = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Banner`);
@@ -166,9 +166,9 @@ const Banner = () => {
                             <td className="text-wrap">
                               {banner.Banner_sub_heading}
                             </td>
-                            <td className="text-wrap">
+                            {/* <td className="text-wrap">
                               {banner.Banner_button_text}
-                            </td>
+                            </td> */}
                             <td className="text-wrap">
                               <img
                                 src={banner.Banner_image}

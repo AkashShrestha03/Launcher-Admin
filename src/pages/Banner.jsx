@@ -43,7 +43,7 @@ const Banner = () => {
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+        
           Authorization: `Bearer ${admin.access_token}`,
         },
         body: formData,

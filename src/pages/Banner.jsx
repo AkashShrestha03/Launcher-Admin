@@ -5,6 +5,7 @@ const Banner = () => {
   const [table, setTable] = useState([]);
   const { admin } = useSelector((state) => state.admin);
   const [banner, setBanner] = useState({});
+  const [bannerImage, setBannerImage] = useState({});
   const headers = ["#", "Heading", "Sub-heading", "Button", "Banner Image"];
 
   const getBanner = async () => {
@@ -18,22 +19,34 @@ const Banner = () => {
     getBanner();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBanner({ ...banner, [name]: value.trim() });
-    console.log("add", banner);
-  };
+
+
+   const handleChange = (e) => {
+     if (e.target.name === "Banner_image") {
+       setBannerImage(e.target.files[0]);
+     } else {
+       setBanner({ ...banner, [e.target.name]: e.target.value.trim() });
+     }
+     console.log("add", banner);
+   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+         const formData = new FormData();
+         for (const key in banner) {
+           formData.append(key, banner[key]);
+         }
+         if (bannerImage) {
+           formData.append("image", bannerImage);
+         }
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${admin.access_token}`,
         },
-        body: JSON.stringify(banner),
+        body: formData,
       });
       console.log(res);
 
@@ -105,13 +118,13 @@ const Banner = () => {
                 className="form-control"
               />
               <label for="button_text" className="form-label d-block">
-                Button Text
+                Upload Image
               </label>
               <input
                 id="button_text"
-                name="Banner_button_text"
+                name="Banner_image"
                 onChange={handleChange}
-                type="text"
+                type="file"
                 className="form-control"
               />
             </div>

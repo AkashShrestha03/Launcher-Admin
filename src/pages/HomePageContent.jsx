@@ -92,26 +92,29 @@ const HomePageContent = () => {
                   onChange={handleChange}
                   name="section"
                 >
-                  <option selected>Section</option>
-                  {table.map((section) => (
+                  <option disabled selected>Section</option>
+                  <option>Destination</option>
+                  <option>Deals</option>
+                  <option>Products</option>
+                  <option>Subscription</option>
+                  <option>Gigs</option>
+                  {/* {table.map((section) => (
                     <option value={section.section}>{section.section}</option>
-                  ))}
+                  ))} */}
                 </select>
-              ) : (
-                // <>
-                //   <label for="exampleFormControlInput1" className="form-label">
-                //     New Section
-                //   </label>
-                //   <input
-                //     type="text"
-                //     className="form-control"
-                //     id="exampleFormControlInput1"
-                //     onChange={handleChange}
-                //     name="section"
-                //   />
-                // </>
-                null
-              )}
+              ) : // <>
+              //   <label for="exampleFormControlInput1" className="form-label">
+              //     New Section
+              //   </label>
+              //   <input
+              //     type="text"
+              //     className="form-control"
+              //     id="exampleFormControlInput1"
+              //     onChange={handleChange}
+              //     name="section"
+              //   />
+              // </>
+              null}
 
               <label for="exampleFormControlInput1" className="form-label">
                 Heading
@@ -139,7 +142,6 @@ const HomePageContent = () => {
               <button type="submit" className="btn btn-primary px-3 rounded-3">
                 Update
               </button>
-             
             </div>
           </form>
         </div>
@@ -179,9 +181,7 @@ const HomePageContent = () => {
                 </div>
               </div>
             </>
-          ) : (
-
-            loading ? 
+          ) : loading ? (
             <div className="d-flex justify-content-center">
               <div class="card">
                 <div class="card-body">
@@ -190,7 +190,9 @@ const HomePageContent = () => {
                   </div>
                 </div>
               </div>
-            </div> : <div>No data found</div>
+            </div>
+          ) : (
+            <div>No data found</div>
           )}
         </>
       </div>

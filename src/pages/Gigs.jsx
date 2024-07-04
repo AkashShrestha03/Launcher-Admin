@@ -59,7 +59,7 @@ const Gigs = () => {
   ];
 
   // Get Jobs
- console.log(table);
+  console.log(table);
   const getGigs = async () => {
     setLoading(true);
     try {
@@ -71,9 +71,8 @@ const Gigs = () => {
       });
       const data = await res.json();
       setTable(data.job);
-console.log(data);
+      console.log(data);
       if (res.ok) {
-      
         setLoading(false);
       } else {
         setLoading(false);
@@ -178,7 +177,6 @@ console.log(data);
       } else {
         setLoadingEmployer(false);
       }
-
       console.log("profile", data.profile);
     } catch (error) {
       console.error(error);
@@ -189,15 +187,14 @@ console.log(data);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1
-  const currentItems =
-    table
-      .filter((gigs) => {
-        return search === ""
-          ? gigs
-          : gigs.title.toLowerCase().includes(search.toLowerCase());
-      })
-      .slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
+  const currentItems = table
+    .filter((gigs) => {
+      return search === ""
+        ? gigs
+        : gigs.title.toLowerCase().includes(search.toLowerCase());
+    })
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);

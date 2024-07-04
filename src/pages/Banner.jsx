@@ -6,7 +6,7 @@ const Banner = () => {
   const { admin } = useSelector((state) => state.admin);
   const [banner, setBanner] = useState({});
   const [bannerImage, setBannerImage] = useState({});
-  const headers = ["#",  "Banner Image"];
+  const headers = ["#", "Banner Image"];
 
   const getBanner = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Banner`);
@@ -19,31 +19,28 @@ const Banner = () => {
     getBanner();
   }, []);
 
-
-
-   const handleChange = (e) => {
-     if (e.target.name === "Banner_image") {
-       setBannerImage(e.target.files[0]);
-     } else {
-       setBanner({ ...banner, [e.target.name]: e.target.value.trim() });
-     }
-     console.log("add", banner);
-   };
+  const handleChange = (e) => {
+    if (e.target.name === "Banner_image") {
+      setBannerImage(e.target.files[0]);
+    } else {
+      setBanner({ ...banner, [e.target.name]: e.target.value.trim() });
+    }
+    console.log("add", banner);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-         const formData = new FormData();
-         for (const key in banner) {
-           formData.append(key, banner[key]);
-         }
-         if (bannerImage) {
-           formData.append("image", bannerImage);
-         }
+      const formData = new FormData();
+      for (const key in banner) {
+        formData.append(key, banner[key]);
+      }
+      if (bannerImage) {
+        formData.append("image", bannerImage);
+      }
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
-        
           Authorization: `Bearer ${admin.access_token}`,
         },
         body: formData,
@@ -127,7 +124,7 @@ const Banner = () => {
                 type="file"
                 className="form-control"
               />
-              <p className="text-danger" style={{fontSize: "14px"}}>
+              <p className="text-danger" style={{ fontSize: "14px" }}>
                 Image should have dimentions of 1440x810px.
               </p>
             </div>
@@ -162,7 +159,7 @@ const Banner = () => {
                       <tbody>
                         {table.map((banner, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td className="w-50">{index + 1}</td>
                             {/* <td className="text-wrap">
                               {banner.Banner_heading}
                             </td>

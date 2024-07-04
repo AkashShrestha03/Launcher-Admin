@@ -29,52 +29,56 @@ const Newsletter = () => {
   }, []);
 
   return (
-    <div className="card mt-4">
-      <div className="card-body">
-        <div className="table-responsive mt-3">
-          <table
-            id="example"
-            className="table table-striped table-bordered"
-            style={{ width: "100%" }}
-          >
-            {table ? (
-              loading ? (
-                <div className="d-flex justify-content-center">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
+    <>
+      <h5 className="mb-0">Newsletter</h5>
+      <hr />
+      <div className="card mt-4">
+        <div className="card-body">
+          <div className="table-responsive mt-3">
+            <table
+              id="example"
+              className="table table-striped table-bordered"
+              style={{ width: "100%" }}
+            >
+              {table ? (
+                loading ? (
+                  <div className="d-flex justify-content-center">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <>
-                  <thead>
-                    <tr>
-                      {headers.map((header, index) => (
-                        <th key={index + header}>{header}</th>
-                      ))}
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {table.map((section, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td className="text-wrap">{section.email}</td>
+                ) : (
+                  <>
+                    <thead>
+                      <tr>
+                        {headers.map((header, index) => (
+                          <th key={index + header}>{header}</th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </>
-              )
-            ) : (
-              <div>No data found</div>
-            )}
-          </table>
+                    </thead>
+
+                    <tbody>
+                      {table.map((section, index) => (
+                        <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td className="text-wrap">{section.email}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </>
+                )
+              ) : (
+                <div>No data found</div>
+              )}
+            </table>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

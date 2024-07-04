@@ -43,7 +43,7 @@ const About = () => {
       const response = await res.json();
 
       console.log("admin data", response);
-      if (response.ok) {
+      if (res.ok) {
         setResp(response.message);
         Swal.fire({
           title: "Update Success",

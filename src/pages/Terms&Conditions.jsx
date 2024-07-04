@@ -54,19 +54,27 @@ const TermsConditions = () => {
           >
             <h2>Terms & Conditions</h2>
             <div className="mb-3">
-              <textarea
+              {/* <textarea
                 type="text"
                 rows={10}
                 name="content"
                 className="form-control"
                 id="t&c"
                 onChange={handleChange}
+              /> */}
+              <label htmlFor="terms">Upload file</label>
+              <input
+                type="file"
+                id="terms"
+                onChange={handleChange}
+                accept=".doc,.docx, .pdf"
+                className="form-control"
               />
             </div>
 
             <div className="mb-3">
               <button type="submit" className="btn btn-primary px-3 rounded-3">
-                Update
+                Upload
               </button>
             </div>
           </form>

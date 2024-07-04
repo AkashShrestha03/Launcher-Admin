@@ -6,7 +6,7 @@ const Banner = () => {
   const { admin } = useSelector((state) => state.admin);
   const [banner, setBanner] = useState({});
   const [bannerImage, setBannerImage] = useState({});
-  const headers = ["#", "Heading", "Sub-heading", "Banner Image"];
+  const headers = ["#",  "Banner Image"];
 
   const getBanner = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Banner`);
@@ -95,7 +95,7 @@ const Banner = () => {
                 <option value="2">2</option>
                 <option value="3">3</option>
               </select>
-              <label for="exampleFormControlInput1" className="form-label">
+              {/* <label for="exampleFormControlInput1" className="form-label">
                 Heading{" "}
               </label>
               <input
@@ -104,10 +104,10 @@ const Banner = () => {
                 name="Banner_heading"
                 onChange={handleChange}
                 id="exampleFormControlInput1"
-              />
+              /> */}
             </div>
             <div className="d-block mb-4">
-              <label for="subHeading" className="form-label d-block">
+              {/* <label for="subHeading" className="form-label d-block">
                 Sub-Heading
               </label>
               <input
@@ -116,7 +116,7 @@ const Banner = () => {
                 onChange={handleChange}
                 type="text"
                 className="form-control"
-              />
+              /> */}
               <label for="button_text" className="form-label d-block">
                 Upload Image
               </label>
@@ -127,6 +127,9 @@ const Banner = () => {
                 type="file"
                 className="form-control"
               />
+              <p className="text-danger" style={{fontSize: "14px"}}>
+                Image should have dimentions of 1440x810px.
+              </p>
             </div>
 
             <div className="mb-3">
@@ -160,19 +163,19 @@ const Banner = () => {
                         {table.map((banner, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td className="text-wrap">
+                            {/* <td className="text-wrap">
                               {banner.Banner_heading}
                             </td>
                             <td className="text-wrap">
                               {banner.Banner_sub_heading}
-                            </td>
+                            </td> */}
                             {/* <td className="text-wrap">
                               {banner.Banner_button_text}
                             </td> */}
                             <td className="text-wrap">
                               <img
                                 src={banner.Banner_image}
-                                style={{ width: "100px" }}
+                                style={{ width: "200px" }}
                                 alt=""
                               />
                             </td>

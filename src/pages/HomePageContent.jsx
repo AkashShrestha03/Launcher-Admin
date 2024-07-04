@@ -98,18 +98,19 @@ const HomePageContent = () => {
                   ))}
                 </select>
               ) : (
-                <>
-                  <label for="exampleFormControlInput1" className="form-label">
-                    New Section
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleFormControlInput1"
-                    onChange={handleChange}
-                    name="section"
-                  />
-                </>
+                // <>
+                //   <label for="exampleFormControlInput1" className="form-label">
+                //     New Section
+                //   </label>
+                //   <input
+                //     type="text"
+                //     className="form-control"
+                //     id="exampleFormControlInput1"
+                //     onChange={handleChange}
+                //     name="section"
+                //   />
+                // </>
+                null
               )}
 
               <label for="exampleFormControlInput1" className="form-label">
@@ -138,13 +139,7 @@ const HomePageContent = () => {
               <button type="submit" className="btn btn-primary px-3 rounded-3">
                 Update
               </button>
-              <button
-                type="button"
-                className="btn btn-primary px-3 mx-4 rounded-3"
-                onClick={() => setSelect(false)}
-              >
-                Add New
-              </button>
+             
             </div>
           </form>
         </div>

@@ -138,6 +138,7 @@ const Gigs = () => {
       console.log(selectedId);
       console.log("response update verified", response);
       if (res.ok) {
+           getGigs();
         setLoadingVerified(null);
       } else {
         Swal.fire({
@@ -186,14 +187,13 @@ const Gigs = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = table
-
-    .filter((gigs) => {
+  const currentItems = table.filter((gigs) => {
       return search === ""
         ? gigs
         : gigs.title.toLowerCase().includes(search.toLowerCase());
     })
     .slice(indexOfFirstItem, indexOfLastItem);
+    
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };

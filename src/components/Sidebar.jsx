@@ -71,6 +71,24 @@ const Sidebar = (props) => {
             <div className="ms-2 menu-title">Coupons</div>
           </Link>
         </li>
+        <li onClick={() => props.mobile(false)}>
+          {" "}
+          <Link to={"/response"}>
+            <div className="parent-icon">
+              <i className="bi bi-ticket-detailed"></i>
+            </div>
+            <div className="ms-2 menu-title">Quiz Responses</div>
+          </Link>
+        </li>
+        <li onClick={() => props.mobile(false)}>
+          {" "}
+          <Link to={"/newsletter"}>
+            <div className="parent-icon">
+              <i className="bi bi-ticket-detailed"></i>
+            </div>
+            <div className="ms-2 menu-title">Newsletter</div>
+          </Link>
+        </li>
         <li>
           <a className="has-arrow cursor-pointer">
             <div className="parent-icon">

@@ -187,13 +187,14 @@ const Gigs = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = table.filter((gigs) => {
-      return search === ""
-        ? gigs
-        : gigs.title.toLowerCase().includes(search.toLowerCase());
-    })
-    .slice(indexOfFirstItem, indexOfLastItem);
-    
+  const currentItems = table.
+  // filter((gigs) => {
+  //     return search === ""
+  //       ? gigs
+  //       : gigs.title.toLowerCase().includes(search.toLowerCase());
+  //   })
+    slice(indexOfFirstItem, indexOfLastItem);
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };

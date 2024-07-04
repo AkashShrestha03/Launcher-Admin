@@ -21,13 +21,14 @@ import SignIn from "./SignIn.jsx";
 import SignUp from "./SignUp.jsx";
 import Client from "./pages/Client.jsx";
 import Coupons from "./pages/Coupons.jsx";
+import Responses from "./pages/Responses.jsx";
+import Newsletter from "./pages/Newsletter.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-     
       { path: "/destination", element: <Destination /> },
       { path: "/", element: <Gigs /> },
       { path: "/homeContent", element: <HomePageContent /> },
@@ -39,6 +40,8 @@ const router = createBrowserRouter([
       { path: "/products", element: <Products /> },
       { path: "/client", element: <Client /> },
       { path: "/coupons", element: <Coupons /> },
+      { path: "/response", element: <Responses /> },
+      { path: "/newsletter", element: <Newsletter /> },
     ],
   },
   { path: "/signup", element: <SignUp /> },

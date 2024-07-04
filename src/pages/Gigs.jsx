@@ -59,7 +59,7 @@ const Gigs = () => {
   ];
 
   // Get Jobs
-
+ console.log(table);
   const getGigs = async () => {
     setLoading(true);
     try {
@@ -73,7 +73,7 @@ const Gigs = () => {
       setTable(data.job);
 console.log(data);
       if (res.ok) {
-        console.log("table", table);
+      
         setLoading(false);
       } else {
         setLoading(false);
@@ -189,16 +189,16 @@ console.log(data);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = table && Math.ceil(table.length / itemsPerPage)
+  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 0
   const currentItems =
-    table &&
+    table ?
     table
       .filter((gigs) => {
         return search === ""
           ? gigs
           : gigs.title.toLowerCase().includes(search.toLowerCase());
       })
-      .slice(indexOfFirstItem, indexOfLastItem);
+      .slice(indexOfFirstItem, indexOfLastItem) : null
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
@@ -227,8 +227,8 @@ console.log(data);
             </button>
             <AddGigsModal open={open} onClose={(open) => handleClose(open)} />
           </div>
-          <div className="table-responsive">
             {table ? (
+          <div className="table-responsive">
               <table
                 id="example"
                 className="table table-striped table-bordered"
@@ -309,6 +309,7 @@ console.log(data);
                     ))}
                 </tbody>
               </table>
+          </div>
             ) : loading ? (
               <div className="d-flex justify-content-center">
                 <div class="card">
@@ -322,7 +323,6 @@ console.log(data);
             ) : (
               <div>No data found</div>
             )}
-          </div>
           <div className="d-flex justify-content-center">
             <Pagination
               count={totalPages}

@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const About = () => {
   const [formValues, setFormValues] = useState({});
+  const [about, setAbout] = useState({})
   const [resp, setResp] = useState();
   const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
   const { admin } = useSelector((state) => state.admin);
+
+   const getAbout = async () => {
+     
+     const res = await fetch(`https://api.launcherr.co/api/Show-About`);
+     const data = await res.json();
+     setAbout(data);
+     
+   };
+
+   useEffect(() => {
+     getAbout();
+   }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,12 +45,18 @@ const About = () => {
       console.log("admin data", response);
       if (response.ok) {
         setResp(response.message);
+        Swal.fire({
+          title: "Update Success",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
+      }else{
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong`,
+          icon: "error",
+        });
       }
-      Swal.fire({
-        title: "Update Success",
-        text: `Your data has been updated successfully`,
-        icon: "success",
-      });
       console.log("hello", resp);
     } catch (error) {
        Swal.fire({
@@ -68,6 +87,7 @@ const About = () => {
                 className="form-control"
                 id="aboutHeading"
                 name="heading"
+                placeholder={about.heading}
                 onChange={handleChange}
               />
               <label for="exampleFormControlInput1" className="form-label">
@@ -78,6 +98,7 @@ const About = () => {
                 className="form-control"
                 id="exampleFormControlInput1"
                 name="content"
+                placeholder={about.content}
                 onChange={handleChange}
               />
             </div>
@@ -86,6 +107,7 @@ const About = () => {
               <input
                 type="text"
                 className="form-control"
+                placeholder={about.url}
                 id="aboutURL"
                 name="url"
                 onChange={handleChange}

@@ -1,11 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import Swal from "sweetalert2";
 
 const Contact = () => {
    const [formValues, setFormValues] = useState({});
+   const [contact, setContact] = useState([])
    const [isSubmit, setIsSubmit] = useState(false);
    const {admin} = useSelector(state=>state.admin)
+
+
+
+
+const getContact = async () => {
+  const res = await fetch(`https://api.launcherr.co/api/Show-Details`);
+  const data = await res.json();
+  setContact(data);
+};
+
+useEffect(() => {
+  getContact();
+}, []);
+
     const handleChange = (event) => {
       const { name, value } = event.target;
       setFormValues({ ...formValues, [name]: value.trim() });
@@ -60,7 +75,7 @@ const Contact = () => {
                 type="text"
                 className="form-control"
                 id="email"
-                placeholder="Company Name"
+                placeholder={contact.company_name}
                 name="company_name"
                 onChange={handleChange}
               />
@@ -72,7 +87,7 @@ const Contact = () => {
                 name="company_address"
                 className="form-control"
                 id="email"
-                placeholder="Company Address"
+                placeholder={contact.company_address}
                 onChange={handleChange}
               />
               <label for="email" className="form-label">
@@ -84,7 +99,7 @@ const Contact = () => {
                 className="form-control"
                 id="email"
                 onChange={handleChange}
-                placeholder="name@example.com"
+                placeholder={contact.company_email}
               />
               <label for="phone" className="form-label">
                 Phone Number
@@ -94,6 +109,7 @@ const Contact = () => {
                 className="form-control"
                 onChange={handleChange}
                 id="phone"
+                placeholder={contact.company_contact}
                 name="company_contact"
               />
               <label for="address" className="form-label">
@@ -102,7 +118,7 @@ const Contact = () => {
               <input
                 type="text"
                 onChange={handleChange}
-                placeholder="9AM - 5PM"
+                placeholder={contact.company_timing}
                 className="form-control"
                 id="address"
                 name="company_timing"
@@ -110,15 +126,11 @@ const Contact = () => {
             </div>
 
             <div className="mb-3">
-              <button
-                type="submit"
-                className="btn btn-primary px-3 rounded-3"
-              >
+              <button type="submit" className="btn btn-primary px-3 rounded-3">
                 Update
               </button>
             </div>
           </form>
-         
         </div>
       </div>
     </div>

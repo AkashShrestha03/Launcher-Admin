@@ -39,34 +39,40 @@ const {admin} = useSelector(state => state.admin)
             className="table table-striped table-bordered"
             style={{ width: "100%" }}
           >
-            <thead>
-              <tr>
-                {headers.map((header, index) => (
-                  <th key={index + header}>{header}</th>
-                ))}
-              </tr>
-            </thead>
+            {" "}
             {table ? (
-              <tbody>
-                {table.map((section, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td className="text-wrap">{section.email}</td>
-                    <td className="text-wrap">{section.phone}</td>
-                    <td className="text-wrap">{section.answer1}</td>
-                  </tr>
-                ))}
-              </tbody>
-            ) : loading ? (
-              <div className="d-flex justify-content-center">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="spinner-border" role="status">
-                      <span class="visually-hidden">Loading...</span>
+              loading ? (
+                <div className="d-flex justify-content-center">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <thead>
+                    <tr>
+                      {headers.map((header, index) => (
+                        <th key={index + header}>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {table.map((section, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td className="text-wrap">{section.email}</td>
+                        <td className="text-wrap">{section.phone}</td>
+                        <td className="text-wrap">{section.answer1}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              )
             ) : (
               <div>No data found</div>
             )}

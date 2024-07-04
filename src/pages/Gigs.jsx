@@ -189,16 +189,15 @@ console.log(data);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 0
+  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1
   const currentItems =
-    table ?
     table
       .filter((gigs) => {
         return search === ""
           ? gigs
           : gigs.title.toLowerCase().includes(search.toLowerCase());
       })
-      .slice(indexOfFirstItem, indexOfLastItem) : null
+      .slice(indexOfFirstItem, indexOfLastItem)
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
@@ -227,90 +226,8 @@ console.log(data);
             </button>
             <AddGigsModal open={open} onClose={(open) => handleClose(open)} />
           </div>
-            {table ? (
-          <div className="table-responsive">
-              <table
-                id="example"
-                className="table table-striped table-bordered"
-                style={{ width: "100%" }}
-              >
-                <thead>
-                  <tr>
-                    {headers.map((header, index) => (
-                      <th key={index + header}>{header}</th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {currentItems &&
-                    currentItems.map((gigs, index) => (
-                      <tr key={index + gigs.id}>
-                        <td>{index + 1}</td>
-                        <td>{gigs.title}</td>
-                        <td className="text-wrap">{gigs.description}</td>
-                        <td>
-                          {gigs.user.id === 15 ? (
-                            "Admin"
-                          ) : (
-                            <Link
-                              onClick={() => {
-                                getEmployer(gigs.user.id);
-                                setOpenEmployer(true);
-                              }}
-                            >
-                              {gigs.user.name}
-                            </Link>
-                          )}
-                        </td>
-
-                        <td>{gigs.duration}</td>
-                        <td
-                          onClick={() => {
-                            handleStatus(gigs.id);
-                          }}
-                        >
-                          {gigs.active === 1 ? (
-                            <button className="btn btn-success">
-                              {loadingStatus === gigs.id
-                                ? "Loading.."
-                                : "Active"}
-                            </button>
-                          ) : (
-                            <button className="btn btn-danger">
-                              {loadingStatus === gigs.id
-                                ? "Loading.."
-                                : "Inactive"}
-                            </button>
-                          )}
-                        </td>
-                        <td
-                          onClick={() => {
-                            handleVerified(gigs.id);
-                          }}
-                        >
-                          {gigs.verified ? (
-                            <button className="btn btn-success">
-                              {" "}
-                              {loadingVerified === gigs.id
-                                ? "Loading.."
-                                : "Verified"}
-                            </button>
-                          ) : (
-                            <button className="btn btn-danger">
-                              {" "}
-                              {loadingVerified === gigs.id
-                                ? "Loading.."
-                                : "Unverified"}
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-          </div>
-            ) : loading ? (
+          {table ? (
+            loading ? (
               <div className="d-flex justify-content-center">
                 <div class="card">
                   <div class="card-body">
@@ -321,8 +238,92 @@ console.log(data);
                 </div>
               </div>
             ) : (
-              <div>No data found</div>
-            )}
+              <div className="table-responsive">
+                <table
+                  id="example"
+                  className="table table-striped table-bordered"
+                  style={{ width: "100%" }}
+                >
+                  <thead>
+                    <tr>
+                      {headers.map((header, index) => (
+                        <th key={index + header}>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {currentItems &&
+                      currentItems.map((gigs, index) => (
+                        <tr key={index + gigs.id}>
+                          <td>{index + 1}</td>
+                          <td>{gigs.title}</td>
+                          <td className="text-wrap">{gigs.description}</td>
+                          <td>
+                            {gigs.user.id === 15 ? (
+                              "Admin"
+                            ) : (
+                              <Link
+                                onClick={() => {
+                                  getEmployer(gigs.user.id);
+                                  setOpenEmployer(true);
+                                }}
+                              >
+                                {gigs.user.name}
+                              </Link>
+                            )}
+                          </td>
+
+                          <td>{gigs.duration}</td>
+                          <td
+                            onClick={() => {
+                              handleStatus(gigs.id);
+                            }}
+                          >
+                            {gigs.active === 1 ? (
+                              <button className="btn btn-success">
+                                {loadingStatus === gigs.id
+                                  ? "Loading.."
+                                  : "Active"}
+                              </button>
+                            ) : (
+                              <button className="btn btn-danger">
+                                {loadingStatus === gigs.id
+                                  ? "Loading.."
+                                  : "Inactive"}
+                              </button>
+                            )}
+                          </td>
+                          <td
+                            onClick={() => {
+                              handleVerified(gigs.id);
+                            }}
+                          >
+                            {gigs.verified ? (
+                              <button className="btn btn-success">
+                                {" "}
+                                {loadingVerified === gigs.id
+                                  ? "Loading.."
+                                  : "Verified"}
+                              </button>
+                            ) : (
+                              <button className="btn btn-danger">
+                                {" "}
+                                {loadingVerified === gigs.id
+                                  ? "Loading.."
+                                  : "Unverified"}
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+          ) : (
+            <div>No data found</div>
+          )}
           <div className="d-flex justify-content-center">
             <Pagination
               count={totalPages}

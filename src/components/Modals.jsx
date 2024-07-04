@@ -168,6 +168,7 @@ export const AddGigsModal = (props) => {
         });
       } else {
         setLoading(false);
+         props.onClose(false);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong!`,

@@ -71,7 +71,7 @@ const Gigs = () => {
       });
       const data = await res.json();
       setTable(data.job);
-
+console.log(data);
       if (res.ok) {
         console.log("table", table);
         setLoading(false);

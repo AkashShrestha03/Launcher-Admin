@@ -71,9 +71,9 @@ const Gigs = () => {
       });
       const data = await res.json();
       setTable(data.job);
-   
+
       if (res.ok) {
-           console.log("table", table);
+        console.log("table", table);
         setLoading(false);
       } else {
         setLoading(false);
@@ -140,7 +140,7 @@ const Gigs = () => {
       console.log(selectedId);
       console.log("response update verified", response);
       if (res.ok) {
-           getGigs();
+        getGigs();
         setLoadingVerified(null);
       } else {
         Swal.fire({
@@ -189,13 +189,15 @@ const Gigs = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = table && table.
-  filter((gigs) => {
-      return search === ""
-        ? gigs
-        : gigs.title.toLowerCase().includes(search.toLowerCase());
-    })
-    .slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems =
+    table &&
+    table
+      .filter((gigs) => {
+        return search === ""
+          ? gigs
+          : gigs.title.toLowerCase().includes(search.toLowerCase());
+      })
+      .slice(indexOfFirstItem, indexOfLastItem);
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
@@ -225,7 +227,7 @@ const Gigs = () => {
             <AddGigsModal open={open} onClose={(open) => handleClose(open)} />
           </div>
           <div className="table-responsive">
-            {table.length > 0 ? (
+            {table? (
               <table
                 id="example"
                 className="table table-striped table-bordered"

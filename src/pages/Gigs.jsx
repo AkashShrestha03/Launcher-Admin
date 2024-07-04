@@ -189,6 +189,7 @@ const Gigs = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const totalPages = table && Math.ceil(table.length / itemsPerPage)
   const currentItems =
     table &&
     table
@@ -227,7 +228,7 @@ const Gigs = () => {
             <AddGigsModal open={open} onClose={(open) => handleClose(open)} />
           </div>
           <div className="table-responsive">
-            {table? (
+            {table ? (
               <table
                 id="example"
                 className="table table-striped table-bordered"
@@ -324,7 +325,7 @@ const Gigs = () => {
           </div>
           <div className="d-flex justify-content-center">
             <Pagination
-              count={Math.ceil(table.length / itemsPerPage)}
+              count={totalPages}
               page={currentPage}
               onChange={handleChangePage}
               color="primary"

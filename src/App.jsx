@@ -12,9 +12,7 @@ import "./assets/css/pace.min.css";
 import "./assets/css/style.css";
 
 // Js imports
-import "./assets/plugins/apexcharts-bundle/js/apex-custom";
-import "./assets/js/app.js";
-import "./assets/plugins/apexcharts-bundle/js/apexcharts.min.js";
+
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import SignIn from "./SignIn.jsx";

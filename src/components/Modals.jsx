@@ -211,6 +211,27 @@ export const AddGigsModal = (props) => {
             />
           </div>
           <div>
+            <label htmlFor="title">Location</label>
+            <select
+              className="form-select mb-3"
+              aria-label="Default select example"
+              onChange={handleChange}
+              name="duration"
+            >
+              <option disabled selected>
+                Section
+              </option>
+              <option>Destination</option>
+              <option>Deals</option>
+              <option>Products</option>
+              <option>Subscription</option>
+              <option>Gigs</option>
+              {/* {table.map((section) => (
+                    <option value={section.section}>{section.section}</option>
+                  ))} */}
+            </select>
+          </div>
+          <div>
             <label htmlFor="description">Description</label>
             <textarea
               type="text"
@@ -233,7 +254,11 @@ export const AddGigsModal = (props) => {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg mt-1" disabled={loading ? true : null}>
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg mt-1"
+            disabled={loading ? true : null}
+          >
             {loading ? "Loading..." : "Submit"}
           </button>
         </form>

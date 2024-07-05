@@ -12,6 +12,9 @@ const HomePageContent = () => {
   const headers = ["#", "Heading", "Content"]; //Table headers
 
   //Get content
+console.log("a",table);
+const arr = Object.values(table)
+console.log(arr);
 
   const getContent = async () => {
     setLoading(true)
@@ -35,6 +38,7 @@ const HomePageContent = () => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
     console.log(formValues);
+    
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +74,11 @@ const HomePageContent = () => {
       }
       
     } catch (error) {
-  
+    Swal.fire({
+      title: "Failed",
+      text: `OOPS.... Something went wrong`,
+      icon: "error",
+    });
       console.log(error);
     }
   };
@@ -92,7 +100,9 @@ const HomePageContent = () => {
                   onChange={handleChange}
                   name="section"
                 >
-                  <option disabled selected>Section</option>
+                  <option disabled selected>
+                    Section
+                  </option>
                   <option>Destination</option>
                   <option>Deals</option>
                   <option>Products</option>
@@ -148,7 +158,7 @@ const HomePageContent = () => {
         <>
           <h5 className="mb-0">Sections</h5>
           <hr />
-          {table.length > 0 && table ? (
+          {arr.length > 0 && arr ? (
             <>
               <div className="card mt-4">
                 <div className="card-body">
@@ -166,7 +176,7 @@ const HomePageContent = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {table.map((section, index) => (
+                        {arr.map((section, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-wrap">{section.heading}</td>

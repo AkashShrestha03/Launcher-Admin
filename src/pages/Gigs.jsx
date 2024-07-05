@@ -52,6 +52,7 @@ const Gigs = () => {
     "#",
     "Title",
     "Description",
+    "Location",
     "Employer",
     "Duration",
     "Status",
@@ -256,6 +257,7 @@ const Gigs = () => {
                           <td>{index + 1}</td>
                           <td>{gigs.title}</td>
                           <td className="text-wrap">{gigs.description}</td>
+                          <td>{gigs.location}</td>
                           <td>
                             {gigs.user.id === 15 ? (
                               "Admin"

@@ -50,27 +50,27 @@ const SignUp = () => {
   };
 
   return (
-    <div class="wrapper bg-register">
-      <main class="authentication-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12 col-lg-5 mx-auto mt-5 pt-5">
-              <div class="card shadow rounded-5 overflow-hidden">
-                <div class="card-body p-4 p-sm-5">
-                  <h5 class="card-title">Sign Up</h5>
-                  <form class="form-body" onSubmit={handleSubmit}>
-                    <div class="row g-3">
-                      <div class="col-12 ">
-                        <label for="inputName" class="form-label">
+    <div className="wrapper bg-register">
+      <main className="authentication-content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12 col-lg-5 mx-auto mt-5 pt-5">
+              <div className="card shadow rounded-5 overflow-hidden">
+                <div className="card-body p-4 p-sm-5">
+                  <h5 className="card-title">Sign Up</h5>
+                  <form className="form-body" onSubmit={handleSubmit}>
+                    <div className="row g-3">
+                      <div className="col-12 ">
+                        <label htmlFor="inputName" className="form-label">
                           Name
                         </label>
-                        <div class="ms-auto position-relative">
-                          <div class="position-absolute top-50 translate-middle-y search-icon px-3">
-                            <i class="bi bi-person-circle"></i>
+                        <div className="ms-auto position-relative">
+                          <div className="position-absolute top-50 translate-middle-y search-icon px-3">
+                            <i className="bi bi-person-circle"></i>
                           </div>
                           <input
                             type="text"
-                            class="form-control radius-30 ps-5"
+                            className="form-control radius-30 ps-5"
                             id="inputName"
                             required
                             name="name"
@@ -79,57 +79,57 @@ const SignUp = () => {
                           />
                         </div>
                       </div>
-                      <div class="col-12">
-                        <label for="inputEmailAddress" class="form-label">
+                      <div className="col-12">
+                        <label htmlFor="inputEmailAddress" className="form-label">
                           Email Address
                         </label>
-                        <div class="ms-auto position-relative">
-                          <div class="position-absolute top-50 translate-middle-y search-icon px-3">
-                            <i class="bi bi-envelope-fill"></i>
+                        <div className="ms-auto position-relative">
+                          <div className="position-absolute top-50 translate-middle-y search-icon px-3">
+                            <i className="bi bi-envelope-fill"></i>
                           </div>
                           <input
                             type="email"
                             required
                             onChange={handleOnChange}
-                            class="form-control radius-30 ps-5"
+                            className="form-control radius-30 ps-5"
                             id="inputEmailAddress"
                             name="email"
                             placeholder="Email Address"
                           />
                         </div>
                       </div>
-                      <div class="col-12">
-                        <label for="inputChoosePassword" class="form-label">
+                      <div className="col-12">
+                        <label htmlFor="inputChoosePassword" className="form-label">
                           Enter Password
                         </label>
-                        <div class="ms-auto position-relative">
-                          <div class="position-absolute top-50 translate-middle-y search-icon px-3">
-                            <i class="bi bi-lock-fill"></i>
+                        <div className="ms-auto position-relative">
+                          <div className="position-absolute top-50 translate-middle-y search-icon px-3">
+                            <i className="bi bi-lock-fill"></i>
                           </div>
                           <input
                             type="password"
                             name="password"
                             required
                             onChange={handleOnChange}
-                            class="form-control radius-30 ps-5"
+                            className="form-control radius-30 ps-5"
                             id="inputChoosePassword"
                             placeholder="Enter Password"
                           />
                         </div>
                       </div>
 
-                      <div class="col-12">
-                        <div class="d-grid">
+                      <div className="col-12">
+                        <div className="d-grid">
                           <button
                             type="submit"
-                            class="btn btn-warning radius-30"
+                            className="btn btn-warning radius-30"
                           >
                             {loading ? "Loading..." : "Sign Up"}
                           </button>
                         </div>
                       </div>
-                      <div class="col-12">
-                        <p class="mb-0">
+                      <div className="col-12">
+                        <p className="mb-0">
                           Already have an account?{" "}
                           <Link to={"/"}>Sign in here</Link>
                         </p>

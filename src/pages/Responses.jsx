@@ -54,10 +54,10 @@ const {admin} = useSelector(state => state.admin)
               {table ? (
                 loading ? (
                   <div className="d-flex justify-content-center">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="spinner-border" role="status">
-                          <span class="visually-hidden">Loading...</span>
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="spinner-border" role="status">
+                          <span className="visually-hidden">Loading...</span>
                         </div>
                       </div>
                     </div>

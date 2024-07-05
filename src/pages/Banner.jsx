@@ -77,7 +77,7 @@ const Banner = () => {
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
             onSubmit={handleSubmit}
           >
             <h2>Upload Banners</h2>
@@ -115,7 +115,7 @@ const Banner = () => {
                 type="text"
                 className="form-control"
               /> */}
-              <label for="button_text" className="form-label d-block">
+              <label htmlFor="button_text" className="form-label d-block">
                 Upload Image
               </label>
               <input

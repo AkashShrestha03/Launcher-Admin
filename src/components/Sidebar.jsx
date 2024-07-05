@@ -74,7 +74,7 @@ const Sidebar = (props) => {
           {" "}
           <Link to={"/response"}>
             <div className="parent-icon">
-          <i class="bi bi-book"></i>
+          <i className="bi bi-book"></i>
             </div>
             <div className="ms-2 menu-title">Quiz Responses</div>
           </Link>
@@ -83,7 +83,7 @@ const Sidebar = (props) => {
           {" "}
           <Link to={"/newsletter"}>
             <div className="parent-icon">
-              <i class="bi bi-envelope-at"></i>
+              <i className="bi bi-envelope-at"></i>
             </div>
             <div className="ms-2 menu-title">Newsletter</div>
           </Link>

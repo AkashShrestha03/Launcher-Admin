@@ -287,7 +287,7 @@ const Coupons = () => {
                 name="coupon_places"
               />
 
-              <label for="exampleFormControlInput1" className="form-label">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 Coupon Code
               </label>
               <input
@@ -297,7 +297,7 @@ const Coupons = () => {
                 onChange={handleChange}
                 name="coupon_code"
               />
-              <label for="headingContent" className="form-label">
+              <label htmlFor="headingContent" className="form-label">
                 Discount(%)
               </label>
               <input
@@ -480,10 +480,10 @@ const Coupons = () => {
             </>
           ) : loading ? (
             <div className="d-flex justify-content-center">
-              <div class="card">
-                <div class="card-body">
-                  <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
+              <div className="card">
+                <div className="card-body">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
                 </div>
               </div>

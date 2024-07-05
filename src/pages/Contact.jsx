@@ -68,7 +68,7 @@ useEffect(() => {
           >
             <h2>Contact Details</h2>
             <div className="mb-3">
-              <label for="email" className="form-label">
+              <label htmlFor="email" className="form-label">
                 Company Name
               </label>
               <input
@@ -79,7 +79,7 @@ useEffect(() => {
                 name="company_name"
                 onChange={handleChange}
               />
-              <label for="email" className="form-label">
+              <label htmlFor="email" className="form-label">
                 Company Address
               </label>
               <input
@@ -90,7 +90,7 @@ useEffect(() => {
                 placeholder={contact.company_address}
                 onChange={handleChange}
               />
-              <label for="email" className="form-label">
+              <label htmlFor="email" className="form-label">
                 Email Address
               </label>
               <input
@@ -101,7 +101,7 @@ useEffect(() => {
                 onChange={handleChange}
                 placeholder={contact.company_email}
               />
-              <label for="phone" className="form-label">
+              <label htmlFor="phone" className="form-label">
                 Phone Number
               </label>
               <input
@@ -112,7 +112,7 @@ useEffect(() => {
                 placeholder={contact.company_contact}
                 name="company_contact"
               />
-              <label for="address" className="form-label">
+              <label htmlFor="address" className="form-label">
                 Company Timing
               </label>
               <input

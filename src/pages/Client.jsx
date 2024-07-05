@@ -171,7 +171,7 @@ const Client = () => {
           >
             <h2>Upload Client</h2>
             <div className="mb-3">
-              <label for="exampleFormControlInput1" className="form-label">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 URL
               </label>
               <input
@@ -364,17 +364,17 @@ const Client = () => {
             </>
           ) : loadClient ? (
             <div className="d-flex justify-content-center">
-              <div class="card">
-                <div class="card-body">
-                  <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
+              <div className="card">
+                <div className="card-body">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
             <div>
-              No data found <i class="bi bi-database-x"></i>
+              No data found <i className="bi bi-database-x"></i>
             </div>
           )}
         </>

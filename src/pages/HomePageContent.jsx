@@ -116,7 +116,7 @@ const HomePageContent = () => {
               // </>
               null}
 
-              <label for="exampleFormControlInput1" className="form-label">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 Heading
               </label>
               <input
@@ -126,7 +126,7 @@ const HomePageContent = () => {
                 onChange={handleChange}
                 name="heading"
               />
-              <label for="headingContent" className="form-label">
+              <label htmlFor="headingContent" className="form-label">
                 Content
               </label>
               <textarea
@@ -183,10 +183,10 @@ const HomePageContent = () => {
             </>
           ) : loading ? (
             <div className="d-flex justify-content-center">
-              <div class="card">
-                <div class="card-body">
-                  <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
+              <div className="card">
+                <div className="card-body">
+                  <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
                 </div>
               </div>

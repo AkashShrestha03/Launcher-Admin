@@ -62,7 +62,7 @@ const SignIn = () => {
                 <form className="form-body mt-4" onSubmit={handleSubmit}>
                   <div className="row g-3">
                     <div className="col-12">
-                      <label for="inputEmailAddress" className="form-label">
+                      <label htmlFor="inputEmailAddress" className="form-label">
                         Email Address
                       </label>
                       <div className="ms-auto position-relative">
@@ -81,7 +81,7 @@ const SignIn = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <label for="inputChoosePassword" className="form-label">
+                      <label htmlFor="inputChoosePassword" className="form-label">
                         Enter Password
                       </label>
                       <div className="ms-auto position-relative">
@@ -109,7 +109,7 @@ const SignIn = () => {
                         />
                         <label
                           className="form-check-label"
-                          for="flexSwitchCheckChecked"
+                          htmlFor="flexSwitchCheckChecked"
                         >
                           Remember Me
                         </label>

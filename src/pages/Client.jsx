@@ -165,7 +165,7 @@ const Client = () => {
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
             onSubmit={handleSubmit}
           >
             <h2>Upload Client</h2>

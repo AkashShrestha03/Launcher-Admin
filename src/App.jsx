@@ -13,15 +13,33 @@ import "./assets/css/style.css";
 
 // Js imports
 
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SignIn from "./SignIn.jsx";
+import { signOut } from "./store/adminSlice.js";
 
 const App = () => {
   const [toggled, setToggled] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
-  const {admin } = useSelector(state=> state.admin)
+  const { admin, tokenExpiry } = useSelector((state) => state.admin);
+const dispatch = useDispatch()
+
+ useEffect(() => {
+   if (tokenExpiry) {
+     const timeLeft = tokenExpiry - Date.now();
+     if (timeLeft <= 0) {
+       dispatch(signOut());
+     } else {
+       const timer = setTimeout(() => {
+         dispatch(signOut());
+       }, timeLeft);
+
+       return () => clearTimeout(timer);
+     }
+   }
+ }, [tokenExpiry, dispatch]);
+
   return (
     <div
       className={`wrapper ${toggled ? "toggled" : ""} ${

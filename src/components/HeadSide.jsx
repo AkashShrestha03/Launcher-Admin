@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const Header = (props) => {
   const dispatch = useDispatch()
+  const {admin} = useSelector(state=> state.admin)
    const [open, setOpen] = useState(false);
    const handleOpen = () => {
      setOpen(true);
@@ -15,7 +16,6 @@ const Header = (props) => {
    const handleClose = () => {
      setOpen(false);
    };
-  const {admin} = useSelector(state=> state.admin)
   return (
     <header className="top-header">
       <nav className="navbar navbar-expand gap-3">

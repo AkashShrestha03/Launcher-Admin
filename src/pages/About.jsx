@@ -74,12 +74,12 @@ const About = () => {
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
             onSubmit={handleSubmit}
           >
             <h2>About Details</h2>
             <div className="mb-3">
-              <label for="aboutHeading" className="form-label">
+              <label htmlFor="aboutHeading" className="form-label">
                 Heading{" "}
               </label>
               <input
@@ -90,7 +90,7 @@ const About = () => {
                 placeholder={about.heading}
                 onChange={handleChange}
               />
-              <label for="exampleFormControlInput1" className="form-label">
+              <label htmlFor="exampleFormControlInput1" className="form-label">
                 About Content{" "}
               </label>
               <textarea

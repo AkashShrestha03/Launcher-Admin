@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  
   admin: null,
   registerSuccess: false,
 };
@@ -11,26 +10,29 @@ const adminSlice = createSlice({
   initialState,
   reducers: {
     signInSuccessAdmin: (state, action) => {
+      const { expires_in } = action.payload;
       state.admin = action.payload;
+      state.tokenExpiry = Date.now() + expires_in * 1000;
+      localStorage.setItem("tokenExpiry", state.tokenExpiry);
     },
     signOut: (state) => {
       state.admin = null;
       localStorage.removeItem("admin");
+      localStorage.removeItem("tokenExpiry");
     },
-    registerSuccessful: (state)=>{
+    registerSuccessful: (state) => {
       state.registerSuccess = true;
     },
-    registerComplete: (state)=>{
+    registerComplete: (state) => {
       state.registerSuccess = false;
     },
-   
   },
 });
 
 export const {
- registerComplete,
+  registerComplete,
   signInSuccessAdmin,
   signOut,
-  registerSuccessful
+  registerSuccessful,
 } = adminSlice.actions;
 export { adminSlice };

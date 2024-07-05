@@ -26,6 +26,7 @@
     "bootstrap-icons": "^1.11.3",
     "dayjs": "^1.11.11",
     "jquery": "^3.7.1",
+    "jwt-decode": "^4.0.0",
     "pace-js": "^1.2.4",
     "react": "^18.3.1",
     "react-apexcharts": "^1.4.1",

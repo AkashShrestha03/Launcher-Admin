@@ -198,6 +198,8 @@ export const AddGigsModal = (props) => {
     }
   };
 
+
+
   return (
     <Modal
       open={props.open}
@@ -228,18 +230,17 @@ export const AddGigsModal = (props) => {
           <div>
             <label htmlFor="title">Location</label>
             <select
-              className="form-select mb-3"
+              className="form-select mb-3 single-select"
               aria-label="Default select example"
               onChange={handleChange}
               name="location"
             >
-              <option disabled selected>
-                Location
-              </option>
-              {cities.map((section) => (
+             
+              {cities.sort().map((section) => (
                 <option value={section.section}>{section}</option>
               ))}
             </select>
+           
           </div>
           <div>
             <label htmlFor="description">Description</label>

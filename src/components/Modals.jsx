@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 import { Avatar, Typography } from "@mui/material";
@@ -135,8 +135,23 @@ export default function AccountModal(props) {
 
 export const AddGigsModal = (props) => {
   const [newGig, setNewGig] = useState();
-  const [loading, setLoading] = useState(false)
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
+
+
+  // Get indian Cities for select form
+  const getCity = async () => {
+    const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
+    const res = await cityRes.json();
+    if (cityRes.ok) {
+      setCities(res);
+    }
+  };
+
+  useEffect(() => {
+    getCity();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -146,7 +161,7 @@ export const AddGigsModal = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     console.log("before post", newGig);
     try {
       const res = await fetch(`https://api.launcherr.co/api/addJob`, {
@@ -159,7 +174,7 @@ export const AddGigsModal = (props) => {
       });
       const response = await res.json();
       if (res.ok) {
-        setLoading(false)
+        setLoading(false);
         props.onClose(false);
         Swal.fire({
           title: "Added Successfully",
@@ -168,7 +183,7 @@ export const AddGigsModal = (props) => {
         });
       } else {
         setLoading(false);
-         props.onClose(false);
+        props.onClose(false);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong!`,
@@ -216,19 +231,14 @@ export const AddGigsModal = (props) => {
               className="form-select mb-3"
               aria-label="Default select example"
               onChange={handleChange}
-              name="duration"
+              name="location"
             >
               <option disabled selected>
-                Section
+                Location
               </option>
-              <option>Destination</option>
-              <option>Deals</option>
-              <option>Products</option>
-              <option>Subscription</option>
-              <option>Gigs</option>
-              {/* {table.map((section) => (
-                    <option value={section.section}>{section.section}</option>
-                  ))} */}
+              {cities.map((section) => (
+                <option value={section.section}>{section}</option>
+              ))}
             </select>
           </div>
           <div>

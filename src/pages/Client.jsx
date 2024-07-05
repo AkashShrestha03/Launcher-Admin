@@ -18,8 +18,7 @@ const Client = () => {
     const data = await res.json();
     if (res.ok) {
       setLoadClient(false);
-    }
-    {
+    }else{
       setLoadClient(false);
     }
     setTable(data);

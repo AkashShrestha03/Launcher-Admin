@@ -27,6 +27,8 @@ const Coupons = () => {
     setLoading(true)
     const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
     const data = await res.json();
+    console.log(data);
+    console.log(res);
     setTable(data.Coupon);
     if(res.ok){
       setLoading(false)
@@ -77,7 +79,7 @@ const Coupons = () => {
       });
 
       const response = await res.json();
-
+      console.log(response);
       console.log("response", response);
       if (res.ok) {
         getCoupons();
@@ -115,7 +117,7 @@ const Coupons = () => {
       );
 
       const response = await res.json();
-
+      console.log(response);
       console.log("response", response);
       if (res.ok) {
         getCoupons();
@@ -150,7 +152,7 @@ const Coupons = () => {
         }
       );
       const deleted = await res.json();
-
+      console.log(deleted);
       if (res.ok) {
         getCoupons();
       }

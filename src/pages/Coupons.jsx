@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import Swal from "sweetalert2";
+import axios from "axios";
 const options = [
   { value: "destination", label: "Destination" },
   { value: "products", label: "Products" },
@@ -23,21 +24,35 @@ const Coupons = () => {
 
   //  Get Coupons
 
+  // const getCoupons = async () => {
+  //   setLoading(true)
+  //   const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
+  //   const data = await res.json();
+  //   const data1 = await res.text();
+  //   console.log(data);
+  //   console.log(res);
+  //   console.log(data1);
+  //   setTable(data.Coupon);
+  //   if(res.ok){
+  //     setLoading(false)
+  //   }else{
+  //     setLoading(false)
+  //   }
+  // };
+
   const getCoupons = async () => {
-    setLoading(true)
-    const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
-    const data = await res.json();
-    const data1 = await res.text();
-    console.log(data);
-    console.log(res);
-    console.log(data1);
-    setTable(data.Coupon);
-    if(res.ok){
-      setLoading(false)
-    }else{
-      setLoading(false)
+    setLoading(true);
+    try {
+      const res = await axios.get(`https://api.launcherr.co/api/Show-Coupon`);
+      setTable(res.data.Coupon);
+      setLoading(false);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
   };
+
 
   
 

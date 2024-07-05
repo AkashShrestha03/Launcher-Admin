@@ -6,27 +6,28 @@ const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
   const [table, setTable] = useState([]);
   const [select, setSelect] = useState(true);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
   const headers = ["#", "Heading", "Content"]; //Table headers
 
   //Get content
-console.log("a",table);
-const arr = Object.values(table)
-console.log(arr);
+
+
+  
+  const arr = Object.values(table);
+  console.log(arr);
 
   const getContent = async () => {
-    setLoading(true)
+    setLoading(true);
     const res = await fetch(`https://api.launcherr.co/api/Show-Section`);
     const data = await res.json();
-     setTable(data);
-    if(res.ok){
-      setLoading(false)
-    }else{
-      setLoading(false)
+    setTable(data);
+    if (res.ok) {
+      setLoading(false);
+    } else {
+      setLoading(false);
     }
-   
   };
 
   useEffect(() => {
@@ -38,7 +39,6 @@ console.log(arr);
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
     console.log(formValues);
-    
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +49,7 @@ console.log(arr);
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${admin.access_token}`,
-        }, 
+        },
         body: JSON.stringify(formValues),
       });
 
@@ -66,19 +66,18 @@ console.log(arr);
         });
       } else {
         console.log(response);
-            Swal.fire({
-              title: "Failed",
-              text: `OOPS.... Something went wrong`,
-              icon: "error",
-            });
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong`,
+          icon: "error",
+        });
       }
-      
     } catch (error) {
-    Swal.fire({
-      title: "Failed",
-      text: `OOPS.... Something went wrong`,
-      icon: "error",
-    });
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
       console.log(error);
     }
   };

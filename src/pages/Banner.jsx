@@ -48,6 +48,7 @@ const Banner = () => {
       console.log(res);
 
       const data = await res.json();
+      console.log(res);
       console.log(data);
 
       if (res.ok) {

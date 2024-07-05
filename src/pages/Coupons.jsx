@@ -27,8 +27,10 @@ const Coupons = () => {
     setLoading(true)
     const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
     const data = await res.json();
+    const data1 = await res.text();
     console.log(data);
     console.log(res);
+    console.log(data1);
     setTable(data.Coupon);
     if(res.ok){
       setLoading(false)

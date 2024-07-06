@@ -60,7 +60,6 @@ const Gigs = () => {
   ];
 
   // Get Jobs
-  console.log(table);
   const getGigs = async () => {
     setLoading(true);
     try {

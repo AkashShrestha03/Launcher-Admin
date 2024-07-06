@@ -116,8 +116,8 @@ const About = () => {
   };
   return (
     <div className="container-fluid row">
-      <div className="row  col">
-        <div className=" px-lg-2 col-xl-12 px-xl-0 px-xxl-3">
+      <div className="row justify-content-center col">
+        <div className="col-lg-6 px-lg-2 col-xl-6 px-xl-0 px-xxl-3">
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"

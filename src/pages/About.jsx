@@ -76,6 +76,7 @@ const About = () => {
   const handleSubmitCard = async (e) => {
     e.preventDefault();
    
+    
 
     try {
       const res = await fetch(`https://api.launcherr.co/api/addCard`, {

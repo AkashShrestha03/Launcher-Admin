@@ -103,9 +103,13 @@ const Gigs = () => {
         }
       );
       const response = await res.json();
-      console.log("response update", response);
+      console.log("Active Status Update", response);
       if (res.ok) {
-        getGigs();
+         setTable((prevTable) =>
+           prevTable.map((gig) =>
+             gig.id === selectedId ? { ...gig, active: gig.active === 1 ? 0 : 1} : gig
+           )
+         ); //Mazedaar logic
         setLoadingStatus(null);
       } else {
         setLoadingStatus(null);
@@ -139,7 +143,11 @@ const Gigs = () => {
       console.log(selectedId);
       console.log("response update verified", response);
       if (res.ok) {
-        getGigs();
+       setTable((prevTable) =>
+         prevTable.map((gig) =>
+           gig.id === selectedId ? { ...gig, verified: !gig.verified } : gig 
+         )
+       );
         setLoadingVerified(null);
       } else {
         Swal.fire({

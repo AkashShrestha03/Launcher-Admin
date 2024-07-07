@@ -490,7 +490,7 @@ a {
 .sidebar-wrapper .metismenu .mm-active > a,
 .sidebar-wrapper .metismenu a:active,
 .sidebar-wrapper .metismenu a:focus,
-.sidebar-wrapper .metismenu li:hover {
+.sidebar-wrapper .metismenu a:hover {
   color: #3461ff;
   text-decoration: none;
   background-color: rgb(255 255 255);
@@ -506,7 +506,7 @@ a {
   letter-spacing: 0.5px;
 }
 
-.metismenu .has-arrow:after {
+.has-arrow:after {
   position: absolute;
   content: "";
   width: 0.5em;

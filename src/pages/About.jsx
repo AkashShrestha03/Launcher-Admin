@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const About = () => {
-  const [formValues, setFormValues] = useState({});
-  const [cardValues, setCardValues] = useState({});
-  const [about, setAbout] = useState({});
-  const [resp, setResp] = useState();
-  const dispatch = useDispatch();
+  const [formValues, setFormValues] = useState({}); // Post Values about
+  const [cardValues, setCardValues] = useState({}); //Post cards update
+  const [cardsArr, setCardsArr] = useState([]); //Array of cards stored here
+  const [about, setAbout] = useState({}); //About details from Get About
   const { admin } = useSelector((state) => state.admin);
 
   const getAbout = async () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-About`);
     const data = await res.json();
     setAbout(data);
+    console.log(data);
+    setCardsArr(data.Cards);
   };
-
   useEffect(() => {
     getAbout();
   }, []);
@@ -31,10 +31,9 @@ const About = () => {
     console.log(cardValues);
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-   
+
     try {
       const res = await fetch(`https://api.launcherr.co/api/Add-About`, {
         method: "POST",
@@ -43,14 +42,13 @@ const About = () => {
           Authorization: `Bearer ${admin.access_token}`,
         },
 
-        body: JSON.stringify({ ...formValues, Cards: cardValues }),
+        body: JSON.stringify(formValues),
       });
 
       const response = await res.json();
 
       console.log("admin data", response);
       if (res.ok) {
-        setResp(response.message);
         Swal.fire({
           title: "Update Success",
           text: `Your data has been updated successfully`,
@@ -63,7 +61,6 @@ const About = () => {
           icon: "error",
         });
       }
-      console.log("hello", resp);
     } catch (error) {
       Swal.fire({
         title: "Failed",
@@ -75,8 +72,6 @@ const About = () => {
   };
   const handleSubmitCard = async (e) => {
     e.preventDefault();
-   
-    
 
     try {
       const res = await fetch(`https://api.launcherr.co/api/addCard`, {
@@ -93,7 +88,6 @@ const About = () => {
 
       console.log("card data", response);
       if (res.ok) {
-  
         Swal.fire({
           title: "Update Success",
           text: `Your data has been updated successfully`,
@@ -174,7 +168,7 @@ const About = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModalCenter"
               >
-                Add Cards
+                Cards
               </button>
             </div>
           </form>
@@ -194,7 +188,6 @@ const About = () => {
           <div class="modal-content">
             <div class="modal-header">
               <h5>About Cards</h5>
-           
             </div>
             <div class="modal-body">
               {" "}
@@ -216,9 +209,15 @@ const About = () => {
                         <option selected disabled>
                           Cards
                         </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                        <option value="1" >
+                          1
+                        </option>
+                        <option value="2" >
+                          2
+                        </option>
+                        <option value="3">
+                          3
+                        </option>
                       </select>
                     </div>
                     <div className="mb-3">
@@ -230,6 +229,15 @@ const About = () => {
                         className="form-control"
                         id="aboutHeading"
                         name="Card_Heading"
+                        placeholder={
+                          cardValues.Card_No === "1"
+                            ? cardsArr[0].Card_Heading
+                            : cardValues.Card_No === "2"
+                            ? cardsArr[1].Card_Heading
+                            : cardValues.Card_No === "3"
+                            ? cardsArr[2].Card_Heading
+                            : null
+                        }
                         onChange={handleChangeCard}
                       />
                       <label
@@ -243,6 +251,15 @@ const About = () => {
                         className="form-control"
                         id="exampleFormControlInput1"
                         name="Card_Subheading"
+                        placeholder={
+                          cardValues.Card_No === "1"
+                            ? cardsArr[0].Card_Subheading
+                            : cardValues.Card_No === "2"
+                            ? cardsArr[1].Card_Subheading
+                            : cardValues.Card_No === "3"
+                            ? cardsArr[2].Card_Subheading
+                            : null
+                        }
                         onChange={handleChangeCard}
                       />
                     </div>
@@ -250,6 +267,8 @@ const About = () => {
                       <button
                         type="submit"
                         className="btn btn-primary px-3 rounded-3"
+                        data-bs-dismiss="modal"
+                        aria-bs-label="Close"
                       >
                         Update
                       </button>

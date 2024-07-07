@@ -88,7 +88,9 @@ const Banner = () => {
                 onChange={handleChange}
                 name="Banner_No"
               >
-                <option selected>Banner</option>
+                <option selected disabled>
+                  Banner
+                </option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -123,6 +125,7 @@ const Banner = () => {
                 name="Banner_image"
                 onChange={handleChange}
                 type="file"
+                accept="image/*"
                 className="form-control"
               />
               <p className="text-danger" style={{ fontSize: "14px" }}>

@@ -23,22 +23,21 @@ const App = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const { admin, tokenExpiry } = useSelector((state) => state.admin);
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
- useEffect(() => {
-   if (tokenExpiry) {
-     
-     if (tokenExpiry <= 60000) {
-       dispatch(signOut());
-     } else {
-       const timer = setTimeout(() => {
-         dispatch(signOut());
-       }, tokenExpiry);
+  useEffect(() => {
+    if (tokenExpiry) {
+      if (tokenExpiry <= 60000) {
+        dispatch(signOut());
+      } else {
+        const timer = setTimeout(() => {
+          dispatch(signOut());
+        }, tokenExpiry);
 
-       return () => clearTimeout(timer);
-     }
-   }
- }, [tokenExpiry, dispatch]);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [tokenExpiry, dispatch]);
 
   return (
     <div
@@ -46,26 +45,31 @@ const dispatch = useDispatch()
         isSidebarHovered ? "sidebar-hovered" : ""
       } ${isToggled ? "toggled" : ""}`}
     >
-      {admin ? <> 
-    <Header
-        onToggle={(isToggled) => setIsToggled(isToggled)}
-        toggle={isToggled}
-      />
-      <Sidebar
-        onToggle={(toggled) => setToggled(toggled)}
-        Toggled={toggled}
-        mobileToggle={isToggled}
-        mobile={(isToggled) => setIsToggled(isToggled)}
-        onMoveEnter={(isSidebarHovered) =>
-          setIsSidebarHovered(isSidebarHovered)
-        }
-        onMoveExit={(isSidebarHovered) => setIsSidebarHovered(isSidebarHovered)}
-      />
-      <main className="page-content">
-        <Outlet />
-      </main>
-      </> : <SignIn/>}
-     
+      {admin ? (
+        <>
+          <Header
+            onToggle={(isToggled) => setIsToggled(isToggled)}
+            toggle={isToggled}
+          />
+          <Sidebar
+            onToggle={(toggled) => setToggled(toggled)}
+            Toggled={toggled}
+            mobileToggle={isToggled}
+            mobile={(isToggled) => setIsToggled(isToggled)}
+            onMoveEnter={(isSidebarHovered) =>
+              setIsSidebarHovered(isSidebarHovered)
+            }
+            onMoveExit={(isSidebarHovered) =>
+              setIsSidebarHovered(isSidebarHovered)
+            }
+          />
+          <main className="page-content">
+            <Outlet />
+          </main>
+        </>
+      ) : (
+        <SignIn />
+      )}
     </div>
   );
 };

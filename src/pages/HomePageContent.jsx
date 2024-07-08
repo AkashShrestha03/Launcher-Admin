@@ -1,3 +1,4 @@
+import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -13,8 +14,6 @@ const HomePageContent = () => {
 
   //Get content
 
-
-  
   const arr = Object.values(table);
   console.log(arr);
 
@@ -201,7 +200,9 @@ const HomePageContent = () => {
               </div>
             </div>
           ) : (
-            <div>No data found</div>
+            <div>
+              <Empty />
+            </div>
           )}
         </>
       </div>

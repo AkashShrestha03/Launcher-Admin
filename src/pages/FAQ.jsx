@@ -1,3 +1,4 @@
+import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -412,7 +413,9 @@ const FAQ = () => {
                   </div>
                 </div>
               ) : (
-                <div className="p-3">No data found</div>
+                <div>
+                  <Empty />
+                </div>
               )}
             </div>
           </div>

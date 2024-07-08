@@ -139,7 +139,6 @@ export const AddGigsModal = (props) => {
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
-
   // Get indian Cities for select form
   const getCity = async () => {
     const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
@@ -198,8 +197,6 @@ export const AddGigsModal = (props) => {
     }
   };
 
-
-
   return (
     <Modal
       open={props.open}
@@ -235,12 +232,10 @@ export const AddGigsModal = (props) => {
               onChange={handleChange}
               name="location"
             >
-             
               {cities.sort().map((section) => (
                 <option value={section.section}>{section}</option>
               ))}
             </select>
-           
           </div>
           <div>
             <label htmlFor="description">Description</label>

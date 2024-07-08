@@ -45,7 +45,6 @@ const Sidebar = (props) => {
           </Link>
         </li>
 
-
         <li onClick={() => props.mobile(false)}>
           <Link to={"/"}>
             <div className="parent-icon">

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Products = () => {
   return (
@@ -11,7 +11,7 @@ const Products = () => {
             <table
               id="example"
               class="table table-striped table-bordered"
-              style={{width: "100%"}}
+              style={{ width: "100%" }}
             >
               <thead>
                 <tr>
@@ -711,6 +711,6 @@ const Products = () => {
       </div>
     </>
   );
-}
+};
 
-export default Products
+export default Products;

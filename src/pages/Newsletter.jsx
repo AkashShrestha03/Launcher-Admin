@@ -1,9 +1,14 @@
+import { Pagination } from "@mui/material";
+import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Newsletter = () => {
   const [table, setTable] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const itemsPerPage = 10;
   const { admin } = useSelector((state) => state.admin);
   const headers = ["#", "Email"];
 
@@ -28,12 +33,38 @@ const Newsletter = () => {
     getEmails();
   }, []);
 
+  // Pagination
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
+  const currentItems = table
+    .filter((gigs) => {
+      return search === ""
+        ? gigs
+        : gigs.email.toLowerCase().includes(search.toLowerCase());
+    })
+    .slice(indexOfFirstItem, indexOfLastItem);
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <>
       <h5 className="mb-0">Newsletter</h5>
       <hr />
       <div className="card mt-4">
         <div className="card-body">
+          <div className=" input-group d-flex gap-3">
+            {" "}
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search"
+              aria-label="Search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
           <div className="table-responsive mt-3">
             <table
               id="example"
@@ -62,19 +93,31 @@ const Newsletter = () => {
                     </thead>
 
                     <tbody>
-                      {table.map((section, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td className="text-wrap">{section.email}</td>
-                        </tr>
-                      ))}
+                      {currentItems &&
+                        currentItems.map((section, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td className="text-wrap">{section.email}</td>
+                          </tr>
+                        ))}
                     </tbody>
                   </>
                 )
               ) : (
-                <div>No data found</div>
+                <div>
+                  <Empty />
+                </div>
               )}
             </table>
+            <div className="d-flex justify-content-center">
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handleChangePage}
+                color="primary"
+                className="mt-3"
+              />
+            </div>
           </div>
         </div>
       </div>

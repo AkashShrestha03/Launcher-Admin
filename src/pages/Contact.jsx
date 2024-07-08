@@ -1,62 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 const Contact = () => {
-   const [formValues, setFormValues] = useState({});
-   const [contact, setContact] = useState([])
-   const [isSubmit, setIsSubmit] = useState(false);
-   const {admin} = useSelector(state=>state.admin)
+  const [formValues, setFormValues] = useState({});
+  const [contact, setContact] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const { admin } = useSelector((state) => state.admin);
 
+  const getContact = async () => {
+    const res = await fetch(`https://api.launcherr.co/api/Show-Details`);
+    const data = await res.json();
+    setContact(data);
+  };
 
+  useEffect(() => {
+    getContact();
+  }, []);
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value.trim() });
+    console.log(formValues);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-const getContact = async () => {
-  const res = await fetch(`https://api.launcherr.co/api/Show-Details`);
-  const data = await res.json();
-  setContact(data);
-};
+    try {
+      const res = await fetch(`https://api.launcherr.co/api/Add-Details`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.access_token}`,
+        },
 
-useEffect(() => {
-  getContact();
-}, []);
+        body: JSON.stringify(formValues),
+      });
 
-    const handleChange = (event) => {
-      const { name, value } = event.target;
-      setFormValues({ ...formValues, [name]: value.trim() });
-      console.log(formValues);
-    };
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-
-      try {
-        const res = await fetch(`https://api.launcherr.co/api/Add-Details`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${admin.access_token}`,
-          },
-        
-          body: JSON.stringify(formValues),
-        });
-
-        
-        const response = await res.json();
-        Swal.fire({
-          title: "Update Success",
-          text: `You data has been updated successfully`,
-          icon: "success",
-        });
-        console.log("response", res);
-      } catch (error) {
-         Swal.fire({
-           title: "Failed",
-           text: `OOPS.... Something went wrong`,
-           icon: "error",
-         });
-        console.log(error);
-      }
-    };
+      const response = await res.json();
+      Swal.fire({
+        title: "Update Success",
+        text: `You data has been updated successfully`,
+        icon: "success",
+      });
+      console.log("response", res);
+    } catch (error) {
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
+      console.log(error);
+    }
+  };
   return (
     <div className="container-fluid">
       <div className="row mx-0 justify-content-center">
@@ -135,6 +131,6 @@ useEffect(() => {
       </div>
     </div>
   );
-}
+};
 
-export default Contact
+export default Contact;

@@ -23,6 +23,7 @@ import Client from "./pages/Client.jsx";
 import Coupons from "./pages/Coupons.jsx";
 import Responses from "./pages/Responses.jsx";
 import Newsletter from "./pages/Newsletter.jsx";
+import Enquiries from "./pages/Enquiries.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
       { path: "/coupons", element: <Coupons /> },
       { path: "/response", element: <Responses /> },
       { path: "/newsletter", element: <Newsletter /> },
+      { path: "/enquiries", element: <Enquiries /> },
     ],
   },
   { path: "/signup", element: <SignUp /> },

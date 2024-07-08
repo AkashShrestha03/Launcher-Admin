@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { Empty } from "antd";
 const options = [
   { value: "destination", label: "Destination" },
   { value: "products", label: "Products" },
@@ -52,9 +53,6 @@ const Coupons = () => {
       setLoading(false);
     }
   };
-
-
-  
 
   useEffect(() => {
     getCoupons();
@@ -183,36 +181,35 @@ const Coupons = () => {
     //   console.log(error);
     // }
 
- try {
-   const res = await axios.put(
-     `https://api.launcherr.co/api/Update-Coupon/${selected}`,
-     coupon,
-     {
-       headers: {
-         Accept: "application/json",
-         Authorization: `Bearer ${admin.access_token}`,
-       },
-     }
-   );
+    try {
+      const res = await axios.put(
+        `https://api.launcherr.co/api/Update-Coupon/${selected}`,
+        coupon,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${admin.access_token}`,
+          },
+        }
+      );
 
-   console.log(res.data);
-   if (res.status === 200) {
-     getCoupons();
-     Swal.fire({
-       title: "Update Success",
-       text: `Your data has been updated successfully`,
-       icon: "success",
-     });
-   }
- } catch (error) {
-   Swal.fire({
-     title: "Update Failed",
-     text: `OOPS.... Something went wrong`,
-     icon: "error",
-   });
-   console.log(error);
- }
-
+      console.log(res.data);
+      if (res.status === 200) {
+        getCoupons();
+        Swal.fire({
+          title: "Update Success",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Update Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
+      console.log(error);
+    }
   };
 
   //  Delete Coupon
@@ -243,29 +240,29 @@ const Coupons = () => {
     //   console.error(error);
     // }
 
-     try {
-       const res = await axios.delete(
-         `https://api.launcherr.co/api/Delete-Coupon/${selected}`,
-         {
-           headers: {
-             Authorization: `Bearer ${admin.access_token}`,
-             Accept: "application/json",
-           },
-         }
-       );
+    try {
+      const res = await axios.delete(
+        `https://api.launcherr.co/api/Delete-Coupon/${selected}`,
+        {
+          headers: {
+            Authorization: `Bearer ${admin.access_token}`,
+            Accept: "application/json",
+          },
+        }
+      );
 
-       console.log(res.data);
-       if (res.status === 200) {
-         getCoupons();
-         Swal.fire({
-           title: "Delete Success",
-           text: `Your data has been removed successfully`,
-           icon: "success",
-         });
-       }
-     } catch (error) {
-       console.error(error);
-     }
+      console.log(res.data);
+      if (res.status === 200) {
+        getCoupons();
+        Swal.fire({
+          title: "Delete Success",
+          text: `Your data has been removed successfully`,
+          icon: "success",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -489,7 +486,9 @@ const Coupons = () => {
               </div>
             </div>
           ) : (
-            <div>No data found</div>
+            <div>
+              <Empty />
+            </div>
           )}
         </>
       </div>

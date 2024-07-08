@@ -25,22 +25,21 @@ const TermsConditions = () => {
 
       const response = await res.json();
       console.log("response", response);
-      if(res.ok){
+      if (res.ok) {
         Swal.fire({
           title: "Update Success",
           text: `Your data has been updated successfully`,
           icon: "success",
         });
-      }else{
-          Swal.fire({
-            title: "Failed",
-            text: `OOPS.... Something went wrong`,
-            icon: "error",
-          });
+      } else {
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong`,
+          icon: "error",
+        });
       }
     } catch (error) {
       console.log(error);
-    
     }
   };
   return (

@@ -1,3 +1,4 @@
+import { Empty } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -18,7 +19,7 @@ const Client = () => {
     const data = await res.json();
     if (res.ok) {
       setLoadClient(false);
-    }else{
+    } else {
       setLoadClient(false);
     }
     setTable(data);
@@ -373,7 +374,7 @@ const Client = () => {
             </div>
           ) : (
             <div>
-              No data found <i className="bi bi-database-x"></i>
+              <Empty />
             </div>
           )}
         </>

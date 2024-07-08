@@ -7,15 +7,15 @@ import AccountModal from "./Modals";
 import { useState } from "react";
 
 const Header = (props) => {
-  const dispatch = useDispatch()
-  const {admin} = useSelector(state=> state.admin)
-   const [open, setOpen] = useState(false);
-   const handleOpen = () => {
-     setOpen(true);
-   };
-   const handleClose = () => {
-     setOpen(false);
-   };
+  const dispatch = useDispatch();
+  const { admin } = useSelector((state) => state.admin);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <header className="top-header">
       <nav className="navbar navbar-expand gap-3">
@@ -72,7 +72,10 @@ const Header = (props) => {
                       </div>
                     </div>
                   </Link>
-                  <AccountModal open={open} close={(open)=>handleClose(open)}/>
+                  <AccountModal
+                    open={open}
+                    close={(open) => handleClose(open)}
+                  />
                 </li>
 
                 <li>
@@ -95,7 +98,6 @@ const Header = (props) => {
           </ul>
         </div>
       </nav>
-     
     </header>
   );
 };

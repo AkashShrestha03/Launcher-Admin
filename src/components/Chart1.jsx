@@ -94,6 +94,7 @@ export const Chart2 = () => {
       {
         name: "series2",
         data: [11, 82, 45, 80, 34, 52, 41],
+        s,
       },
     ],
     chart: {
@@ -221,53 +222,46 @@ export const Chart3 = () => {
   return <Chart options={options} series={options.series} />;
 };
 
-
-
-
 export const Chart4 = () => {
-  	var options = {
-      series: [
-        {
-          data: [400, 430, 448, 470, 540, 580, 690, 610, 800, 980],
-        },
+  var options = {
+    series: [
+      {
+        data: [400, 430, 448, 470, 540, 580, 690, 610, 800, 980],
+      },
+    ],
+    chart: {
+      foreColor: "#9ba7b2",
+      type: "bar",
+      height: 350,
+    },
+    colors: ["#f83030"],
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        columnWidth: "35%",
+        endingShape: "rounded",
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      categories: [
+        "South Korea",
+        "Canada",
+        "United Kingdom",
+        "Netherlands",
+        "Italy",
+        "France",
+        "Japan",
+        "United States",
+        "China",
+        "Germany",
       ],
-      chart: {
-        foreColor: "#9ba7b2",
-        type: "bar",
-        height: 350,
-      },
-      colors: ["#f83030"],
-      plotOptions: {
-        bar: {
-          horizontal: true,
-          columnWidth: "35%",
-          endingShape: "rounded",
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      xaxis: {
-        categories: [
-          "South Korea",
-          "Canada",
-          "United Kingdom",
-          "Netherlands",
-          "Italy",
-          "France",
-          "Japan",
-          "United States",
-          "China",
-          "Germany",
-        ],
-      },
-    };
-  return (
-    <Chart options={options} series={options.series} />
-  )
-}
-
-
+    },
+  };
+  return <Chart options={options} series={options.series} />;
+};
 
 export const Chart5 = () => {
   var options = {
@@ -343,12 +337,8 @@ export const Chart5 = () => {
       },
     ],
   };
-  return (
-  <Chart options={options} series={options.series}/>
-  )
-}
-
-
+  return <Chart options={options} series={options.series} />;
+};
 
 export const Chart6 = () => {
   var options = {
@@ -440,47 +430,31 @@ export const Chart6 = () => {
       },
     },
   };
-  return (
-    <Chart options={options} series={options.series}/>
-  )
-}
-
-
-
+  return <Chart options={options} series={options.series} />;
+};
 
 export const Chart7 = () => {
-  	var options = {
-      series: [44, 55, 41, 17, 15],
-      chart: {
-        foreColor: "#9ba7b2",
-        height: 380,
-        type: "donut",
-      },
-      colors: ["#0d6efd", "#212529", "#17a00e", "#f41127", "#ffc107"],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              height: 320,
-            },
-            legend: {
-              position: "bottom",
-            },
+  var options = {
+    series: [44, 55, 41, 17, 15],
+    chart: {
+      foreColor: "#9ba7b2",
+      height: 380,
+      type: "donut",
+    },
+    colors: ["#0d6efd", "#212529", "#17a00e", "#f41127", "#ffc107"],
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            height: 320,
+          },
+          legend: {
+            position: "bottom",
           },
         },
-      ],
-    };
-  return (
-    <Chart options={options} series={options.series}/>
-  )
-}
-
-
-
-
-
-
-
-
-
+      },
+    ],
+  };
+  return <Chart options={options} series={options.series} />;
+};

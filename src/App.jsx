@@ -27,13 +27,13 @@ const dispatch = useDispatch()
 
  useEffect(() => {
    if (tokenExpiry) {
-     const timeLeft = tokenExpiry - Date.now();
-     if (timeLeft <= 0) {
+     
+     if (tokenExpiry <= 60000) {
        dispatch(signOut());
      } else {
        const timer = setTimeout(() => {
          dispatch(signOut());
-       }, timeLeft);
+       }, tokenExpiry);
 
        return () => clearTimeout(timer);
      }

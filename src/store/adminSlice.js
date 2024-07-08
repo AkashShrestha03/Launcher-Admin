@@ -12,13 +12,13 @@ const adminSlice = createSlice({
     signInSuccessAdmin: (state, action) => {
       const { expires_in } = action.payload;
       state.admin = action.payload;
-      state.tokenExpiry = Date.now() + expires_in * 1000;
-      localStorage.setItem("tokenExpiry", state.tokenExpiry);
+      state.tokenExpiry =  expires_in * 1000;
+  
     },
     signOut: (state) => {
       state.admin = null;
       localStorage.removeItem("admin");
-      localStorage.removeItem("tokenExpiry");
+     
     },
     registerSuccessful: (state) => {
       state.registerSuccess = true;

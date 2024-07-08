@@ -83,57 +83,27 @@ const Coupons = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // try {
-    //   const res = await fetch(`https://api.launcherr.co/api/Add-Coupon`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${admin.access_token}`,
-    //     },
-    //     body: JSON.stringify(coupon),
-    //   });
-
-    //   const response = await res.json();
-    //   console.log(response);
-    //   console.log("response", response);
-    //   if (res.ok) {
-    //     getCoupons();
-    //   }
-    //   Swal.fire({
-    //     title: "Coupon added successfully",
-    //     text: `You data has been added successfully`,
-    //     icon: "success",
-    //   });
-    // } catch (error) {
-    //   Swal.fire({
-    //     title: "Failed",
-    //     text: `OOPS.... Something went wrong`,
-    //     icon: "error",
-    //   });
-    //   console.log(error);
-    // }
-
     try {
-      const res = await axios.post(
-        `https://api.launcherr.co/api/Add-Coupon`,
-        coupon,
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${admin.access_token}`,
-          },
-        }
-      );
+      const res = await fetch(`https://api.launcherr.co/api/Add-Coupon`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${admin.access_token}`,
+        },
+        body: JSON.stringify(coupon),
+      });
 
-      console.log(res.data);
-      if (res.status === 200) {
+      const response = await res.json();
+      console.log(response);
+      console.log("response", response);
+      if (res.ok) {
         getCoupons();
-        Swal.fire({
-          title: "Coupon added successfully",
-          text: `You data has been added successfully`,
-          icon: "success",
-        });
       }
+      Swal.fire({
+        title: "Coupon added successfully",
+        text: `You data has been added successfully`,
+        icon: "success",
+      });
     } catch (error) {
       Swal.fire({
         title: "Failed",
@@ -142,59 +112,59 @@ const Coupons = () => {
       });
       console.log(error);
     }
-  };
 
-  // Edit Coupon
-
-  const handleEditSubmit = async () => {
     // try {
-    //   const res = await fetch(
-    //     `https://api.launcherr.co/api/Update-Coupon/${selected}`,
+    //   const res = await axios.post(
+    //     `https://api.launcherr.co/api/Add-Coupon`,
+    //     coupon,
     //     {
-    //       method: "PUT",
     //       headers: {
-    //         "Content-Type": "application/json",
+    //         Accept: "application/json",
     //         Authorization: `Bearer ${admin.access_token}`,
     //       },
-
-    //       body: JSON.stringify(coupon),
     //     }
     //   );
 
-    //   const response = await res.json();
-    //   console.log(response);
-    //   console.log("response", response);
-    //   if (res.ok) {
+    //   console.log(res.data);
+    //   if (res.status === 200) {
     //     getCoupons();
     //     Swal.fire({
-    //       title: "Update Success",
-    //       text: `Your data has been updated successfully`,
+    //       title: "Coupon added successfully",
+    //       text: `You data has been added successfully`,
     //       icon: "success",
     //     });
     //   }
     // } catch (error) {
     //   Swal.fire({
-    //     title: "Update Failed",
+    //     title: "Failed",
     //     text: `OOPS.... Something went wrong`,
     //     icon: "error",
     //   });
     //   console.log(error);
     // }
+  };
 
+  // Edit Coupon
+
+  const handleEditSubmit = async () => {
     try {
-      const res = await axios.put(
+      const res = await fetch(
         `https://api.launcherr.co/api/Update-Coupon/${selected}`,
-        coupon,
         {
+          method: "PUT",
           headers: {
-            Accept: "application/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${admin.access_token}`,
           },
+
+          body: JSON.stringify(coupon),
         }
       );
 
-      console.log(res.data);
-      if (res.status === 200) {
+      const response = await res.json();
+      console.log(response);
+      console.log("response", response);
+      if (res.ok) {
         getCoupons();
         Swal.fire({
           title: "Update Success",
@@ -210,6 +180,36 @@ const Coupons = () => {
       });
       console.log(error);
     }
+
+    // try {
+    //   const res = await axios.put(
+    //     `https://api.launcherr.co/api/Update-Coupon/${selected}`,
+    //     coupon,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${admin.access_token}`,
+    //       },
+    //     }
+    //   );
+
+    //   console.log(res.data);
+    //   if (res.status === 200) {
+    //     getCoupons();
+    //     Swal.fire({
+    //       title: "Update Success",
+    //       text: `Your data has been updated successfully`,
+    //       icon: "success",
+    //     });
+    //   }
+    // } catch (error) {
+    //   Swal.fire({
+    //     title: "Update Failed",
+    //     text: `OOPS.... Something went wrong`,
+    //     icon: "error",
+    //   });
+    //   console.log(error);
+    // }
   };
 
   //  Delete Coupon

@@ -57,6 +57,24 @@ const SignUp = () => {
             <div className="col-12 col-lg-5 mx-auto mt-5 pt-5">
               <div className="card shadow rounded-5 overflow-hidden">
                 <div className="card-body p-4 p-sm-5">
+                  <div
+                    className="d-flex mx-auto justify-content-center  rounded"
+                    style={{
+                      height: "4rem",
+                      width: "20rem",
+                      objectFit: "cover",
+                    }}
+                  >
+                    <img
+                      src="./Launcherr_Logo_PNG.png"
+                      style={{
+                        width: "600px",
+                        height: "100px",
+                        objectFit: "cover",
+                      }}
+                      alt=""
+                    />
+                  </div>
                   <h5 className="card-title">Sign Up</h5>
                   <form className="form-body" onSubmit={handleSubmit}>
                     <div className="row g-3">
@@ -80,7 +98,10 @@ const SignUp = () => {
                         </div>
                       </div>
                       <div className="col-12">
-                        <label htmlFor="inputEmailAddress" className="form-label">
+                        <label
+                          htmlFor="inputEmailAddress"
+                          className="form-label"
+                        >
                           Email Address
                         </label>
                         <div className="ms-auto position-relative">
@@ -99,7 +120,10 @@ const SignUp = () => {
                         </div>
                       </div>
                       <div className="col-12">
-                        <label htmlFor="inputChoosePassword" className="form-label">
+                        <label
+                          htmlFor="inputChoosePassword"
+                          className="form-label"
+                        >
                           Enter Password
                         </label>
                         <div className="ms-auto position-relative">

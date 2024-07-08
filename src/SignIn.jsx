@@ -57,6 +57,24 @@ const SignIn = () => {
           <div className="col-12 col-lg-5 mx-auto mt-5 pt-5">
             <div className="card shadow rounded-5 overflow-hidden mt-5">
               <div className="card-body p-4 p-sm-5 mt-2">
+                <div
+                  className="d-flex mx-auto justify-content-center  rounded"
+                  style={{
+                    height: "4rem",
+                    width: "20rem",
+                    objectFit: "cover",
+                  }}
+                >
+                  <img
+                    src="./Launcherr_Logo_PNG.png"
+                    style={{
+                      width: "600px",
+                      height: "100px",
+                      objectFit: "cover",
+                    }}
+                    alt=""
+                  />
+                </div>
                 <h5 className="card-title">Sign In</h5>
 
                 <form className="form-body mt-4" onSubmit={handleSubmit}>
@@ -81,7 +99,10 @@ const SignIn = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <label htmlFor="inputChoosePassword" className="form-label">
+                      <label
+                        htmlFor="inputChoosePassword"
+                        className="form-label"
+                      >
                         Enter Password
                       </label>
                       <div className="ms-auto position-relative">
@@ -140,7 +161,9 @@ const SignIn = () => {
 
                 {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
                 {registerSuccess && (
-                  <Alert severity="success">SignUp Successful! Please Signin.</Alert>
+                  <Alert severity="success">
+                    SignUp Successful! Please Signin.
+                  </Alert>
                 )}
               </div>
             </div>

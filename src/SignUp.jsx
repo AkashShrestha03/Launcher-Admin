@@ -38,7 +38,7 @@ const SignUp = () => {
       if (response.ok) {
         navigate("/");
         setLoading(false);
-        dispatch(registerSuccessful())
+        dispatch(registerSuccessful());
       } else {
         setLoading(false);
         setErrorMsg(res_data.email || res_data.password);
@@ -58,7 +58,7 @@ const SignUp = () => {
               <div className="card shadow rounded-5 overflow-hidden">
                 <div className="card-body p-4 p-sm-5">
                   <div
-                    className="d-flex mx-auto justify-content-center  rounded"
+                    className="d-flex mx-auto justify-content-center rounded"
                     style={{
                       height: "4rem",
                       width: "20rem",

@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 const HomePageContent = () => {
   const [formValues, setFormValues] = useState({});
+  const [count, setCount] = useState(0)
   const [table, setTable] = useState([]);
   const [select, setSelect] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -14,8 +15,12 @@ const HomePageContent = () => {
 
   //Get content
 
+  useEffect(()=>{
+    setCount(formValues["sub-heading"])
+  },[formValues])
+
   const arr = Object.values(table);
-  console.log(arr);
+  // console.log(arr);
 
   const getContent = async () => {
     setLoading(true);
@@ -37,7 +42,8 @@ const HomePageContent = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
-    console.log(formValues);
+    // console.log(formValues);
+    // setCount(formValues["sub-heading"])
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -142,8 +148,12 @@ const HomePageContent = () => {
                 className="form-control"
                 id="headingContent"
                 name="sub-heading"
+                maxLength={500}
                 onChange={handleChange}
               />
+              <p className={"text-danger pt-2"}>
+                {count.length >= 500 && "You've exceeded the words limit!"}
+              </p>
             </div>
 
             <div className="mb-3">

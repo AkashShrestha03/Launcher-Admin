@@ -151,9 +151,11 @@ const HomePageContent = () => {
                 maxLength={500}
                 onChange={handleChange}
               />
-              <p className={"text-danger pt-2"}>
-                {count.length >= 500 && "You've exceeded the words limit!"}
-              </p>
+              {count && (
+                <p className={"text-danger pt-2"}>
+                  {count.length >= 500 && "You've exceeded the words limit!"}
+                </p>
+              )}
             </div>
 
             <div className="mb-3">

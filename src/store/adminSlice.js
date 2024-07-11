@@ -16,7 +16,7 @@ const adminSlice = createSlice({
     },
     signOut: (state) => {
       state.admin = null;
-      localStorage.removeItem("admin");
+      localStorage.clear("admin");
     },
     registerSuccessful: (state) => {
       state.registerSuccess = true;

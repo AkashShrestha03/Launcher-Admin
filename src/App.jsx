@@ -1,7 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Header from "./components/HeadSide";
 import Sidebar from "./components/Sidebar";
-
 // External CSS Imports
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -15,7 +14,6 @@ import "./assets/css/style.css";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SignIn from "./SignIn.jsx";
 import { signOut } from "./store/adminSlice.js";
 
 const App = () => {
@@ -33,7 +31,6 @@ const App = () => {
         const timer = setTimeout(() => {
           dispatch(signOut());
         }, tokenExpiry);
-
         return () => clearTimeout(timer);
       }
     }
@@ -68,7 +65,7 @@ const App = () => {
           </main>
         </>
       ) : (
-        <SignIn />
+        <Navigate to={"/signin"} />
       )}
     </div>
   );

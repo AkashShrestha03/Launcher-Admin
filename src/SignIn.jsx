@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { registerComplete, signInSuccessAdmin } from "./store/adminSlice";
 import { Alert } from "@mui/material";
@@ -13,14 +13,16 @@ const SignIn = () => {
   const { registerSuccess } = useSelector((state) => state.admin);
   const [formValues, setFormValues] = useState(INITIAL_VALUE);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [showPassword, setShowPassword] = useState(true);
   const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value.trim() });
-    dispatch(registerComplete())
+    dispatch(registerComplete());
   };
 
   const handleSubmit = async (e) => {
@@ -38,6 +40,7 @@ const SignIn = () => {
       if (response.access_token) {
         dispatch(signInSuccessAdmin(response));
         navigate("/");
+        Cookies.set("token", response?.access_token, { expires: 1 });
         setLoading(false);
       } else {
         setErrorMsg(response.error || response.password);
@@ -106,11 +109,18 @@ const SignIn = () => {
                         Enter Password
                       </label>
                       <div className="ms-auto position-relative">
-                        <div className="position-absolute top-50 translate-middle-y search-icon px-3">
-                          <i className="bi bi-lock-fill"></i>
+                        <div
+                          className="position-absolute top-50 translate-middle-y search-icon cursor-pointer px-3"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <i className="bi bi-lock-fill"></i>
+                          ) : (
+                            <i class="bi bi-unlock-fill"></i>
+                          )}
                         </div>
                         <input
-                          type="password"
+                          type={`${showPassword ? "password" : "text"}`}
                           name="password"
                           required
                           onChange={handleChange}

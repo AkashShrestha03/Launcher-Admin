@@ -259,9 +259,7 @@ const FAQ = () => {
                               : ques.Question.toLowerCase().includes(
                                   search.toLowerCase()
                                 );
-                            //  ||
-                            // product.productPrice.includes(search);
-                            // product.quantity.includes(search) ||
+                          
                           })
                           .map((ques, index) => (
                             <tr key={index}>

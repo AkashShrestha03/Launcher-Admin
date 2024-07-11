@@ -48,7 +48,7 @@ const Sidebar = (props) => {
         <li onClick={() => props.mobile(false)}>
           <Link to={"/"}>
             <div className="parent-icon">
-              <i class="bi bi-person-workspace"></i>
+              <i className="bi bi-person-workspace"></i>
             </div>
             <div className="ms-2 menu-title">Employer Gigs</div>
           </Link>
@@ -56,7 +56,7 @@ const Sidebar = (props) => {
         <li onClick={() => props.mobile(false)}>
           <Link to={"/enquiries"}>
             <div className="parent-icon">
-              <i class="bi bi-patch-question"></i>
+              <i className="bi bi-patch-question"></i>
             </div>
             <div className="ms-2 menu-title">Gig Enquiries</div>
           </Link>
@@ -108,6 +108,12 @@ const Sidebar = (props) => {
               {" "}
               <Link to={"/homeContent"}>
                 <i className="bi bi-circle"></i>Home Page Content
+              </Link>
+            </li>
+            <li onClick={() => props.mobile(false)}>
+              {" "}
+              <Link to={"/subscription"}>
+                <i className="bi bi-circle"></i>Subscription Content
               </Link>
             </li>
             <li onClick={() => props.mobile(false)}>

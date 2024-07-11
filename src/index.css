@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop{
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
   background-color: transparent !important;
 }
 
@@ -25,34 +25,31 @@
   scrollbar-width: none; /* Firefox */
 }
 
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
 
+  .form-section {
+    display: inline !important;
+  }
 
-  @media print {
-      * {
-        -webkit-print-color-adjust: exact !important;
-        color-adjust: exact !important;
-      }
+  .form-pagebreak {
+    display: none !important;
+  }
 
-      .form-section {
-        display: inline !important
-      }
+  .form-section-closed {
+    height: auto !important;
+  }
 
-      .form-pagebreak {
-        display: none !important
-      }
+  .page-section {
+    position: initial !important;
+  }
+}
 
-      .form-section-closed {
-        height: auto !important
-      }
+/* Signin */
 
-      .page-section {
-        position: initial !important
-      }
-    }
-
-
-    /* Signin */
-
-    .authentication-content{
-      height:100vh !important;
-    }
+.authentication-content {
+  height: 100vh !important;
+}

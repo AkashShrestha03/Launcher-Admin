@@ -235,15 +235,7 @@ const Client = () => {
 
                             <td>
                               <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                                {/* <a
-                                  className="text-warning cursor-pointer"
-                                  data-bs-toggle="modal"
-                                  data-bs-placement="bottom"
-                                  data-bs-target="#editModal"
-                                  title="Edit"
-                                >
-                                  <i className="bi bi-pencil-fill"></i>
-                                </a> */}
+                               
                                 {/* Edit Modal */}
                                 <div
                                   className="modal fade"

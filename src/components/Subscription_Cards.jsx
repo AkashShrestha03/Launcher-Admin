@@ -1,55 +1,61 @@
 import { Empty } from "antd";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
-const HomePageContent = () => {
-  const [formValues, setFormValues] = useState({});
-  const [count, setCount] = useState(0)
+const Subscription_Cards = () => {
+  const [formValues, setformValues] = useState({});
   const [table, setTable] = useState([]);
-
+  const [tableHeading, setTableHeading] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [feature, setFeature] = useState();
   const { admin } = useSelector((state) => state.admin);
 
-  const headers = ["#", "Heading", "Content"]; //Table headers
+  const headers = [
+    "#",
+    "Title",
+    "Features",
+    "Monthly Price",
+    "Annually Price",
+    "Button Label",
+  ];
 
-  //Get content
+  //Get Details
 
-  useEffect(()=>{
-    setCount(formValues["sub-heading"])
-  },[formValues])
-
-  const arr = Object.values(table);
-  // console.log(arr);
-
-  const getContent = async () => {
-    setLoading(true);
-    const res = await fetch(`https://api.launcherr.co/api/Show-Section`);
-    const data = await res.json();
-    setTable(data);
-    if (res.ok) {
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
+  const getDetails = async () => {
+    const res = await fetch(`https://api.launcherr.co/api/showSubCardAdmin`, {
+      headers: {
+        Authorization: `Bearer ${admin.access_token}`,
+      },
+    });
+    const response = await res.json();
+    console.log(response);
+    setTableHeading(response.heading);
+    setTable(response.Cards);
   };
 
   useEffect(() => {
-    getContent();
+    getDetails();
   }, []);
 
-  // Add/Update section
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value.trim() });
-    // console.log(formValues);
-    // setCount(formValues["sub-heading"])
+  const handleChangeFeatures = (e) => {
+    const { value } = e.target;
+    setFeature(value);
+    console.log(feature);
   };
+
+  //Add Subscription Content
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setformValues({ ...formValues, features: [feature], [name]: value.trim() });
+    console.log(formValues);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
-      const res = await fetch(`https://api.launcherr.co/api/Add-Section`, {
+      const res = await fetch(`https://api.launcherr.co/api/addSubCard`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,17 +65,17 @@ const HomePageContent = () => {
       });
 
       const response = await res.json();
-
       if (res.ok) {
-        console.log("response", res);
-        getContent();
+        getDetails();
+        setLoading(false);
+        console.log(response);
         Swal.fire({
           title: "Update Success",
           text: `Your data has been updated successfully`,
           icon: "success",
         });
       } else {
-        console.log(response);
+        setLoading(false);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong`,
@@ -77,6 +83,7 @@ const HomePageContent = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       Swal.fire({
         title: "Failed",
         text: `OOPS.... Something went wrong`,
@@ -94,52 +101,76 @@ const HomePageContent = () => {
             action="submit"
             onSubmit={handleSubmit}
           >
-            <h2>Section Details</h2>
+            <h2>Subscription Cards</h2>
             <div className="mb-3">
-            
-                <select
-                  className="form-select mb-3"
-                  aria-label="Default select example"
-                  onChange={handleChange}
-                  name="section"
-                >
-                  <option disabled selected>
-                    Section
-                  </option>
-                  <option>Destination</option>
-                  <option>Deals</option>
-                  <option>Products</option>
-                  <option>Subscription</option>
-                  <option>Gigs</option>
-                </select>
-       
+              <select
+                className="form-select mb-3"
+                aria-label="Default select example"
+                onChange={handleChange}
+                name="card_no"
+              >
+                <option disabled selected>
+                  Card Number
+                </option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+              </select>
 
               <label htmlFor="exampleFormControlInput1" className="form-label">
-                Heading
+                Title
               </label>
               <input
                 type="text"
                 className="form-control"
                 id="exampleFormControlInput1"
                 onChange={handleChange}
-                name="heading"
+                name="title"
               />
-              <label htmlFor="headingContent" className="form-label">
-                Content
+              <label htmlFor="features" className="form-label">
+                Features
               </label>
-              <textarea
+              <input
                 type="text"
                 className="form-control"
-                id="headingContent"
-                name="sub-heading"
-                maxLength={500}
+                id="features"
+                name="features"
+                onChange={handleChangeFeatures}
+              />
+
+              <p className={"text-danger pt-2"}>
+                Note : All features have to be written comma separated.
+              </p>
+              <label htmlFor="price" className="form-label">
+                Price(Monthly)
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                id="price"
+                name="price"
                 onChange={handleChange}
               />
-              {count && (
-                <p className={"text-danger pt-2"}>
-                  {count.length >= 500 && "You've exceeded the words limit!"}
-                </p>
-              )}
+              <label htmlFor="price_2" className="form-label">
+                Price(Annually)
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                id="price_2"
+                name="price_2"
+                onChange={handleChange}
+              />
+              <label htmlFor="button_label" className="form-label">
+                Button Lable
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="button_label"
+                name="buttonLabel"
+                onChange={handleChange}
+              />
             </div>
 
             <div className="mb-3">
@@ -150,9 +181,9 @@ const HomePageContent = () => {
           </form>
         </div>
         <>
-          <h5 className="mb-0">Sections</h5>
+          <h5 className="mb-0">Table</h5>
           <hr />
-          {arr.length > 0 && arr ? (
+          {table.length > 0 && table ? (
             <>
               <div className="card mt-4">
                 <div className="card-body">
@@ -170,13 +201,18 @@ const HomePageContent = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {arr.map((section, index) => (
+                        {table.map((section, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td className="text-wrap">{section.heading}</td>
+                            <td className="text-wrap">{section.title}</td>
                             <td className="text-wrap">
-                              {section["sub-heading"]}
+                              {JSON.parse(section.features).join(", ")}
                             </td>
+                            <td className="text-wrap">₹{section.price}</td>
+                            <td className="text-wrap">
+                              ₹{section.price_2 ? section.price_2 : "NA"}
+                            </td>
+                            <td className="text-wrap">{section.buttonLabel}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -206,4 +242,4 @@ const HomePageContent = () => {
   );
 };
 
-export default HomePageContent;
+export default Subscription_Cards;

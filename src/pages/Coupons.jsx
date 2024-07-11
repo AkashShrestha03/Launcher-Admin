@@ -25,21 +25,6 @@ const Coupons = () => {
 
   //  Get Coupons
 
-  // const getCoupons = async () => {
-  //   setLoading(true)
-  //   const res = await fetch(`https://api.launcherr.co/api/Show-Coupon`);
-  //   const data = await res.json();
-  //   const data1 = await res.text();
-  //   console.log(data);
-  //   console.log(res);
-  //   console.log(data1);
-  //   setTable(data.Coupon);
-  //   if(res.ok){
-  //     setLoading(false)
-  //   }else{
-  //     setLoading(false)
-  //   }
-  // };
 
   const getCoupons = async () => {
     setLoading(true);
@@ -113,35 +98,6 @@ const Coupons = () => {
       console.log(error);
     }
 
-    // try {
-    //   const res = await axios.post(
-    //     `https://api.launcherr.co/api/Add-Coupon`,
-    //     coupon,
-    //     {
-    //       headers: {
-    //         Accept: "application/json",
-    //         Authorization: `Bearer ${admin.access_token}`,
-    //       },
-    //     }
-    //   );
-
-    //   console.log(res.data);
-    //   if (res.status === 200) {
-    //     getCoupons();
-    //     Swal.fire({
-    //       title: "Coupon added successfully",
-    //       text: `You data has been added successfully`,
-    //       icon: "success",
-    //     });
-    //   }
-    // } catch (error) {
-    //   Swal.fire({
-    //     title: "Failed",
-    //     text: `OOPS.... Something went wrong`,
-    //     icon: "error",
-    //   });
-    //   console.log(error);
-    // }
   };
 
   // Edit Coupon
@@ -215,31 +171,7 @@ const Coupons = () => {
   //  Delete Coupon
 
   const handleDelete = async () => {
-    // try {
-    //   const res = await fetch(
-    //     `https://api.launcherr.co/api/Delete-Coupon/${selected}`,
-    //     {
-    //       method: "DELETE",
-    //       headers: {
-    //         Authorization: ` Bearer ${admin.access_token}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-    //   const deleted = await res.json();
-    //   console.log(deleted);
-    //   if (res.ok) {
-    //     getCoupons();
-    //   }
-    //   Swal.fire({
-    //     title: "Delete Success",
-    //     text: `Your data has been removed successfully`,
-    //     icon: "success",
-    //   });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-
+   
     try {
       const res = await axios.delete(
         `https://api.launcherr.co/api/Delete-Coupon/${selected}`,

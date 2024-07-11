@@ -48,8 +48,6 @@ const Banner = () => {
       console.log(res);
 
       const data = await res.json();
-      console.log(res);
-      console.log(data);
 
       if (res.ok) {
         getBanner();
@@ -95,28 +93,10 @@ const Banner = () => {
                 <option value="2">2</option>
                 <option value="3">3</option>
               </select>
-              {/* <label for="exampleFormControlInput1" className="form-label">
-                Heading{" "}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name="Banner_heading"
-                onChange={handleChange}
-                id="exampleFormControlInput1"
-              /> */}
+            
             </div>
             <div className="d-block mb-4">
-              {/* <label for="subHeading" className="form-label d-block">
-                Sub-Heading
-              </label>
-              <input
-                id="subHeading"
-                name="Banner_sub_heading"
-                onChange={handleChange}
-                type="text"
-                className="form-control"
-              /> */}
+           
               <label htmlFor="button_text" className="form-label d-block">
                 Upload Image
               </label>
@@ -164,15 +144,7 @@ const Banner = () => {
                         {table.map((banner, index) => (
                           <tr key={index}>
                             <td className="w-50">{index + 1}</td>
-                            {/* <td className="text-wrap">
-                              {banner.Banner_heading}
-                            </td>
-                            <td className="text-wrap">
-                              {banner.Banner_sub_heading}
-                            </td> */}
-                            {/* <td className="text-wrap">
-                              {banner.Banner_button_text}
-                            </td> */}
+                           
                             <td className="text-wrap">
                               <img
                                 src={banner.Banner_image}

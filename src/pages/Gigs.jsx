@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Empty } from "antd";
 
 const style = {
   position: "absolute",
@@ -330,7 +331,7 @@ const Gigs = () => {
               </div>
             )
           ) : (
-            <div>No data found</div>
+          <Empty/>
           )}
           <div className="d-flex justify-content-center">
             <Pagination

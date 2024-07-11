@@ -24,6 +24,7 @@ import Coupons from "./pages/Coupons.jsx";
 import Responses from "./pages/Responses.jsx";
 import Newsletter from "./pages/Newsletter.jsx";
 import Enquiries from "./pages/Enquiries.jsx";
+import Subscription from "./pages/Subscription.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
       { path: "/response", element: <Responses /> },
       { path: "/newsletter", element: <Newsletter /> },
       { path: "/enquiries", element: <Enquiries /> },
+      { path: "/subscription", element: <Subscription /> },
     ],
   },
   { path: "/signup", element: <SignUp /> },
@@ -53,9 +55,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <PersistGate persistor={persistor}>
     <Provider store={store}>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
+      <RouterProvider router={router}/>
     </Provider>
   </PersistGate>
 );

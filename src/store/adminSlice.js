@@ -10,9 +10,8 @@ const adminSlice = createSlice({
   initialState,
   reducers: {
     signInSuccessAdmin: (state, action) => {
-      const { expires_in } = action.payload;
       state.admin = action.payload;
-      state.tokenExpiry = (expires_in - 60) * 1000;
+      state.tokenExpiry = 86000 * 1000;
     },
     signOut: (state) => {
       state.admin = null;

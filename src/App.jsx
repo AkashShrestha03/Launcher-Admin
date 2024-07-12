@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Header from "./components/HeadSide";
 import Sidebar from "./components/Sidebar";
 // External CSS Imports
@@ -21,6 +21,7 @@ const App = () => {
   const [isToggled, setIsToggled] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const { admin, tokenExpiry } = useSelector((state) => state.admin);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const App = () => {
       } else {
         const timer = setTimeout(() => {
           dispatch(signOut());
+          navigate("/signin")
         }, tokenExpiry);
         return () => clearTimeout(timer);
       }

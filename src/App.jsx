@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import Header from "./components/HeadSide";
 import Sidebar from "./components/Sidebar";
+import Cookies from "js-cookie";
 // External CSS Imports
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -31,7 +32,8 @@ const App = () => {
       } else {
         const timer = setTimeout(() => {
           dispatch(signOut());
-          navigate("/signin")
+          navigate("/signin");
+          Cookies.remove("token")
         }, tokenExpiry);
         return () => clearTimeout(timer);
       }

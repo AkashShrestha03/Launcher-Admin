@@ -29,7 +29,7 @@ const Enquiries = () => {
     });
     const data = await res.json();
     setTable(data);
-    console.log("hel", data);
+    console.log(data);
     if (res.ok) {
       setLoading(false);
     } else {
@@ -46,7 +46,7 @@ const Enquiries = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems = table
+  const currentItems = table && table
     .filter((gigs) => {
       return search === ""
         ? gigs
@@ -83,7 +83,7 @@ const Enquiries = () => {
               style={{ width: "100%" }}
             >
               {" "}
-              {table ? (
+              {table && table.length > 0 ? (
                 loading ? (
                   <div className="d-flex justify-content-center">
                     <div className="card">

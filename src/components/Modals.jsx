@@ -288,14 +288,25 @@ export const AddGigsModal = (props) => {
 
 // Edit Gigs Modal
 export const EditGigsModal = (props) => {
-  const [editGig, setEditGig] = useState({});
-  const [checked, setChecked] = useState(true);
-  const [verified, setVerified] = useState(true);
+  const [editGig, setEditGig] = useState();
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
-  // const [validity, setValidity] = useState([
-  //   dayjs("2022-04-17"),
-  //   dayjs("2022-04-21"),
-  // ]);
+
+  // Get indian Cities for select form
+  const getCity = async () => {
+    const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
+    const res = await cityRes.json();
+    if (cityRes.ok) {
+      setCities(res);
+    }
+  };
+
+  useEffect(() => {
+    getCity();
+  }, []);
+
+  // Handle change add gig
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -303,46 +314,50 @@ export const EditGigsModal = (props) => {
     console.log(editGig);
   };
 
-  const handleChangeStatus = (event) => {
-    const isChecked = event.target.checked;
-    setChecked(isChecked);
-    setEditGig((prevGig) => ({ ...prevGig, active: isChecked ? 1 : 0 }));
-  };
-
-  const handleChangeVerify = (event) => {
-    const isChecked = event.target.checked;
-    setVerified(isChecked);
-    setEditGig((prevGig) => ({ ...prevGig, verified: isChecked ? 1 : 0 }));
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log("before post", editGig);
     try {
       const res = await fetch(
-        `https://api.launcherr.co/api/Update/Employer/${props.selected}`,
+        `https://api.launcherr.co/api/updateJob/${props.selected}`,
         {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          authentication: `Bearer ${admin.access_token}`,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${admin.access_token}`,
+          },
           body: JSON.stringify(editGig),
         }
       );
       const response = await res.json();
-
       if (res.ok) {
+        setLoading(false);
+        props.onClose(false);
         Swal.fire({
-          title: "Added Successfully",
-          text: `Your data has been added successfully`,
+          title: "Updated Successfully",
+          text: `Your data has been updated successfully`,
           icon: "success",
         });
       } else {
+        setLoading(false);
+        props.onClose(false);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong!`,
           icon: "error",
         });
       }
+
+      console.log(res);
     } catch (error) {
       console.error(error);
+      setLoading(false);
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong!`,
+         icon: "error",
+       });
     }
   };
 
@@ -374,6 +389,30 @@ export const EditGigsModal = (props) => {
             />
           </div>
           <div>
+            <label htmlFor="title">Location</label>
+            <select
+              className="form-select single-select"
+              aria-label="Default select example"
+              onChange={handleChange}
+              name="location"
+            >
+              {cities.sort().map((section) => (
+                <option value={section.section}>{section}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="short_description">Description</label>
+            <input
+              type="text"
+              id="short_description"
+              name="short_description"
+              className="form-control"
+              placeholder="Short Description"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
             <label htmlFor="description">Description</label>
             <textarea
               type="text"
@@ -385,25 +424,32 @@ export const EditGigsModal = (props) => {
             />
           </div>
           <div>
-            <label htmlFor="employer">Duration(Hrs)</label>
+            <label htmlFor="validity" className="mb-2">
+              Duration(Hrs)
+            </label>
             <input
               type="number"
-              id="employer"
-              name="duration"
               className="form-control"
-              placeholder="Duration"
+              name="duration"
               onChange={handleChange}
             />
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg mt-1">
-            Submit
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg mt-1"
+            disabled={loading ? true : null}
+          >
+            {loading ? "Loading..." : "Submit"}
           </button>
         </form>
       </Box>
     </Modal>
   );
 };
+
+
+
 
 // Delete Gig Modal
 

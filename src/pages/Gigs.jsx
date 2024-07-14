@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { AddGigsModal } from "../components/Modals";
+import { AddGigsModal, EditGigsModal } from "../components/Modals";
 import {
   Avatar,
   Box,
@@ -32,6 +32,8 @@ const Gigs = () => {
   // const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+ const [selected, setSelected] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(null);
   const [loadingVerified, setLoadingVerified] = useState(null);
@@ -44,6 +46,10 @@ const Gigs = () => {
 
   const handleClose = () => {
     setOpen(false);
+    getGigs();
+  };
+  const handleEditClose = () => {
+    setOpenEdit(false);
     getGigs();
   };
   const handleCloseProfile = () => {
@@ -60,6 +66,7 @@ const Gigs = () => {
     "Duration",
     "Status",
     "Verified",
+    "Actions"
   ];
 
   // Get Jobs
@@ -271,7 +278,9 @@ const Gigs = () => {
                         <tr key={index + gigs.id}>
                           <td>{index + 1}</td>
                           <td>{gigs.title}</td>
-                          <td className="text-wrap">{gigs.short_description}</td>
+                          <td className="text-wrap">
+                            {gigs.short_description}
+                          </td>
                           <td className="text-wrap">{gigs.description}</td>
                           <td>{gigs.location}</td>
                           <td>
@@ -330,6 +339,26 @@ const Gigs = () => {
                               </button>
                             )}
                           </td>
+
+                          <td>
+                            <div className="table-actions d-flex justify-content-center fs-5">
+                              <a
+                                className="text-warning cursor-pointer"
+                                title="Edit"
+                                onClick={() => {
+                                  setSelected(gigs.id);
+                                  setOpenEdit(true);
+                                }}
+                              >
+                                <i className="bi bi-pencil-fill"></i>
+                              </a>
+                            </div>
+                            <EditGigsModal
+                              open={openEdit}
+                              selected={selected}
+                              onClose={(openEdit) => handleEditClose(openEdit)}
+                            />
+                          </td>
                         </tr>
                       ))}
                   </tbody>
@@ -337,7 +366,7 @@ const Gigs = () => {
               </div>
             )
           ) : (
-          <Empty/>
+            <Empty />
           )}
           <div className="d-flex justify-content-center">
             <Pagination

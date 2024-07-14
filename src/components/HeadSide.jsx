@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/adminSlice";
 import { Avatar, Modal } from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
+import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import AccountModal from "./Modals";
 import { useState } from "react";
@@ -81,7 +81,10 @@ const Header = (props) => {
                 <li>
                   <a
                     className="dropdown-item"
-                    onClick={() => dispatch(signOut())}
+                    onClick={() => {
+                      dispatch(signOut());
+                   Cookies.remove("token", { path: "" });
+                    }}
                   >
                     <div className="d-flex align-items-center">
                       <div className="">

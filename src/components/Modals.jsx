@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Typography } from "@mui/material";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
+
 
 const style = {
   position: "absolute",
@@ -370,7 +370,7 @@ export const EditGigsModal = (props) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Add New Gigs
+          Edit Gig
         </Typography>
         <form
           action="submit"

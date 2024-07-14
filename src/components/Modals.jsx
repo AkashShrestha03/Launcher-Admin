@@ -449,61 +449,61 @@ export const EditGigsModal = (props) => {
 
 // Delete Gig Modal
 
-export const DeleteGigModal = (props) => {
-  const { admin } = useSelector((state) => state.admin);
-  const handleDelete = async () => {
-    try {
-      const res = await fetch(
-        `https://api.launcherr.co/api/Delete/Employer/${props.selected}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: ` Bearer ${admin.access_token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const deleted = await res.json();
+// export const DeleteGigModal = (props) => {
+//   const { admin } = useSelector((state) => state.admin);
+//   const handleDelete = async () => {
+//     try {
+//       const res = await fetch(
+//         `https://api.launcherr.co/api/Delete/Employer/${props.selected}`,
+//         {
+//           method: "DELETE",
+//           headers: {
+//             Authorization: ` Bearer ${admin.access_token}`,
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//       const deleted = await res.json();
 
-      if (res.ok) {
-        Swal.fire({
-          title: "Delete Success",
-          text: `Your data has been removed successfully`,
-          icon: "success",
-        });
-      } else {
-        Swal.fire({
-          title: "Failed",
-          text: `OOPS.... Something went wrong`,
-          icon: "error",
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return (
-    <Modal
-      open={props.open}
-      onClose={() => props.onClose(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Delete
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Are you sure you want to delete this data?
-        </Typography>
-        <button
-          type="submit"
-          className="btn btn-danger btn-lg mt-1"
-          onClick={handleDelete}
-        >
-          Delete
-        </button>
-      </Box>
-    </Modal>
-  );
-};
+//       if (res.ok) {
+//         Swal.fire({
+//           title: "Delete Success",
+//           text: `Your data has been removed successfully`,
+//           icon: "success",
+//         });
+//       } else {
+//         Swal.fire({
+//           title: "Failed",
+//           text: `OOPS.... Something went wrong`,
+//           icon: "error",
+//         });
+//       }
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+//   return (
+//     <Modal
+//       open={props.open}
+//       onClose={() => props.onClose(false)}
+//       aria-labelledby="modal-modal-title"
+//       aria-describedby="modal-modal-description"
+//     >
+//       <Box sx={style}>
+//         <Typography id="modal-modal-title" variant="h6" component="h2">
+//           Delete
+//         </Typography>
+//         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+//           Are you sure you want to delete this data?
+//         </Typography>
+//         <button
+//           type="submit"
+//           className="btn btn-danger btn-lg mt-1"
+//           onClick={handleDelete}
+//         >
+//           Delete
+//         </button>
+//       </Box>
+//     </Modal>
+//   );
+// };

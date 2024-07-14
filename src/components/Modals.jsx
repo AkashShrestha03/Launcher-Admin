@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { Avatar, Typography } from "@mui/material";
 import Swal from "sweetalert2";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -353,11 +352,11 @@ export const EditGigsModal = (props) => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-       Swal.fire({
-         title: "Failed",
-         text: `OOPS.... Something went wrong!`,
-         icon: "error",
-       });
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong!`,
+        icon: "error",
+      });
     }
   };
 
@@ -440,16 +439,13 @@ export const EditGigsModal = (props) => {
             className="btn btn-primary btn-lg mt-1"
             disabled={loading ? true : null}
           >
-            {loading ? "Loading..." : "Submit"}
+            {loading ? "Loading..." : "Update"}
           </button>
         </form>
       </Box>
     </Modal>
   );
 };
-
-
-
 
 // Delete Gig Modal
 
@@ -511,5 +507,3 @@ export const DeleteGigModal = (props) => {
     </Modal>
   );
 };
-
-

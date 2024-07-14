@@ -152,6 +152,8 @@ export const AddGigsModal = (props) => {
     getCity();
   }, []);
 
+  // Handle change add gig
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewGig({ ...newGig, [name]: value.trim() });
@@ -227,7 +229,7 @@ export const AddGigsModal = (props) => {
           <div>
             <label htmlFor="title">Location</label>
             <select
-              className="form-select mb-3 single-select"
+              className="form-select single-select"
               aria-label="Default select example"
               onChange={handleChange}
               name="location"
@@ -236,6 +238,17 @@ export const AddGigsModal = (props) => {
                 <option value={section.section}>{section}</option>
               ))}
             </select>
+          </div>
+          <div>
+            <label htmlFor="short_description">Description</label>
+            <input
+              type="text"
+              id="short_description"
+              name="short_description"
+              className="form-control"
+              placeholder="Short Description"
+              onChange={handleChange}
+            />
           </div>
           <div>
             <label htmlFor="description">Description</label>

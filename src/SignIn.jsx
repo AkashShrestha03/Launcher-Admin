@@ -130,26 +130,8 @@ const SignIn = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-6">
-                      <div className="form-check form-switch">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckChecked"
-                          checked=""
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="flexSwitchCheckChecked"
-                        >
-                          Remember Me
-                        </label>
-                      </div>
-                    </div>
-                    <div className="col-6 text-end">
-                      {" "}
-                      <Link>Forgot Password ?</Link>
-                    </div>
+                   
+                   
                     <div className="col-12">
                       <div className="d-grid">
                         <button

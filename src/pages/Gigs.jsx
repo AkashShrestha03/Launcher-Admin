@@ -53,6 +53,7 @@ const Gigs = () => {
   const headers = [
     "#",
     "Title",
+    "Short Description",
     "Description",
     "Location",
     "Employer",
@@ -270,6 +271,7 @@ const Gigs = () => {
                         <tr key={index + gigs.id}>
                           <td>{index + 1}</td>
                           <td>{gigs.title}</td>
+                          <td className="text-wrap">{gigs.short_description}</td>
                           <td className="text-wrap">{gigs.description}</td>
                           <td>{gigs.location}</td>
                           <td>

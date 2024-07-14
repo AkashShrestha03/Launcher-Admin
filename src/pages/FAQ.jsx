@@ -259,13 +259,12 @@ const FAQ = () => {
                               : ques.Question.toLowerCase().includes(
                                   search.toLowerCase()
                                 );
-                          
                           })
                           .map((ques, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
                               <td className="text-wrap">{ques.Question}</td>
-                              <td>{ques.Answer}</td>
+                              <td className="text-wrap">{ques.Answer}</td>
 
                               <td>
                                 <div className="table-actions d-flex align-items-center gap-3 fs-6">

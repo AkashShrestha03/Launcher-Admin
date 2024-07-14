@@ -132,9 +132,7 @@ const Subscription = () => {
                   onChange={handleChange}
                   name="heading"
                 />
-                {formValues.section !== "MainHeading" ? (
-                  <>
-                    {" "}
+               
                     <label htmlFor="headingContent" className="form-label">
                       Sub-heading
                     </label>
@@ -145,10 +143,7 @@ const Subscription = () => {
                       name="subheading"
                       maxLength={500}
                       onChange={handleChange}
-                    />{" "}
-                  </>
-                ) : null}
-
+                    />
                 {count && (
                   <p className={"text-danger pt-2"}>
                     {count.length >= 500 && "You've exceeded the words limit!"}

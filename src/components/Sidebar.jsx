@@ -113,7 +113,7 @@ const Sidebar = (props) => {
             <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/subscription"}>
-                <i className="bi bi-circle"></i>Subscription Content
+                <i className="bi bi-circle"></i>Subscription Content/ Offers Content
               </Link>
             </li>
             <li onClick={() => props.mobile(false)}>

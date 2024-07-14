@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Empty } from "antd";
+import { signOut } from "../store/adminSlice";
 
 const style = {
   position: "absolute",
@@ -72,13 +73,16 @@ const Gigs = () => {
       });
       const data = await res.json();
       setTable(data.job);
+      console.log(res);
       console.log(data);
       if (res.ok) {
         setLoading(false);
-      } else {
+      } else if(res.statusText === "Unauthorized") {
+        dispatch(signOut())
         setLoading(false);
+      }else{
+        setLoading(false)
       }
-      console.log(table);
     } catch (error) {
       console.error(error);
     }
@@ -199,7 +203,7 @@ const Gigs = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems = table
+  const currentItems = table && table
     .filter((gigs) => {
       return search === ""
         ? gigs

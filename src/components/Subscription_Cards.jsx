@@ -41,7 +41,7 @@ const Subscription_Cards = () => {
   const handleChangeFeatures = (e) => {
     const { value } = e.target;
     setFeature(value);
-    console.log(feature);
+
   };
 
   //Add Subscription Content
@@ -54,6 +54,7 @@ const Subscription_Cards = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    console.log(formValues);
     try {
       const res = await fetch(`https://api.launcherr.co/api/addSubCard`, {
         method: "POST",
@@ -208,9 +209,9 @@ const Subscription_Cards = () => {
                             <td className="text-wrap">
                               {JSON.parse(section.features).join(", ")}
                             </td>
-                            <td className="text-wrap">₹{section.price}</td>
+                            <td className="text-wrap">{section.price}</td>
                             <td className="text-wrap">
-                              ₹{section.price_2 ? section.price_2 : "NA"}
+                              {section.price_2 ? section.price_2 : "NA"}
                             </td>
                             <td className="text-wrap">{section.buttonLabel}</td>
                           </tr>

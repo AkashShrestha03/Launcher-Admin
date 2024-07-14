@@ -38,11 +38,20 @@ const Contact = () => {
       });
 
       const response = await res.json();
-      Swal.fire({
-        title: "Update Success",
-        text: `You data has been updated successfully`,
-        icon: "success",
-      });
+      if (res.ok) {
+        Swal.fire({
+          title: "Update Success",
+          text: `You data has been updated successfully`,
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong`,
+          icon: "error",
+        });
+      }
+
       console.log("response", res);
     } catch (error) {
       Swal.fire({
@@ -108,7 +117,7 @@ const Contact = () => {
                 placeholder={contact.company_contact}
                 name="company_contact"
               />
-              <label htmlFor="address" className="form-label">
+              {/* <label htmlFor="address" className="form-label">
                 Company Timing
               </label>
               <input
@@ -118,7 +127,7 @@ const Contact = () => {
                 className="form-control"
                 id="address"
                 name="company_timing"
-              />
+              /> */}
             </div>
 
             <div className="mb-3">

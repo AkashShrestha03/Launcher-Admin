@@ -3,6 +3,17 @@
   padding: 0;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;  
+}
+.no-scrollbar{
+  -ms-overflow-style: none;
+    /*Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
 .css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
   background-color: transparent !important;
 }

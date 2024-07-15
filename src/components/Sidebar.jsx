@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 const Sidebar = (props) => {
   return (
     <aside
-      className="sidebar-wrapper"
+      className="sidebar-wrapper no-scrollbar"
+      style={{ overflowY: "scroll" }}
       data-simplebar="true"
       onMouseEnter={() => props.onMoveEnter(true)}
       onMouseLeave={() => props.onMoveExit(false)}
@@ -113,7 +114,8 @@ const Sidebar = (props) => {
             <li onClick={() => props.mobile(false)}>
               {" "}
               <Link to={"/subscription"}>
-                <i className="bi bi-circle"></i>Subscription Content/ Offers Content
+                <i className="bi bi-circle"></i>Subscription Content/ Offers
+                Content
               </Link>
             </li>
             <li onClick={() => props.mobile(false)}>

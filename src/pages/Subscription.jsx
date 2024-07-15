@@ -86,11 +86,13 @@ const Subscription = () => {
   return (
     <div className="container-fluid">
       <Tooltip title="Switch">
-        <Fab color="primary" aria-label="add" style={{zIndex: "1"}}>
-          <SwitchLeftOutlinedIcon
-            label="Switch"
-            onClick={() => setChange(!change)}
-          />
+        <Fab
+          color="primary"
+          aria-label="add"
+          style={{ zIndex: "1" }}
+          onClick={() => setChange(!change)}
+        >
+          <SwitchLeftOutlinedIcon label="Switch" />
         </Fab>
       </Tooltip>
       {change ? (
@@ -132,18 +134,18 @@ const Subscription = () => {
                   onChange={handleChange}
                   name="heading"
                 />
-               
-                    <label htmlFor="headingContent" className="form-label">
-                      Sub-heading
-                    </label>
-                    <textarea
-                      type="text"
-                      className="form-control"
-                      id="headingContent"
-                      name="subheading"
-                      maxLength={500}
-                      onChange={handleChange}
-                    />
+
+                <label htmlFor="headingContent" className="form-label">
+                  Sub-heading
+                </label>
+                <textarea
+                  type="text"
+                  className="form-control"
+                  id="headingContent"
+                  name="subheading"
+                  maxLength={500}
+                  onChange={handleChange}
+                />
                 {count && (
                   <p className={"text-danger pt-2"}>
                     {count.length >= 500 && "You've exceeded the words limit!"}
@@ -164,51 +166,53 @@ const Subscription = () => {
           <>
             <h5 className="mb-0">Table</h5>
             <hr />
-            {table ? ( loading ? (
-              <div className="d-flex justify-content-center">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="spinner-border" role="status">
-                      <span className="visually-hidden">Loading...</span>
+            {table ? (
+              loading ? (
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                <div className="card mt-4">
-                  <div className="card-body">
-                    <div className="table-responsive mt-3">
-                      <h2>{tableHeading}</h2>
-                      <table
-                        id="example"
-                        className="table table-striped table-bordered"
-                        style={{ width: "100%" }}
-                      >
-                        <thead>
-                          <tr>
-                            {headers.map((header, index) => (
-                              <th key={index + header}>{header}</th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {table.map((section, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-wrap">{section.heading}</td>
-                              <td className="text-wrap">
-                                {section.sub_heading}
-                              </td>
+              ) : (
+                <>
+                  <div className="card mt-4">
+                    <div className="card-body">
+                      <div className="table-responsive mt-3">
+                        <h2>{tableHeading}</h2>
+                        <table
+                          id="example"
+                          className="table table-striped table-bordered"
+                          style={{ width: "100%" }}
+                        >
+                          <thead>
+                            <tr>
+                              {headers.map((header, index) => (
+                                <th key={index + header}>{header}</th>
+                              ))}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {table.map((section, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-wrap">{section.heading}</td>
+                                <td className="text-wrap">
+                                  {section.sub_heading}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </>
-            )) :  (
+                </>
+              )
+            ) : (
               <div>
                 <Empty />
               </div>

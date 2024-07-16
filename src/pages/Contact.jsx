@@ -106,17 +106,21 @@ const Contact = () => {
                 onChange={handleChange}
                 placeholder={contact.company_email}
               />
-              <label htmlFor="phone" className="form-label">
-                Phone Number
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                onChange={handleChange}
-                id="phone"
-                placeholder={contact.company_contact}
-                name="company_contact"
-              />
+              <div>
+                <select name="" id=""></select>
+                <label htmlFor="phone" className="form-label">
+                  Phone Number
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  onChange={handleChange}
+                  id="phone"
+                  min={0}
+                  placeholder={contact.company_contact}
+                  name="company_contact"
+                />
+              </div>
               {/* <label htmlFor="address" className="form-label">
                 Company Timing
               </label>

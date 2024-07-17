@@ -29,7 +29,7 @@ const Enquiries = () => {
     });
     const data = await res.json();
     setTable(data);
-    console.log(data);
+    console.log("enquiry data", data);
     if (res.ok) {
       setLoading(false);
     } else {
@@ -46,8 +46,7 @@ const Enquiries = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems = table && table
-    .filter((gigs) => {
+  const currentItems = table && table.filter((gigs) => {
       return search === ""
         ? gigs
         : gigs.user_name.toLowerCase().includes(search.toLowerCase()) ||

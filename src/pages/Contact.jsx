@@ -107,7 +107,6 @@ const Contact = () => {
                 placeholder={contact.company_email}
               />
               <div>
-                <select name="" id=""></select>
                 <label htmlFor="phone" className="form-label">
                   Phone Number
                 </label>

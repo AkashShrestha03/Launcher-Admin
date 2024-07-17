@@ -12,10 +12,7 @@ import HomePageContent from "./pages/HomePageContent.jsx";
 import Banner from "./pages/Banner.jsx";
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
-import TermsConditions from "./pages/Terms&Conditions.jsx";
 import FAQ from "./pages/FAQ.jsx";
-import Products from "./pages/Products.jsx";
-
 import { Provider } from "react-redux";
 import SignIn from "./SignIn.jsx";
 import SignUp from "./SignUp.jsx";
@@ -37,9 +34,9 @@ const router = createBrowserRouter([
       { path: "/banner", element: <Banner /> },
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
-      { path: "/t&c", element: <TermsConditions /> },
+    
       { path: "/faq", element: <FAQ /> },
-      { path: "/products", element: <Products /> },
+
       { path: "/client", element: <Client /> },
       { path: "/coupons", element: <Coupons /> },
       { path: "/response", element: <Responses /> },
@@ -55,7 +52,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <PersistGate persistor={persistor}>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </Provider>
   </PersistGate>
 );

@@ -46,7 +46,7 @@ const Enquiries = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems = table && table.filter((gigs) => {
+  const currentItems = table.length > 0 && table.filter((gigs) => {
       return search === ""
         ? gigs
         : gigs.user_name.toLowerCase().includes(search.toLowerCase()) ||

@@ -40,6 +40,7 @@ const Subscription = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setformValues({ ...formValues, [name]: value.trim() });
+    console.log(formValues);
   };
 
   const handleSubmit = async (e) => {
@@ -142,7 +143,7 @@ const Subscription = () => {
                   type="text"
                   className="form-control"
                   id="headingContent"
-                  name="subheading"
+                  name="sub_heading"
                   maxLength={500}
                   onChange={handleChange}
                 />
@@ -182,7 +183,7 @@ const Subscription = () => {
                   <div className="card mt-4">
                     <div className="card-body">
                       <div className="table-responsive mt-3">
-                        <h2>{tableHeading}</h2>
+                     
                         <table
                           id="example"
                           className="table table-striped table-bordered"

@@ -5,7 +5,7 @@ const Banner = () => {
   const [table, setTable] = useState([]);
   const { admin } = useSelector((state) => state.admin);
   const [banner, setBanner] = useState({});
-  const [bannerImage, setBannerImage] = useState({});
+  const [bannerImage, setBannerImage] = useState();
   const headers = ["#", "Banner Image"];
 
   const getBanner = async () => {
@@ -36,8 +36,9 @@ const Banner = () => {
         formData.append(key, banner[key]);
       }
       if (bannerImage) {
-        formData.append("image", bannerImage);
+        formData.append("Banner_image", bannerImage);
       }
+      console.log(formData);
       const res = await fetch(`https://api.launcherr.co/api/Add-Banner`, {
         method: "POST",
         headers: {
@@ -48,7 +49,7 @@ const Banner = () => {
       console.log(res);
 
       const data = await res.json();
-
+      console.log(data);
       if (res.ok) {
         getBanner();
         Swal.fire({
@@ -64,7 +65,13 @@ const Banner = () => {
         });
       }
     } catch (error) {
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
       console.error(error.message);
+      console.log(error);
     }
   };
 
@@ -75,7 +82,7 @@ const Banner = () => {
           <form
             className="w-100 rounded-1 p-4 border bg-white"
             action="submit"
-            encType="multipart/form-data"
+            enctype="multipart/form-data"
             onSubmit={handleSubmit}
           >
             <h2>Upload Banners</h2>
@@ -89,14 +96,12 @@ const Banner = () => {
                 <option selected disabled>
                   Banner
                 </option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+                <option >1</option>
+                <option >2</option>
+                <option >3</option>
               </select>
-            
             </div>
             <div className="d-block mb-4">
-           
               <label htmlFor="button_text" className="form-label d-block">
                 Upload Image
               </label>
@@ -105,7 +110,6 @@ const Banner = () => {
                 name="Banner_image"
                 onChange={handleChange}
                 type="file"
-                accept="image/*"
                 className="form-control"
               />
               <p className="text-danger" style={{ fontSize: "14px" }}>
@@ -144,7 +148,7 @@ const Banner = () => {
                         {table.map((banner, index) => (
                           <tr key={index}>
                             <td className="w-50">{index + 1}</td>
-                           
+
                             <td className="text-wrap">
                               <img
                                 src={banner.Banner_image}

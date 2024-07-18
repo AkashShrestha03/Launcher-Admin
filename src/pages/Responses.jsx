@@ -46,7 +46,7 @@ const Responses = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems = table > 0 && table
+  const currentItems = table.length > 0 && table
     .filter((gigs) => {
       return search === ""
         ? gigs
@@ -56,7 +56,7 @@ const Responses = () => {
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
-
+console.log("hello",currentItems);
   return (
     <>
       <h5 className="mb-0">Quiz Responses</h5>
@@ -80,7 +80,7 @@ const Responses = () => {
               style={{ width: "100%" }}
             >
               {" "}
-              {currentItems && currentItems ? (
+              {currentItems ? (
                 loading ? (
                   <div className="d-flex justify-content-center">
                     <div className="card">

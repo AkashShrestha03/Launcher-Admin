@@ -235,7 +235,6 @@ const Client = () => {
 
                             <td>
                               <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                               
                                 {/* Edit Modal */}
                                 <div
                                   className="modal fade"

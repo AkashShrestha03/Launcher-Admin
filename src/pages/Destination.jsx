@@ -1,49 +1,62 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { AddDestinationModal, ViewImagesModal } from "../components/Modals";
+
 const Destination = () => {
-  const headers = ["#", "Name", "State", "City", "Description", "Actions"];
-  const data = [
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      name: "Shimla",
-      state: "Uttrakhand",
-      city: "Uttrakhand",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-  ];
+
+  const [table, setTable] = useState([])
+  const [search, setSearch] = useState("")
+  const [open, setOpen] = useState(false)
+  const [openAdd, setOpenAdd] = useState(false)
+ const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+
+
+  const headers = ["#", "Destination", "Short Description", "Description", "Thumbnail", "More Images", "Actions"];
+ 
+  const getDestinations =async()=>{
+    const res = await fetch(`https://api.launcherr.co/api/showDestination`);
+    const response = await res.json();
+    console.log(res);
+    console.log(response);
+    setTable(response)
+  }
+
+  useEffect(()=>{
+    getDestinations()
+  }, [])
+
+
+
+
+
+    // Pagination
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
+  const currentItems = table.length > 0 && table
+    .filter((data) => {
+      return search === ""
+        ? data
+        : data.name.toLowerCase().includes(search.toLowerCase());
+    })
+    .slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // Close Modal
+
+  const handleClose=()=>{
+    setOpen(false);
+  }
+  const handleCloseAdd=()=>{
+    setOpenAdd(false);
+    getDestinations();
+  }
 
   return (
     <>
@@ -58,55 +71,19 @@ const Destination = () => {
                 className="form-control w-50"
                 placeholder="Search"
                 aria-label="Search"
+                onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 type="button"
                 class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleVerticallycenteredModal"
+                onClick={() => setOpenAdd(true)}
               >
                 Add New
               </button>
-              <div
-                class="modal fade"
-                id="exampleVerticallycenteredModal"
-                tabindex="-1"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Modal title</h5>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                      Contrary to popular belief, Lorem Ipsum is not simply
-                      random text. It has roots in a piece of classical Latin
-                      literature from 45 BC, making it over 2000 years old.
-                      Richard McClintock, a Latin professor at Hampden-Sydney
-                      College in Virginia, looked up one of the more obscure
-                      Latin words, consectetur.
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Close
-                      </button>
-                      <button type="button" class="btn btn-primary">
-                        Save changes
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AddDestinationModal
+                open={openAdd}
+                onClose={(openAdd) => handleCloseAdd(openAdd)}
+              />
             </div>
           </div>
           <div className="table-responsive">
@@ -123,44 +100,52 @@ const Destination = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((data, index) => (
-                  <tr key={index + data.name}>
-                    <td>{index + 1}</td>
-                    <td>{data.name}</td>
-                    <td>{data.state}</td>
-                    <td>{data.city}</td>
-                    <td className="text-wrap">{data.description}</td>
-                    <td>
-                      <div className="table-actions d-flex align-items-center gap-3 fs-6">
-                        <a
-                          className="text-primary"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="Views"
-                        >
-                          <i className="bi bi-eye-fill"></i>
-                        </a>
-                        <a
-                          href="javascript:;"
-                          className="text-warning"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="Edit"
-                        >
-                          <i className="bi bi-pencil-fill"></i>
-                        </a>
-                        <a
-                          className="text-danger"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="Delete"
-                        >
-                          <i className="bi bi-trash-fill"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {currentItems &&
+                  currentItems.map((data, index) => (
+                    <tr key={index + data.name}>
+                      <td>{index + 1}</td>
+                      <td>{data.name}</td>
+                      <td className="text-wrap">{data.short_description}</td>
+                      <td className="text-wrap">{data.description}</td>
+                      <td className="d-flex justify-content-center align-items-center">
+                        <img
+                          src={data.thumbnail_image}
+                          height={60}
+                          alt="thumbnail"
+                        />
+                      </td>
+                      <td className="text-center">
+                        {" "}
+                        <Link onClick={() => setOpen(true)}>View</Link>
+                        <ViewImagesModal
+                          open={open}
+                          onClose={(open) => handleClose(open)}
+                          images={data.images}
+                        />
+                      </td>
+                      <td>
+                        <div className="table-actions d-flex align-items-center justify-content-center gap-3 fs-6">
+                          <a
+                            href="javascript:;"
+                            className="text-warning"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            title="Edit"
+                          >
+                            <i className="bi bi-pencil-fill"></i>
+                          </a>
+                          <a
+                            className="text-danger"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            title="Delete"
+                          >
+                            <i className="bi bi-trash-fill"></i>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

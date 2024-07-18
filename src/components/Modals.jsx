@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Avatar, Typography } from "@mui/material";
 import Swal from "sweetalert2";
+import { Carousel } from "antd";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "fitContent",
   bgcolor: "background.paper",
   boxShadow: 1,
   pt: 2,
@@ -507,3 +508,204 @@ export const EditGigsModal = (props) => {
 //     </Modal>
 //   );
 // };
+
+// View Destination Images
+
+export const ViewImagesModal = (props) => {
+  return (
+    <>
+      <Modal
+        open={props.open}
+        onClose={() => props.onClose(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Destination Images
+          </Typography>
+          <Carousel
+            arrows
+            arrowSize={26}
+            infinite={false}
+            draggable
+            style={{ width: "450px" }}
+          >
+            {props.images.map((image, index) => (
+              <div key={index} className="w-100">
+                <img src={image} height={300} alt={`Slide ${index}`} />
+              </div>
+            ))}
+          </Carousel>
+        </Box>
+      </Modal>
+    </>
+  );
+};
+
+//Add Destination
+
+export const AddDestinationModal = (props) => {
+  const [addDestination, setAddDestination] = useState();
+
+  const [thumbnail, setThumbnail] = useState();
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { admin } = useSelector((state) => state.admin);
+
+  // Handle change add gig
+  console.log("images", images);
+  const handleChange = (e, index) => {
+    if (e.target.name === "thumbnail_image") {
+      setThumbnail(e.target.files[0]);
+    } else if (e.target.name === `images[]`) {
+      setImages(e.target.files);
+    } else {
+      setAddDestination({
+        ...addDestination,
+        [e.target.name]: e.target.value.trim(),
+      });
+    }
+    console.log(addDestination);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log("before post", addDestination);
+    try {
+      const formData = new FormData();
+      for (const key in addDestination) {
+        formData.append(key, addDestination[key]);
+      }
+      if (thumbnail) {
+        formData.append("thumbnail_image", thumbnail);
+      }
+      if (images) {
+        const arr = Object.values(images);
+        formData.append("images[]", arr);
+      }
+
+      const res = await fetch(`https://api.launcherr.co/api/addDestination`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${admin.access_token}`,
+        },
+        body: formData,
+      });
+      console.log("formData", formData);
+      console.log(res);
+      const response = await res.json();
+      console.log(response);
+      if (res.ok) {
+        setLoading(false);
+        // props.onClose(false);
+        Swal.fire({
+          title: "Updated Successfully",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
+      } else {
+        setLoading(false);
+        props.onClose(false);
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong!`,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong!`,
+        icon: "error",
+      });
+    }
+  };
+
+  return (
+    <Modal
+      open={props.open}
+      onClose={() => props.onClose(false)}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Edit Gig
+        </Typography>
+        <form
+          action="submit"
+          onSubmit={handleSubmit}
+          className="d-flex flex-column gap-2"
+        >
+          <div>
+            <label htmlFor="name">Destination</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              className="form-control"
+              placeholder="Destination"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="short_description">Short Description</label>
+            <input
+              type="text"
+              id="short_description"
+              name="short_description"
+              className="form-control"
+              placeholder="Short Description"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              className="form-control"
+              placeholder="Description"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="thumbnail">Thumbnail</label>
+            <input
+              type="file"
+              id="thumbname"
+              name="thumbnail_image"
+              className="form-control"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="images">Destination Images</label>
+            <input
+              type="file"
+              id="images"
+              name="images[]"
+              multiple
+              className="form-control"
+              onChange={handleChange}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg mt-1"
+            disabled={loading ? true : null}
+          >
+            {loading ? "Loading..." : "Update"}
+          </button>
+        </form>
+      </Box>
+    </Modal>
+  );
+};

@@ -5,6 +5,7 @@ const Banner = () => {
   const [table, setTable] = useState([]);
   const { admin } = useSelector((state) => state.admin);
   const [banner, setBanner] = useState({});
+  const [loading, setLoading] = useState(false)
   const [bannerImage, setBannerImage] = useState();
   const headers = ["#", "Banner Image"];
 
@@ -30,6 +31,7 @@ const Banner = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const formData = new FormData();
       for (const key in banner) {
@@ -52,12 +54,14 @@ const Banner = () => {
       console.log(data);
       if (res.ok) {
         getBanner();
+        setLoading(false)
         Swal.fire({
           title: "Update Success",
           text: `Your data has been updated successfully`,
           icon: "success",
         });
       } else {
+        setLoading(false);
         Swal.fire({
           title: "Failed",
           text: `OOPS.... Something went wrong`,
@@ -65,6 +69,7 @@ const Banner = () => {
         });
       }
     } catch (error) {
+      setLoading(false);
       Swal.fire({
         title: "Failed",
         text: `OOPS.... Something went wrong`,
@@ -112,14 +117,12 @@ const Banner = () => {
                 type="file"
                 className="form-control"
               />
-              <p className="text-danger" style={{ fontSize: "14px" }}>
-                Image should have dimentions of 1440x810px.
-              </p>
+             
             </div>
 
             <div className="mb-3">
-              <button type="submit" className="btn btn-primary px-3 rounded-3">
-                Update
+              <button type="submit" className="btn btn-primary px-3 rounded-3" disabled={loading ? true : ""}>
+                {loading ? "Loading..." : "Update"}
               </button>
             </div>
           </form>

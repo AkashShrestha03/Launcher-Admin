@@ -144,19 +144,7 @@ const About = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="d-block mt-2 mb-4">
-              <label htmlFor="aboutURL" className="form-label d-block">
-                Enter a video URL
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder={about.url}
-                id="aboutURL"
-                name="url"
-                onChange={handleChange}
-              />
-            </div>
+           
 
             <div className="mb-3">
               <button type="submit" className="btn btn-primary px-3 rounded-3">

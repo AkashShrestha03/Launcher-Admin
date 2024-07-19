@@ -448,114 +448,73 @@ export const EditGigsModal = (props) => {
   );
 };
 
-// Delete Gig Modal
-
-// export const DeleteGigModal = (props) => {
-//   const { admin } = useSelector((state) => state.admin);
-//   const handleDelete = async () => {
-//     try {
-//       const res = await fetch(
-//         `https://api.launcherr.co/api/Delete/Employer/${props.selected}`,
-//         {
-//           method: "DELETE",
-//           headers: {
-//             Authorization: ` Bearer ${admin.access_token}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       const deleted = await res.json();
-
-//       if (res.ok) {
-//         Swal.fire({
-//           title: "Delete Success",
-//           text: `Your data has been removed successfully`,
-//           icon: "success",
-//         });
-//       } else {
-//         Swal.fire({
-//           title: "Failed",
-//           text: `OOPS.... Something went wrong`,
-//           icon: "error",
-//         });
-//       }
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-//   return (
-//     <Modal
-//       open={props.open}
-//       onClose={() => props.onClose(false)}
-//       aria-labelledby="modal-modal-title"
-//       aria-describedby="modal-modal-description"
-//     >
-//       <Box sx={style}>
-//         <Typography id="modal-modal-title" variant="h6" component="h2">
-//           Delete
-//         </Typography>
-//         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-//           Are you sure you want to delete this data?
-//         </Typography>
-//         <button
-//           type="submit"
-//           className="btn btn-danger btn-lg mt-1"
-//           onClick={handleDelete}
-//         >
-//           Delete
-//         </button>
-//       </Box>
-//     </Modal>
-//   );
-// };
 
 // View Destination Images
 
+
+
+
+
 export const ViewImagesModal = (props) => {
+
+
+ console.log(props.images);
   return (
-    <>
-      <Modal
-        open={props.open}
-        onClose={() => props.onClose(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Destination Images
-          </Typography>
-          <Carousel
-            arrows
-            arrowSize={26}
-            infinite={false}
-            draggable
-            style={{ width: "450px" }}
-          >
-            {props.images.map((image, index) => (
-              <div key={index} className="w-100">
-                <img src={image} height={300} alt={`Slide ${index}`} />
-              </div>
-            ))}
-          </Carousel>
-        </Box>
-      </Modal>
-    </>
+    <Modal
+      open={props.open}
+      onClose={() => props.onClose(false)}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Destination Images
+        </Typography>
+        <Carousel
+          arrows
+          arrowSize={26}
+          infinite={false}
+          draggable
+          style={{ width: "450px" }}
+        >
+          {props.images && props.images.map((image, index) => (
+            <div key={index} className="w-100">
+              <img src={image} height={300} alt={`Slide ${index}`} />
+            </div>
+          ))}
+        </Carousel>
+      </Box>
+    </Modal>
   );
 };
+
 
 //Add Destination
 
 export const AddDestinationModal = (props) => {
-  const [addDestination, setAddDestination] = useState();
-
-  const [thumbnail, setThumbnail] = useState();
+  const [addDestination, setAddDestination] = useState({});
+  const [thumbnail, setThumbnail] = useState(null);
+ const [cities, setCities] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
-  // Handle change add gig
-  console.log("images", images);
-  const handleChange = (e, index) => {
+
+   const getCity = async () => {
+     const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
+     const res = await cityRes.json();
+     if (cityRes.ok) {
+       setCities(res);
+     }
+   };
+
+   useEffect(() => {
+     getCity();
+   }, []);
+
+  // HANDLE CHANGE ADD DESTINATION
+
+  const handleChange = (e) => {
     if (e.target.name === "thumbnail_image") {
       setThumbnail(e.target.files[0]);
     } else if (e.target.name === `images[]`) {
@@ -569,6 +528,7 @@ export const AddDestinationModal = (props) => {
     console.log(addDestination);
   };
 
+  //HANDLE SUBMIT DESTINATION
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -581,9 +541,8 @@ export const AddDestinationModal = (props) => {
       if (thumbnail) {
         formData.append("thumbnail_image", thumbnail);
       }
-      if (images) {
-        const arr = Object.values(images);
-        formData.append("images[]", arr);
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images[]", images[i]); // ADDING IMAGES ONE BY ONE, KEEPING INDEX IN MIND
       }
 
       const res = await fetch(`https://api.launcherr.co/api/addDestination`, {
@@ -593,16 +552,15 @@ export const AddDestinationModal = (props) => {
         },
         body: formData,
       });
-      console.log("formData", formData);
       console.log(res);
       const response = await res.json();
       console.log(response);
       if (res.ok) {
         setLoading(false);
-        // props.onClose(false);
+         props.onClose(false);
         Swal.fire({
-          title: "Updated Successfully",
-          text: `Your data has been updated successfully`,
+          title: "Added Successfully",
+          text: `Your data has been added successfully`,
           icon: "success",
         });
       } else {
@@ -634,7 +592,7 @@ export const AddDestinationModal = (props) => {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Edit Gig
+          Add Destination
         </Typography>
         <form
           action="submit"
@@ -643,14 +601,17 @@ export const AddDestinationModal = (props) => {
         >
           <div>
             <label htmlFor="name">Destination</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="form-control"
-              placeholder="Destination"
+            <select
+              className="form-select single-select"
+              aria-label="Default select example"
               onChange={handleChange}
-            />
+              name="name"
+              id="name"
+            >
+              {cities.sort().map((section) => (
+                <option value={section.section}>{section}</option>
+              ))}
+            </select>
           </div>
 
           <div>
@@ -705,6 +666,257 @@ export const AddDestinationModal = (props) => {
             {loading ? "Loading..." : "Update"}
           </button>
         </form>
+      </Box>
+    </Modal>
+  );
+};
+
+//Edit Destination Modal
+
+export const EditDestinationModal = (props) => {
+  const [editDestination, setEditDestination] = useState({});
+  const [thumbnail, setThumbnail] = useState(null);
+   const [cities, setCities] = useState([]);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { admin } = useSelector((state) => state.admin);
+
+
+  const getCity = async () => {
+    const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
+    const res = await cityRes.json();
+    if (cityRes.ok) {
+      setCities(res);
+    }
+  };
+
+  useEffect(() => {
+    getCity();
+  }, []);
+
+  // HANDLE CHANGE ADD DESTINATION
+
+  const handleChange = (e) => {
+    if (e.target.name === "thumbnail_image") {
+      setThumbnail(e.target.files[0]);
+    } else if (e.target.name === `images[]`) {
+      setImages(e.target.files);
+    } else {
+      setEditDestination({
+        ...editDestination,
+        [e.target.name]: e.target.value.trim(),
+      });
+    }
+    console.log(editDestination);
+  };
+  //HANDLE SUBMIT DESTINATION
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log("before post", editDestination);
+    try {
+      const formData = new FormData();
+      for (const key in editDestination) {
+        formData.append(key, editDestination[key]);
+      }
+      if (thumbnail) {
+        formData.append("thumbnail_image", thumbnail);
+      }
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images[]", images[i]); // ADDING IMAGES ONE BY ONE, KEEPING INDEX IN MIND
+      }
+
+      const res = await fetch(`https://api.launcherr.co/api/addDestination?id=${props.id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${admin.access_token}`,
+        },
+        body: formData,
+      });
+      console.log(res);
+      const response = await res.json();
+      console.log(response);
+      if (res.ok) {
+        setLoading(false);
+         props.onClose(false);
+        Swal.fire({
+          title: "Updated Successfully",
+          text: `Your data has been updated successfully`,
+          icon: "success",
+        });
+      } else {
+        setLoading(false);
+        props.onClose(false);
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong!`,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong!`,
+        icon: "error",
+      });
+    }
+  };
+
+  return (
+    <Modal
+      open={props.open}
+      onClose={() => props.onClose(false)}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Edit Destination
+        </Typography>
+        <form
+          action="submit"
+          onSubmit={handleSubmit}
+          className="d-flex flex-column gap-2"
+        >
+          <div>
+            <label htmlFor="name">Destination</label>
+            <select
+              className="form-select single-select"
+              aria-label="Default select example"
+              onChange={handleChange}
+              name="name"
+              id="name"
+            >
+              {cities.sort().map((section) => (
+                <option value={section.section}>{section}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="short_description">Short Description</label>
+            <input
+              type="text"
+              id="short_description"
+              name="short_description"
+              className="form-control"
+              placeholder="Short Description"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              className="form-control"
+              placeholder="Description"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="thumbnail">Thumbnail</label>
+            <input
+              type="file"
+              id="thumbname"
+              name="thumbnail_image"
+              className="form-control"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="images">Destination Images</label>
+            <input
+              type="file"
+              id="images"
+              name="images[]"
+              multiple
+              className="form-control"
+              onChange={handleChange}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg mt-1"
+            disabled={loading ? true : null}
+          >
+            {loading ? "Loading..." : "Update"}
+          </button>
+        </form>
+      </Box>
+    </Modal>
+  );
+};
+
+
+//Delete Gig Modal
+
+export const DeleteDestinationModal = (props) => {
+  const { admin } = useSelector((state) => state.admin);
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(
+        `https://api.launcherr.co/api/deleteDestination?${props.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: ` Bearer ${admin.access_token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const deleted = await res.json();
+
+      if (res.ok) {
+        props.onClose(false);
+        Swal.fire({
+          title: "Delete Success",
+          text: `Your data has been removed successfully`,
+          icon: "success",
+        });
+      } else {
+        props.onClose(false);
+        Swal.fire({
+          title: "Failed",
+          text: `OOPS.... Something went wrong`,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      props.onClose(false);
+      console.error(error);
+       Swal.fire({
+         title: "Failed",
+         text: `OOPS.... Something went wrong`,
+         icon: "error",
+       });
+    }
+  };
+  return (
+    <Modal
+      open={props.open}
+      onClose={() => props.onClose(false)}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Delete
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          Are you sure you want to delete this data?
+        </Typography>
+        <button
+          type="submit"
+          className="btn btn-danger btn-lg mt-1"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
       </Box>
     </Modal>
   );

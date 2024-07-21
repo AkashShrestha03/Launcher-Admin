@@ -34,7 +34,7 @@ const Destination = () => {
     const response = await res.json();
     console.log(res);
     console.log(response);
-    setTable(response);
+    setTable(response.data);
   };
 
   useEffect(() => {
@@ -46,9 +46,7 @@ const Destination = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems =
-    table.length > 0 &&
-    table
+  const currentItems = table && table
       .filter((data) => {
         return search === ""
           ? data

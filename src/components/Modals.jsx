@@ -857,10 +857,11 @@ export const EditDestinationModal = (props) => {
 
 export const DeleteDestinationModal = (props) => {
   const { admin } = useSelector((state) => state.admin);
+  console.log(props.id);
   const handleDelete = async () => {
     try {
       const res = await fetch(
-        `https://api.launcherr.co/api/deleteDestination?${props.id}`,
+        `https://api.launcherr.co/api/deleteDestination?id=${props.id}`,
         {
           method: "DELETE",
           headers: {
@@ -870,7 +871,8 @@ export const DeleteDestinationModal = (props) => {
         }
       );
       const deleted = await res.json();
-
+console.log(res);
+console.log("delete", deleted);
       if (res.ok) {
         props.onClose(false);
         Swal.fire({

@@ -33,13 +33,13 @@ const Destination = () => {
   ];
 
   const getDestinations = async () => {
-    setLoading(true)
+    setLoading(true);
     const res = await fetch(`https://api.launcherr.co/api/showDestination`);
     const response = await res.json();
-    console.log(res);
-    if(res.ok){
-      setLoading(false)
-    }else{
+    console.log(response);
+    if (res.ok) {
+      setLoading(false);
+    } else {
       setLoading(false);
     }
     console.log(response);
@@ -55,7 +55,9 @@ const Destination = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = table ? Math.ceil(table.length / itemsPerPage) : 1;
-  const currentItems = table && table
+  const currentItems =
+    table &&
+    table
       .filter((data) => {
         return search === ""
           ? data
@@ -115,97 +117,108 @@ const Destination = () => {
           </div>
           <div className="table-responsive">
             {table ? (
-            loading ? (
-              <div className="d-flex justify-content-center">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="spinner-border" role="status">
-                      <span className="visually-hidden">Loading...</span>
+              loading ? (
+                <div className="d-flex justify-content-center">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) :  (
-              <table
-                id="example"
-                className="table table-striped table-bordered"
-                style={{ width: "100%" }}
-              >
-                <thead>
-                  <tr>
-                    {headers.map((header, index) => (
-                      <th key={index}>{header}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentItems &&
-                    currentItems.map((data, index) => (
-                      <tr key={index + data.name}>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td className="text-wrap">{data.destination_type}</td>
-                        <td className="text-wrap">{data.state}</td>
-                        <td className="text-wrap">{data.short_description}</td>
-                        <td className="text-wrap">{data.description}</td>
-                        <td className="d-flex justify-content-center align-items-center">
-                          <img
-                            src={data.thumbnail_image}
-                            height={60}
-                            alt="thumbnail"
-                          />
-                        </td>
-                        <td className="text-center">
-                          {" "}
-                          <Link
-                            onClick={() => {
-                              setOpen({ open: true, image: data.images });
-                            }}
-                          >
-                            View
-                          </Link>
-                          <ViewImagesModal
-                            open={open.open}
-                            onClose={(open) => handleClose(open)}
-                            images={open.image}
-                          />
-                        </td>
-                        <td>
-                          <div className="table-actions d-flex align-items-center justify-content-center gap-3 fs-6">
-                            <Link
-                             
-                              className="text-warning"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="bottom"
-                              title="Edit"
-                              onClick={() =>
-                                setOpenEdit({ open: true, id: data.id })
-                              }
-                            >
-                              <i className="bi bi-pencil-fill"></i>
-                            </Link>
-                            <EditDestinationModal
-                              open={openEdit.open}
-                              onClose={(openEdit) => handleCloseEdit(openEdit)}
-                              id={openEdit.id}
+              ) : (
+                <table
+                  id="example"
+                  className="table table-striped table-bordered"
+                  style={{ width: "100%" }}
+                >
+                  <thead>
+                    <tr>
+                      {headers.map((header, index) => (
+                        <th key={index}>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentItems &&
+                      currentItems.map((data, index) => (
+                        <tr key={index + data.name}>
+                          <td>{index + 1}</td>
+                          <td>{data.name}</td>
+                          <td className="text-wrap">{data.destination_type}</td>
+                          <td className="text-wrap">{data.state}</td>
+                          <td className="text-wrap">
+                            {data.short_description}
+                          </td>
+                          <td className="text-wrap">{data.description}</td>
+                          <td className="d-flex justify-content-center align-items-center">
+                            <img
+                              src={data.thumbnail_image}
+                              height={60}
+                              alt="thumbnail"
                             />
+                          </td>
+                          <td className="text-center">
+                            {" "}
                             <Link
-                              className="text-danger"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="bottom"
-                              title="Delete"
-                              onClick={()=>setOpenDelete({open: true, id: data.id })}
+                              onClick={() => {
+                                setOpen({ open: true, image: data.images });
+                              }}
                             >
-                              <i className="bi bi-trash-fill"></i>
+                              View
                             </Link>
-                            <DeleteDestinationModal open={openDelete.open} onClose={(openDelete)=>handleCloseDelete(openDelete)}
-                              id={openDelete.id}/>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>)
+                            <ViewImagesModal
+                              open={open.open}
+                              onClose={(open) => handleClose(open)}
+                              images={open.image}
+                            />
+                          </td>
+                          <td>
+                            <div className="table-actions d-flex align-items-center justify-content-center gap-3 fs-6">
+                              <Link
+                                className="text-warning"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                title="Edit"
+                                onClick={() =>
+                                  setOpenEdit({ open: true, id: data.id })
+                                }
+                              >
+                                <i className="bi bi-pencil-fill"></i>
+                              </Link>
+                              <EditDestinationModal
+                                open={openEdit.open}
+                                onClose={(openEdit) =>
+                                  handleCloseEdit(openEdit)
+                                }
+                                id={openEdit.id}
+                              />
+                              <Link
+                                className="text-danger"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                title="Delete"
+                                onClick={() =>
+                                  setOpenDelete({ open: true, id: data.id })
+                                }
+                              >
+                                <i className="bi bi-trash-fill"></i>
+                              </Link>
+                              <DeleteDestinationModal
+                                open={openDelete.open}
+                                onClose={(openDelete) =>
+                                  handleCloseDelete(openDelete)
+                                }
+                                id={openDelete.id}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              )
             ) : (
               <Empty />
             )}

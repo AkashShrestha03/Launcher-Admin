@@ -488,24 +488,40 @@ export const AddDestinationModal = (props) => {
   const [addDestination, setAddDestination] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
   const [images, setImages] = useState([]);
-    const [state, setState] = useState([]);
+  const [state, setState] = useState([]);
+   const [change, setChange] = useState(false);
+   const [type, setType] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
   const cities = ["Rishikesh", "Manali", "Bir Biling", "Dharamshala"];
 
+    const getDestinationType = async () => {
+      const res = await fetch(`https://api.launcherr.co/api/destinationType`, {
+        headers: {
+          Authorization: `Bearer ${admin.access_token}`,
+        },
+      });
+      const response = await res.json();
+      console.log("res", response.destination_types);
+      if (res.ok) {
+        setType(response.destination_types);
+      }
+    };
 
-   const getState = async () => {
-     const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
-     const res = await stateRes.json();
-     if (stateRes.ok) {
-       setState(res);
-     }
-   };
 
-   useEffect(() => {
-     getState();
-   }, []);
+  const getState = async () => {
+    const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
+    const res = await stateRes.json();
+    if (stateRes.ok) {
+      setState(res);
+    }
+  };
+
+  useEffect(() => {
+    getState();
+    getDestinationType();
+  }, []);
   // HANDLE CHANGE ADD DESTINATION
 
   const handleChange = (e) => {
@@ -630,6 +646,49 @@ export const AddDestinationModal = (props) => {
           </div>
 
           <div>
+            {change ? (
+              <>
+                {" "}
+                <label htmlFor="destination_type">Destination Type</label>
+                <input
+                  type="text"
+                  id="destination_type"
+                  name="destination_type"
+                  className="form-control"
+                  placeholder="Destination Type"
+                  onChange={handleChange}
+                />
+              </>
+            ) : (
+              <>
+                {" "}
+                <label htmlFor="type">Destination Type</label>
+                <select
+                  className="form-select single-select"
+                  aria-label="Default select example"
+                  onChange={handleChange}
+                  name="destination_type"
+                  id="type"
+                >
+                  <option disabled selected>
+                    Select Destination Type
+                  </option>
+                  {type.map((type) => (
+                    <option value={type}>{type}</option>
+                  ))}
+                </select>
+              </>
+            )}
+            <button
+              className="btn btn-md btn-primary w-100 mt-2"
+              type="button"
+              onClick={() => setChange(true)}
+            >
+              Add New Destination Type
+            </button>
+          </div>
+
+          <div>
             <label htmlFor="short_description">Short Description</label>
             <input
               type="text"
@@ -691,12 +750,27 @@ export const AddDestinationModal = (props) => {
 export const EditDestinationModal = (props) => {
   const [editDestination, setEditDestination] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
+  const [change, setChange] = useState(false);
+  const [type, setType] = useState([]);
   const [state, setState] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
   const cities = ["Rishikesh", "Manali", "Bir Biling", "Dharamshala"];
+
+  const getDestinationType = async () => {
+    const res = await fetch(`https://api.launcherr.co/api/destinationType`, {
+      headers: {
+        Authorization: `Bearer ${admin.access_token}`,
+      },
+    });
+    const response = await res.json();
+    console.log("res", response.destination_types);
+    if (res.ok) {
+      setType(response.destination_types);
+    }
+  };
 
   const getState = async () => {
     const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
@@ -708,6 +782,7 @@ export const EditDestinationModal = (props) => {
 
   useEffect(() => {
     getState();
+    getDestinationType();
   }, []);
 
   // HANDLE CHANGE ADD DESTINATION
@@ -833,6 +908,49 @@ export const EditDestinationModal = (props) => {
                 <option value={section.section}>{section}</option>
               ))}
             </select>
+          </div>
+
+          <div>
+            {change ? (
+              <>
+                {" "}
+                <label htmlFor="destination_type">Destination Type</label>
+                <input
+                  type="text"
+                  id="destination_type"
+                  name="destination_type"
+                  className="form-control"
+                  placeholder="Destination Type"
+                  onChange={handleChange}
+                />
+              </>
+            ) : (
+              <>
+                {" "}
+                <label htmlFor="type">Destination Type</label>
+                <select
+                  className="form-select single-select"
+                  aria-label="Default select example"
+                  onChange={handleChange}
+                  name="destination_type"
+                  id="type"
+                >
+                  <option disabled selected>
+                    Select Destination Type
+                  </option>
+                  {type.map((type) => (
+                    <option value={type}>{type}</option>
+                  ))}
+                </select>
+              </>
+            )}
+            <button
+              className="btn btn-md btn-primary w-100 mt-2"
+              type="button"
+              onClick={() => setChange(true)}
+            >
+              Add New Destination Type
+            </button>
           </div>
 
           <div>

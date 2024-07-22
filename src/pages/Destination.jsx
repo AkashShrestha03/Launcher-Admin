@@ -12,6 +12,7 @@ import { Empty } from "antd";
 const Destination = () => {
   const [table, setTable] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState({ open: false, image: null });
   const [openDelete, setOpenDelete] = useState({ open: false, id: null });
   const [openAdd, setOpenAdd] = useState(false);
@@ -22,6 +23,8 @@ const Destination = () => {
   const headers = [
     "#",
     "Destination",
+    "Destination Type",
+    "State",
     "Short Description",
     "Description",
     "Thumbnail",
@@ -30,9 +33,15 @@ const Destination = () => {
   ];
 
   const getDestinations = async () => {
+    setLoading(true)
     const res = await fetch(`https://api.launcherr.co/api/showDestination`);
     const response = await res.json();
     console.log(res);
+    if(res.ok){
+      setLoading(false)
+    }else{
+      setLoading(false);
+    }
     console.log(response);
     setTable(response.data);
   };
@@ -106,6 +115,17 @@ const Destination = () => {
           </div>
           <div className="table-responsive">
             {table ? (
+            loading ? (
+              <div className="d-flex justify-content-center">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="spinner-border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) :  (
               <table
                 id="example"
                 className="table table-striped table-bordered"
@@ -124,6 +144,8 @@ const Destination = () => {
                       <tr key={index + data.name}>
                         <td>{index + 1}</td>
                         <td>{data.name}</td>
+                        <td className="text-wrap">{data.destination_type}</td>
+                        <td className="text-wrap">{data.state}</td>
                         <td className="text-wrap">{data.short_description}</td>
                         <td className="text-wrap">{data.description}</td>
                         <td className="d-flex justify-content-center align-items-center">
@@ -183,7 +205,7 @@ const Destination = () => {
                       </tr>
                     ))}
                 </tbody>
-              </table>
+              </table>)
             ) : (
               <Empty />
             )}

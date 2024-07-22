@@ -448,17 +448,10 @@ export const EditGigsModal = (props) => {
   );
 };
 
-
 // View Destination Images
 
-
-
-
-
 export const ViewImagesModal = (props) => {
-
-
- console.log(props.images);
+  console.log(props.images);
   return (
     <Modal
       open={props.open}
@@ -477,41 +470,42 @@ export const ViewImagesModal = (props) => {
           draggable
           style={{ width: "450px" }}
         >
-          {props.images && props.images.map((image, index) => (
-            <div key={index} className="w-100">
-              <img src={image} height={300} alt={`Slide ${index}`} />
-            </div>
-          ))}
+          {props.images &&
+            props.images.map((image, index) => (
+              <div key={index} className="w-100">
+                <img src={image} height={300} alt={`Slide ${index}`} />
+              </div>
+            ))}
         </Carousel>
       </Box>
     </Modal>
   );
 };
 
-
 //Add Destination
 
 export const AddDestinationModal = (props) => {
   const [addDestination, setAddDestination] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
- const [cities, setCities] = useState([]);
   const [images, setImages] = useState([]);
+    const [state, setState] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
+  const cities = ["Rishikesh", "Manali", "Bir Biling", "Dharamshala"];
 
-   const getCity = async () => {
-     const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
-     const res = await cityRes.json();
-     if (cityRes.ok) {
-       setCities(res);
+
+   const getState = async () => {
+     const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
+     const res = await stateRes.json();
+     if (stateRes.ok) {
+       setState(res);
      }
    };
 
    useEffect(() => {
-     getCity();
+     getState();
    }, []);
-
   // HANDLE CHANGE ADD DESTINATION
 
   const handleChange = (e) => {
@@ -557,7 +551,7 @@ export const AddDestinationModal = (props) => {
       console.log(response);
       if (res.ok) {
         setLoading(false);
-         props.onClose(false);
+        props.onClose(false);
         Swal.fire({
           title: "Added Successfully",
           text: `Your data has been added successfully`,
@@ -608,7 +602,28 @@ export const AddDestinationModal = (props) => {
               name="name"
               id="name"
             >
-              {cities.sort().map((section) => (
+              <option disabled selected>
+                Select Destination
+              </option>
+              {cities.map((section) => (
+                <option value={section.section}>{section}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="state">State</label>
+            <select
+              className="form-select single-select"
+              aria-label="Default select example"
+              onChange={handleChange}
+              name="state"
+              id="state"
+            >
+              <option disabled selected>
+                Select State
+              </option>
+              {state.map((section) => (
                 <option value={section.section}>{section}</option>
               ))}
             </select>
@@ -676,22 +691,23 @@ export const AddDestinationModal = (props) => {
 export const EditDestinationModal = (props) => {
   const [editDestination, setEditDestination] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
-   const [cities, setCities] = useState([]);
+  const [state, setState] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
+  const cities = ["Rishikesh", "Manali", "Bir Biling", "Dharamshala"];
 
-  const getCity = async () => {
-    const cityRes = await fetch(`https://api.launcherr.co/api/cities`);
-    const res = await cityRes.json();
-    if (cityRes.ok) {
-      setCities(res);
+  const getState = async () => {
+    const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
+    const res = await stateRes.json();
+    if (stateRes.ok) {
+      setState(res);
     }
   };
 
   useEffect(() => {
-    getCity();
+    getState();
   }, []);
 
   // HANDLE CHANGE ADD DESTINATION
@@ -726,19 +742,22 @@ export const EditDestinationModal = (props) => {
         formData.append("images[]", images[i]); // ADDING IMAGES ONE BY ONE, KEEPING INDEX IN MIND
       }
 
-      const res = await fetch(`https://api.launcherr.co/api/addDestination?id=${props.id}`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${admin.access_token}`,
-        },
-        body: formData,
-      });
+      const res = await fetch(
+        `https://api.launcherr.co/api/addDestination?id=${props.id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${admin.access_token}`,
+          },
+          body: formData,
+        }
+      );
       console.log(res);
       const response = await res.json();
       console.log(response);
       if (res.ok) {
         setLoading(false);
-         props.onClose(false);
+        props.onClose(false);
         Swal.fire({
           title: "Updated Successfully",
           text: `Your data has been updated successfully`,
@@ -789,7 +808,28 @@ export const EditDestinationModal = (props) => {
               name="name"
               id="name"
             >
+              <option disabled selected>
+                Select Destination
+              </option>
               {cities.sort().map((section) => (
+                <option value={section.section}>{section}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="state">State</label>
+            <select
+              className="form-select single-select"
+              aria-label="Default select example"
+              onChange={handleChange}
+              name="state"
+              id="state"
+            >
+              <option disabled selected>
+                Select State
+              </option>
+              {state.sort().map((section) => (
                 <option value={section.section}>{section}</option>
               ))}
             </select>
@@ -806,6 +846,7 @@ export const EditDestinationModal = (props) => {
               onChange={handleChange}
             />
           </div>
+
           <div>
             <label htmlFor="description">Description</label>
             <textarea
@@ -852,7 +893,6 @@ export const EditDestinationModal = (props) => {
   );
 };
 
-
 //Delete Gig Modal
 
 export const DeleteDestinationModal = (props) => {
@@ -871,8 +911,8 @@ export const DeleteDestinationModal = (props) => {
         }
       );
       const deleted = await res.json();
-console.log(res);
-console.log("delete", deleted);
+      console.log(res);
+      console.log("delete", deleted);
       if (res.ok) {
         props.onClose(false);
         Swal.fire({
@@ -891,11 +931,11 @@ console.log("delete", deleted);
     } catch (error) {
       props.onClose(false);
       console.error(error);
-       Swal.fire({
-         title: "Failed",
-         text: `OOPS.... Something went wrong`,
-         icon: "error",
-       });
+      Swal.fire({
+        title: "Failed",
+        text: `OOPS.... Something went wrong`,
+        icon: "error",
+      });
     }
   };
   return (

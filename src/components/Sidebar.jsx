@@ -38,7 +38,7 @@ const Sidebar = (props) => {
 
       <MetisMenu id="menu">
         <li onClick={() => props.mobile(false)}>
-          <Link to={"/destination"}>
+          <Link to={"/"}>
             <div className="parent-icon">
               <i className="bi bi-grid-fill"></i>
             </div>
@@ -47,7 +47,7 @@ const Sidebar = (props) => {
         </li>
 
         <li onClick={() => props.mobile(false)}>
-          <Link to={"/"}>
+          <Link to={"/gigs"}>
             <div className="parent-icon">
               <i className="bi bi-person-workspace"></i>
             </div>

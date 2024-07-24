@@ -396,7 +396,7 @@ export const EditGigsModal = (props) => {
               onChange={handleChange}
               name="location"
             >
-              {cities.sort().map((section) => (
+              {cities.map((section) => (
                 <option value={section.section}>{section}</option>
               ))}
             </select>
@@ -488,33 +488,38 @@ export const AddDestinationModal = (props) => {
   const [addDestination, setAddDestination] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
   const [images, setImages] = useState([]);
-  const [state, setState] = useState([]);
-   const [change, setChange] = useState(false);
-   const [type, setType] = useState([]);
+  const [states, setStates] = useState([]);
+  const [change, setChange] = useState(false);
+  const [type, setType] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
 
   const cities = ["Rishikesh", "Manali", "Bir Biling", "Dharamshala"];
 
-    const getDestinationType = async () => {
-      const res = await fetch(`https://api.launcherr.co/api/destinationType`, {
-        headers: {
-          Authorization: `Bearer ${admin.access_token}`,
-        },
-      });
-      const response = await res.json();
-      console.log("res", response.destination_types);
-      if (res.ok) {
-        setType(response.destination_types);
-      }
-    };
-
+  const getDestinationType = async () => {
+    const res = await fetch(`https://api.launcherr.co/api/destinationType`, {
+      headers: {
+        Authorization: `Bearer ${admin.access_token}`,
+      },
+    });
+    const response = await res.json();
+    console.log("res", response.destination_types);
+    if (res.ok) {
+      setType(response.destination_types);
+    }
+  };
 
   const getState = async () => {
-    const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
-    const res = await stateRes.json();
-    if (stateRes.ok) {
-      setState(res);
+    try {
+      const res = await fetch(`https://api.launcherr.co/api/showState`);
+      const response = await res.json();
+      console.log(res);
+
+      if (res.ok) {
+        setStates(response.states);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -564,7 +569,7 @@ export const AddDestinationModal = (props) => {
       });
       console.log(res);
       const response = await res.json();
-      console.log(response);
+
       if (res.ok) {
         setLoading(false);
         props.onClose(false);
@@ -639,9 +644,8 @@ export const AddDestinationModal = (props) => {
               <option disabled selected>
                 Select State
               </option>
-              {state.map((section) => (
-                <option value={section.section}>{section}</option>
-              ))}
+              {states.length > 0 &&
+                states.map((state) => <option key={state}>{state}</option>)}
             </select>
           </div>
 
@@ -752,7 +756,7 @@ export const EditDestinationModal = (props) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [change, setChange] = useState(false);
   const [type, setType] = useState([]);
-  const [state, setState] = useState([]);
+  const [states, setStates] = useState([]);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { admin } = useSelector((state) => state.admin);
@@ -773,10 +777,16 @@ export const EditDestinationModal = (props) => {
   };
 
   const getState = async () => {
-    const stateRes = await fetch(`https://api.launcherr.co/api/cities`);
-    const res = await stateRes.json();
-    if (stateRes.ok) {
-      setState(res);
+    try {
+      const res = await fetch(`https://api.launcherr.co/api/showState`);
+      const response = await res.json();
+      console.log(res);
+
+      if (res.ok) {
+        setStates(response.states);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -886,7 +896,7 @@ export const EditDestinationModal = (props) => {
               <option disabled selected>
                 Select Destination
               </option>
-              {cities.sort().map((section) => (
+              {cities.map((section) => (
                 <option value={section.section}>{section}</option>
               ))}
             </select>
@@ -904,9 +914,9 @@ export const EditDestinationModal = (props) => {
               <option disabled selected>
                 Select State
               </option>
-              {state.sort().map((section) => (
-                <option value={section.section}>{section}</option>
-              ))}
+              {states.length > 0
+                ? states.map((state) => <option>{state}</option>)
+                : null}
             </select>
           </div>
 

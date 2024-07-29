@@ -13,7 +13,7 @@ const Banner = () => {
     const res = await fetch(`https://api.launcherr.co/api/Show-Banner`);
     const data = await res.json();
     setTable(data);
-    console.log(data);
+    console.log("banner", data);
   };
 
   useEffect(() => {
@@ -101,10 +101,12 @@ const Banner = () => {
                 <option selected disabled>
                   Banner
                 </option>
-                <option >1</option>
-                <option >2</option>
-                <option >3</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
               </select>
+
+             
             </div>
             <div className="d-block mb-4">
               <label htmlFor="button_text" className="form-label d-block">
@@ -117,11 +119,14 @@ const Banner = () => {
                 type="file"
                 className="form-control"
               />
-             
             </div>
 
             <div className="mb-3">
-              <button type="submit" className="btn btn-primary px-3 rounded-3" disabled={loading ? true : ""}>
+              <button
+                type="submit"
+                className="btn btn-primary px-3 rounded-3"
+                disabled={loading ? true : ""}
+              >
                 {loading ? "Loading..." : "Update"}
               </button>
             </div>
